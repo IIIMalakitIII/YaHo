@@ -1,16 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using YaHo.YaHoApiService.DAL.Data.Entities;
 using YaHo.YaHoApiService.DAL.Services.DataBuilders;
 
 namespace YaHo.YaHoApiService.DAL.Services.Context
 {
-    public class YaHoContext : DbContext
+    public class YaHoContext : IdentityDbContext<UserDbo>
     {
         public YaHoContext(DbContextOptions<YaHoContext> options) : base(options) { }
-
-        public DbSet<UserDbo> Users { get; set; }
 
         public DbSet<OrderDbo> Orders { get; set; }
 
@@ -59,11 +58,11 @@ namespace YaHo.YaHoApiService.DAL.Services.Context
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(YaHoContext).Assembly);
 
+            modelBuilder.Entity<UserDbo>()
+                .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
             new UserDataBuilder(modelBuilder).SetData();
-            new CustomerDataBuilder(modelBuilder).SetData();
-            new DeliveryDataBuilder(modelBuilder).SetData();
-            new OrderDataBuilder(modelBuilder).SetData();
-            new ProductDataBuilder(modelBuilder).SetData();
         }
     }
 }

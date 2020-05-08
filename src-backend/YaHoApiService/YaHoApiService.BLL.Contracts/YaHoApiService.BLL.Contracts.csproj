@@ -4,4 +4,11 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\ViewData\DeliveryReview\" />
+    <Folder Include="DTO\ViewData\Media\" />
+    <Folder Include="DTO\ViewData\OrderRequest\" />
+    <Folder Include="DTO\ViewData\Product\" />
+  </ItemGroup>
+
 </Project>

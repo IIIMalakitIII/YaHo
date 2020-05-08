@@ -6,8 +6,6 @@
 
         public const string Media = "Media";
 
-        public const string Users = "Users";
-
         public const string Customers = "Customers";
 
         public const string Deliveries = "Deliveries";

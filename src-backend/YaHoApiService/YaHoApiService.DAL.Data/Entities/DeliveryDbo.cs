@@ -6,7 +6,7 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
     {
         public int DeliveryId { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public string Description { get; set; }
 

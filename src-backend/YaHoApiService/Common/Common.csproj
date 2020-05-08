@@ -4,9 +4,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Exceptions\DataLogic\" />
-    <Folder Include="Exceptions\BusinessLogic\" />
-  </ItemGroup>
-
 </Project>

@@ -19,6 +19,137 @@ namespace YaHoApiService.DAL.Services.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.CustomerDbo", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -33,80 +164,16 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CustomerId");
 
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            CustomerId = 3,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            CustomerId = 4,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 4
-                        },
-                        new
-                        {
-                            CustomerId = 5,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 5
-                        },
-                        new
-                        {
-                            CustomerId = 6,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 6
-                        },
-                        new
-                        {
-                            CustomerId = 7,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 7
-                        },
-                        new
-                        {
-                            CustomerId = 8,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 8
-                        },
-                        new
-                        {
-                            CustomerId = 9,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 9
-                        });
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.CustomerReviewDbo", b =>
@@ -126,8 +193,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<int?>("Mark")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReviewId");
 
@@ -152,80 +219,16 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("DeliveryId");
 
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Deliveries");
-
-                    b.HasData(
-                        new
-                        {
-                            DeliveryId = 1,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            DeliveryId = 2,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            DeliveryId = 3,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            DeliveryId = 4,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 4
-                        },
-                        new
-                        {
-                            DeliveryId = 5,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 5
-                        },
-                        new
-                        {
-                            DeliveryId = 6,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 6
-                        },
-                        new
-                        {
-                            DeliveryId = 7,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 7
-                        },
-                        new
-                        {
-                            DeliveryId = 8,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 8
-                        },
-                        new
-                        {
-                            DeliveryId = 9,
-                            Description = "Hello",
-                            Rating = 0,
-                            UserId = 9
-                        });
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.DeliveryReviewDbo", b =>
@@ -245,8 +248,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<int?>("Mark")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReviewId");
 
@@ -331,134 +334,6 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            OrderId = 1,
-                            Bargain = false,
-                            Comment = "Hello",
-                            CustomerId = 1,
-                            DeliveryFrom = "USA, New York",
-                            DeliveryPlace = "Ukraine, Kharkov",
-                            ExpectedDate = new DateTime(2020, 4, 26, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(1021),
-                            ExpectedDateFault = new DateTime(2020, 4, 27, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(1987),
-                            InitialDate = new DateTime(2020, 4, 21, 18, 30, 57, 897, DateTimeKind.Utc).AddTicks(2681),
-                            OrderStatus = 2,
-                            Title = "PCR test"
-                        },
-                        new
-                        {
-                            OrderId = 2,
-                            Bargain = false,
-                            Comment = "Hello",
-                            CustomerId = 2,
-                            DeliveryFrom = "USA, New York",
-                            DeliveryPlace = "Ukraine, Kharkov",
-                            ExpectedDate = new DateTime(2020, 4, 26, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4108),
-                            ExpectedDateFault = new DateTime(2020, 4, 27, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4159),
-                            InitialDate = new DateTime(2020, 4, 21, 17, 30, 57, 897, DateTimeKind.Utc).AddTicks(4175),
-                            OrderStatus = 2,
-                            Title = "PCR test"
-                        },
-                        new
-                        {
-                            OrderId = 3,
-                            Bargain = false,
-                            Comment = "Hello",
-                            CustomerId = 3,
-                            DeliveryFrom = "USA, New York",
-                            DeliveryPlace = "Ukraine, Kharkov",
-                            ExpectedDate = new DateTime(2020, 4, 26, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4203),
-                            ExpectedDateFault = new DateTime(2020, 4, 27, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4205),
-                            InitialDate = new DateTime(2020, 4, 21, 16, 30, 57, 897, DateTimeKind.Utc).AddTicks(4208),
-                            OrderStatus = 2,
-                            Title = "PCR test"
-                        },
-                        new
-                        {
-                            OrderId = 5,
-                            Bargain = false,
-                            Comment = "Hello",
-                            CustomerId = 4,
-                            DeliveryFrom = "USA, New York",
-                            DeliveryPlace = "Ukraine, Kharkov",
-                            ExpectedDate = new DateTime(2020, 4, 26, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4211),
-                            ExpectedDateFault = new DateTime(2020, 4, 27, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4213),
-                            InitialDate = new DateTime(2020, 4, 21, 15, 30, 57, 897, DateTimeKind.Utc).AddTicks(4216),
-                            OrderStatus = 2,
-                            Title = "PCR test"
-                        },
-                        new
-                        {
-                            OrderId = 4,
-                            Bargain = false,
-                            Comment = "Hello",
-                            CustomerId = 4,
-                            DeliveryFrom = "USA, New York",
-                            DeliveryPlace = "Ukraine, Kharkov",
-                            ExpectedDate = new DateTime(2020, 4, 26, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4219),
-                            ExpectedDateFault = new DateTime(2020, 4, 27, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4221),
-                            InitialDate = new DateTime(2020, 4, 21, 14, 30, 57, 897, DateTimeKind.Utc).AddTicks(4223),
-                            OrderStatus = 2,
-                            Title = "PCR test"
-                        },
-                        new
-                        {
-                            OrderId = 6,
-                            Bargain = false,
-                            Comment = "Hello",
-                            CustomerId = 6,
-                            DeliveryFrom = "USA, New York",
-                            DeliveryPlace = "Ukraine, Kharkov",
-                            ExpectedDate = new DateTime(2020, 4, 26, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4235),
-                            ExpectedDateFault = new DateTime(2020, 4, 27, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4237),
-                            InitialDate = new DateTime(2020, 4, 21, 13, 30, 57, 897, DateTimeKind.Utc).AddTicks(4239),
-                            OrderStatus = 2,
-                            Title = "PCR test"
-                        },
-                        new
-                        {
-                            OrderId = 7,
-                            Bargain = false,
-                            Comment = "Hello",
-                            CustomerId = 7,
-                            DeliveryFrom = "USA, New York",
-                            DeliveryPlace = "Ukraine, Kharkov",
-                            ExpectedDate = new DateTime(2020, 4, 26, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4243),
-                            ExpectedDateFault = new DateTime(2020, 4, 27, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4245),
-                            InitialDate = new DateTime(2020, 4, 21, 12, 30, 57, 897, DateTimeKind.Utc).AddTicks(4247),
-                            OrderStatus = 2,
-                            Title = "PCR test"
-                        },
-                        new
-                        {
-                            OrderId = 8,
-                            Bargain = false,
-                            Comment = "Hello",
-                            CustomerId = 8,
-                            DeliveryFrom = "USA, New York",
-                            DeliveryPlace = "Ukraine, Kharkov",
-                            ExpectedDate = new DateTime(2020, 4, 26, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4251),
-                            ExpectedDateFault = new DateTime(2020, 4, 27, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4253),
-                            InitialDate = new DateTime(2020, 4, 21, 18, 30, 57, 897, DateTimeKind.Utc).AddTicks(4255),
-                            OrderStatus = 2,
-                            Title = "PCR test"
-                        },
-                        new
-                        {
-                            OrderId = 9,
-                            Bargain = false,
-                            Comment = "Hello",
-                            CustomerId = 9,
-                            DeliveryFrom = "USA, New York",
-                            DeliveryPlace = "Ukraine, Kharkov",
-                            ExpectedDate = new DateTime(2020, 4, 26, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4258),
-                            ExpectedDateFault = new DateTime(2020, 4, 27, 20, 30, 57, 897, DateTimeKind.Utc).AddTicks(4260),
-                            InitialDate = new DateTime(2020, 4, 21, 18, 30, 57, 897, DateTimeKind.Utc).AddTicks(4263),
-                            OrderStatus = 2,
-                            Title = "PCR test"
-                        });
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.OrderRequestDbo", b =>
@@ -519,118 +394,33 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            Description = "Hello",
-                            Link = "Nothing",
-                            OrderId = 1,
-                            Price = 600,
-                            ProductName = "PCR test",
-                            Tax = 10
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            Description = "Hello",
-                            Link = "Nothing",
-                            OrderId = 2,
-                            Price = 600,
-                            ProductName = "PCR test",
-                            Tax = 10
-                        },
-                        new
-                        {
-                            ProductId = 3,
-                            Description = "Hello",
-                            Link = "Nothing",
-                            OrderId = 3,
-                            Price = 600,
-                            ProductName = "PCR test",
-                            Tax = 10
-                        },
-                        new
-                        {
-                            ProductId = 4,
-                            Description = "Hello",
-                            Link = "Nothing",
-                            OrderId = 4,
-                            Price = 600,
-                            ProductName = "PCR test",
-                            Tax = 10
-                        },
-                        new
-                        {
-                            ProductId = 5,
-                            Description = "Hello",
-                            Link = "Nothing",
-                            OrderId = 5,
-                            Price = 600,
-                            ProductName = "PCR test",
-                            Tax = 10
-                        },
-                        new
-                        {
-                            ProductId = 6,
-                            Description = "Hello",
-                            Link = "Nothing",
-                            OrderId = 6,
-                            Price = 600,
-                            ProductName = "PCR test",
-                            Tax = 10
-                        },
-                        new
-                        {
-                            ProductId = 7,
-                            Description = "Hello",
-                            Link = "Nothing",
-                            OrderId = 7,
-                            Price = 600,
-                            ProductName = "PCR test",
-                            Tax = 10
-                        },
-                        new
-                        {
-                            ProductId = 8,
-                            Description = "Hello",
-                            Link = "Nothing",
-                            OrderId = 8,
-                            Price = 600,
-                            ProductName = "PCR test",
-                            Tax = 10
-                        },
-                        new
-                        {
-                            ProductId = 9,
-                            Description = "Hello",
-                            Link = "Nothing",
-                            OrderId = 9,
-                            Price = 600,
-                            ProductName = "PCR test",
-                            Tax = 10
-                        });
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
                     b.Property<int?>("Balance")
                         .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -648,124 +438,280 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.HasKey("UserId");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
-                    b.ToTable("Users");
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
 
                     b.HasData(
                         new
                         {
-                            UserId = 1,
+                            Id = "14791c3e-bcbb-4d32-a730-fddf8e2301e0",
+                            AccessFailedCount = 0,
                             Balance = 500,
+                            ConcurrencyStamp = "928ab880-ab43-4ea6-b536-98febdb5c9b3",
                             Description = "Hello",
                             Email = "user_1@gmail.com",
+                            EmailConfirmed = false,
                             FirstName = "User_1",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 4, 21, 18, 30, 57, 889, DateTimeKind.Utc).AddTicks(8250),
+                            InitialDate = new DateTime(2020, 5, 6, 11, 26, 35, 710, DateTimeKind.Utc).AddTicks(9276),
                             LastName = "User_1",
-                            Phone = "+380500832005"
+                            LockoutEnabled = false,
+                            PhoneNumber = "+380500832005",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d1f4ef56-f3ce-439e-93d4-3b9ad5434076",
+                            TwoFactorEnabled = false,
+                            UserName = "User_1 User_1"
                         },
                         new
                         {
-                            UserId = 2,
+                            Id = "a6d78c19-9b83-41ad-808c-31cd51819159",
+                            AccessFailedCount = 0,
                             Balance = 700,
+                            ConcurrencyStamp = "ed5da01f-dd07-495f-98db-042ac8d26d9a",
                             Description = "Hello",
                             Email = "user_2@gmail.com",
+                            EmailConfirmed = false,
                             FirstName = "User_2",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 4, 21, 17, 30, 57, 889, DateTimeKind.Utc).AddTicks(9271),
+                            InitialDate = new DateTime(2020, 5, 6, 10, 26, 35, 711, DateTimeKind.Utc).AddTicks(237),
                             LastName = "User_2",
-                            Phone = "+380500832006"
+                            LockoutEnabled = false,
+                            PhoneNumber = "+380500832006",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "69b7cf31-6bd6-4538-bc14-a701ea6d5617",
+                            TwoFactorEnabled = false,
+                            UserName = "User_2 User_2"
                         },
                         new
                         {
-                            UserId = 3,
+                            Id = "6cc84863-7eed-47e9-b99c-246453b39731",
+                            AccessFailedCount = 0,
                             Balance = 800,
+                            ConcurrencyStamp = "b34a5a31-6034-4c6a-9493-a039867fc374",
                             Description = "Hello",
                             Email = "user_3@gmail.com",
+                            EmailConfirmed = false,
                             FirstName = "User_3",
-                            InitialDate = new DateTime(2020, 4, 21, 16, 30, 57, 889, DateTimeKind.Utc).AddTicks(9308),
+                            InitialDate = new DateTime(2020, 5, 6, 9, 26, 35, 711, DateTimeKind.Utc).AddTicks(278),
                             LastName = "User_3",
-                            Phone = "+380500832007"
+                            LockoutEnabled = false,
+                            PhoneNumber = "+380500832007",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5f5b97a3-a93d-4c9b-86e1-1d7497187690",
+                            TwoFactorEnabled = false,
+                            UserName = "User_3 User_3"
                         },
                         new
                         {
-                            UserId = 4,
+                            Id = "2be05206-6d39-4b7c-97e1-067b4b6a28dc",
+                            AccessFailedCount = 0,
                             Balance = 200,
+                            ConcurrencyStamp = "ee15081b-2f79-42d4-b90c-794de70456c6",
                             Description = "Hello",
                             Email = "user_4@gmail.com",
+                            EmailConfirmed = false,
                             FirstName = "User_4",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 4, 21, 15, 30, 57, 889, DateTimeKind.Utc).AddTicks(9313),
+                            InitialDate = new DateTime(2020, 5, 6, 8, 26, 35, 711, DateTimeKind.Utc).AddTicks(293),
                             LastName = "User_4",
-                            Phone = "+380500832008"
+                            LockoutEnabled = false,
+                            PhoneNumber = "+380500832008",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "894c705f-830a-40ae-9e6d-3248a76c286a",
+                            TwoFactorEnabled = false,
+                            UserName = "User_4 User_4"
                         },
                         new
                         {
-                            UserId = 5,
+                            Id = "2afbb3c2-12fc-4088-b847-42750c5d7d17",
+                            AccessFailedCount = 0,
                             Balance = 1200,
+                            ConcurrencyStamp = "97a7c4c8-3948-4b05-969b-56387922d3e8",
                             Description = "Hello",
                             Email = "user_5@gmail.com",
+                            EmailConfirmed = false,
                             FirstName = "User_5",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 4, 21, 14, 30, 57, 889, DateTimeKind.Utc).AddTicks(9317),
+                            InitialDate = new DateTime(2020, 5, 6, 7, 26, 35, 711, DateTimeKind.Utc).AddTicks(323),
                             LastName = "User_5",
-                            Phone = "+380500832015"
+                            LockoutEnabled = false,
+                            PhoneNumber = "+380500832015",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d81ce56b-eba2-4324-9faa-e22827f31a44",
+                            TwoFactorEnabled = false,
+                            UserName = "User_5 User_5"
                         },
                         new
                         {
-                            UserId = 6,
+                            Id = "7a3f73e3-b953-40e4-906c-c94322239ea1",
+                            AccessFailedCount = 0,
                             Balance = 600,
+                            ConcurrencyStamp = "0b2423f7-74a6-41bb-815d-59290133fd31",
                             Description = "Hello",
                             Email = "user_6@gmail.com",
+                            EmailConfirmed = false,
                             FirstName = "User_6",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 4, 21, 13, 30, 57, 889, DateTimeKind.Utc).AddTicks(9326),
+                            InitialDate = new DateTime(2020, 5, 6, 6, 26, 35, 711, DateTimeKind.Utc).AddTicks(343),
                             LastName = "User_6",
-                            Phone = "+380500833005"
+                            LockoutEnabled = false,
+                            PhoneNumber = "+380500833005",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "8e80098b-c264-4e62-ad87-6a2027544535",
+                            TwoFactorEnabled = false,
+                            UserName = "User_6 User_6"
                         },
                         new
                         {
-                            UserId = 7,
+                            Id = "14bda550-3ad1-4ddb-95fb-c8196401187d",
+                            AccessFailedCount = 0,
                             Balance = 500,
+                            ConcurrencyStamp = "d043c929-2812-45eb-b5b1-0db327b7c1eb",
                             Description = "Hello",
                             Email = "user_7@gmail.com",
+                            EmailConfirmed = false,
                             FirstName = "User_7",
-                            InitialDate = new DateTime(2020, 4, 21, 12, 30, 57, 889, DateTimeKind.Utc).AddTicks(9329),
+                            InitialDate = new DateTime(2020, 5, 6, 5, 26, 35, 711, DateTimeKind.Utc).AddTicks(355),
                             LastName = "User_7",
-                            Phone = "+380500832105"
+                            LockoutEnabled = false,
+                            PhoneNumber = "+380500832105",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ddd3756d-c3b1-4194-ac91-c119edb4d2f5",
+                            TwoFactorEnabled = false,
+                            UserName = "User_7 User_7"
                         },
                         new
                         {
-                            UserId = 8,
+                            Id = "f81e47e5-5322-4a08-898b-842975118a2e",
+                            AccessFailedCount = 0,
                             Balance = 500,
+                            ConcurrencyStamp = "42a88d0c-de9c-4d0a-b761-c470fd734bd2",
                             Description = "Hello",
                             Email = "user_8@gmail.com",
+                            EmailConfirmed = false,
                             FirstName = "User_8",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 4, 21, 18, 30, 57, 889, DateTimeKind.Utc).AddTicks(9332),
+                            InitialDate = new DateTime(2020, 5, 6, 11, 26, 35, 711, DateTimeKind.Utc).AddTicks(384),
                             LastName = "User_8",
-                            Phone = "+180500832005"
+                            LockoutEnabled = false,
+                            PhoneNumber = "+180500832005",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c5aa39ff-093e-4282-8ee9-51f2cfdafc1a",
+                            TwoFactorEnabled = false,
+                            UserName = "User_8 User_8"
                         },
                         new
                         {
-                            UserId = 9,
+                            Id = "336b8d41-e833-418f-87e9-25bdbc1e7530",
+                            AccessFailedCount = 0,
                             Balance = 500,
+                            ConcurrencyStamp = "08f8976d-3966-42d9-99e8-8fbf8c4fd573",
                             Description = "Hello",
                             Email = "user_9@gmail.com",
+                            EmailConfirmed = false,
                             FirstName = "User_9",
-                            InitialDate = new DateTime(2020, 4, 21, 18, 30, 57, 889, DateTimeKind.Utc).AddTicks(9335),
+                            InitialDate = new DateTime(2020, 5, 6, 11, 26, 35, 711, DateTimeKind.Utc).AddTicks(397),
                             LastName = "User_9",
-                            Phone = "+380590832005"
+                            LockoutEnabled = false,
+                            PhoneNumber = "+380590832005",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1134c43e-65e3-4c56-8fa6-0c48ea517a78",
+                            TwoFactorEnabled = false,
+                            UserName = "User_9 User_9"
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.CustomerDbo", b =>
@@ -773,8 +719,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", "User")
                         .WithOne("Customer")
                         .HasForeignKey("YaHo.YaHoApiService.DAL.Data.Entities.CustomerDbo", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.CustomerReviewDbo", b =>
@@ -788,8 +733,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", "User")
                         .WithMany("CustomerReviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.DeliveryDbo", b =>
@@ -797,8 +741,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", "User")
                         .WithOne("Delivery")
                         .HasForeignKey("YaHo.YaHoApiService.DAL.Data.Entities.DeliveryDbo", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.DeliveryReviewDbo", b =>
@@ -812,8 +755,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", "User")
                         .WithMany("DeliveryReviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.MediaDbo", b =>

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using YaHo.YaHoApiService.Common.Authentication;
 using YaHo.YaHoApiService.DAL.Services.Context;
 using YaHo.YaHoApiService.Mapping;
 using YaHo.YaHoApiService.Middleware;
@@ -34,6 +35,14 @@ namespace YaHo.YaHoApiService
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.ConfigureDbContext(Configuration);
+
+            services.ConfigureIdentity();
+
+            services.ConfigureDiServices();
+
+            services.Configure<JwtSettings>(Configuration.GetSection("Auth"));
+
+            services.AddJwtAuthentication(Configuration);
 
             services.AddCors();
 
@@ -87,11 +96,7 @@ namespace YaHo.YaHoApiService
             app.UseSwagger();
             app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "YaHoAPI"));
 
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetService<YaHoContext>();
-                dbContext.Database.Migrate();
-            }
+            //app.MigrateDataBase();
         }
     }
 }

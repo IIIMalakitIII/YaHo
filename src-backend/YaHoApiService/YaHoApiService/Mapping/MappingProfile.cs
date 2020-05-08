@@ -6,6 +6,23 @@ namespace YaHo.YaHoApiService.Mapping
     {
         public MappingProfile()
         {
+            MapMedia();
+
+            MapOrderRequests();
+
+            MapOrderss();
+
+            MapProducts();
+
+            MapDeliveryReviews();
+
+            MapDeliveries();
+
+            MapCustomerReviews();
+
+            MapCustomers();
+
+            MapUsers();
         }
     }
 }

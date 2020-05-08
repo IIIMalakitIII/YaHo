@@ -9,23 +9,11 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
     {
         public void Configure(EntityTypeBuilder<UserDbo> builder)
         {
-            builder.ToTable(DataBaseTables.Users);
-
-            builder.HasKey(x => x.UserId);
-
             builder.Property(x => x.FirstName)
                 .IsRequired()
                 .HasMaxLength(100);
 
             builder.Property(x => x.LastName)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            builder.Property(x => x.Phone)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            builder.Property(x => x.Email)
                 .IsRequired()
                 .HasMaxLength(100);
 
@@ -38,9 +26,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
 
             builder.Property(x => x.InitialDate)
                 .IsRequired();
-
-            builder.HasIndex(x => x.Email)
-                .IsUnique();
 
             builder.HasOne(x => x.Customer)
                 .WithOne(r => r.User)
