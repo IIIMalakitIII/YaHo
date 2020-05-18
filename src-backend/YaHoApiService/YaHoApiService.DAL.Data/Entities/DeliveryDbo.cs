@@ -18,6 +18,5 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public ICollection<OrderRequestDbo> OrderRequests { get; set; }
 
-
     }
 }

@@ -42,9 +42,40 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return await _context.UsersWithoutTracking.AnyAsync(x => x.Email == email);
         }
 
+        public async Task<bool> UserHasEnoughMoneyAsync(string userId, int money)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            return user.Balance >= money;
+        }
+
         public async Task<bool> IsUserWithIdExistsAsync(string id)
         {
             return await _context.UsersWithoutTracking.AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> FreezeMoneyAsync(string userId, int money)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            user.Balance -= money;
+            user.Hold += money;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+        }
+
+        public async Task<bool> DefrostMoneyAsync(string userId, int money)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            user.Balance += money;
+            user.Hold -= money;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            return result.Succeeded;
         }
 
         public async Task<UserViewData> GetUserAsync(string userId)
@@ -130,9 +161,12 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
             var (customer, delivery) = await GetUserParticipation(user.Id);
 
-            claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id));
+            claims.Add(new Claim(CustomClaimName.Id, user.Id));
             claims.Add(new Claim(CustomClaimName.Customer, customer));
             claims.Add(new Claim(CustomClaimName.Delivery, delivery));
+            claims.Add(new Claim(CustomClaimName.Email, user.Email));
+            claims.Add(new Claim(CustomClaimName.LastName, user.LastName));
+            claims.Add(new Claim(CustomClaimName.FirstName, user.FirstName));
 
             var expires = DateTime.Now.AddHours(3);
             var signKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));

@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Delivery;
+using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
 using YaHo.YaHoApiService.BLL.Domain.Services;
 using YaHo.YaHoApiService.DAL.Data.Entities;
@@ -52,6 +54,42 @@ namespace YaHoApiService.Configuration
                 .AddDefaultTokenProviders();
         }
 
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "YaHoApi service"
+                });
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+            });
+        }
+
         public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>
@@ -78,6 +116,7 @@ namespace YaHoApiService.Configuration
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDeliveryService, DeliveryService>();
+            services.AddScoped<IOrderService, OrderService>();
         }
 
         private static void ConfigureDalServices(IServiceCollection services)
@@ -85,6 +124,7 @@ namespace YaHoApiService.Configuration
             services.AddScoped<IUserDataService, UserDataService>();
             services.AddScoped<ICustomerDataService, CustomerDataService>();
             services.AddScoped<IDeliveryDataService, DeliveryDataService>();
+            services.AddScoped<IOrderDataService, OrderDataService>();
         }
 
 

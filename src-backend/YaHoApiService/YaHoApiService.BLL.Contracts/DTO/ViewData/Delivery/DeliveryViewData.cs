@@ -1,4 +1,8 @@
-﻿namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Delivery
+﻿using System.Collections.Generic;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.DeliveryReview;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User;
+
+namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Delivery
 {
     public class DeliveryViewData
     {
@@ -9,5 +13,9 @@
         public string Description { get; set; }
 
         public int? Rating { get; set; }
+
+        public UserViewData User { get; set; }
+
+        public IEnumerable<DeliveryReviewViewData> DeliveryReviews { get; set; }
     }
 }

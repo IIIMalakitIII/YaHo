@@ -17,5 +17,7 @@
         public const string Orders = "Orders";
 
         public const string OrderRequests = "OrderRequests";
+
+        public const string ConfirmDeliveryCharges = "ConfirmDeliveryCharges";
     }
 }

@@ -19,6 +19,8 @@ namespace YaHo.YaHoApiService.DAL.Services.Context
 
         public DbSet<DeliveryDbo> Deliveries { get; set; }
 
+        public DbSet<ConfirmDeliveryChargeDbo> ConfirmDeliveryCharges { get; set; }
+
         public DbSet<DeliveryReviewDbo> DeliveryReviews { get; set; }
 
         public DbSet<ProductDbo> Products { get; set; }
@@ -36,6 +38,8 @@ namespace YaHo.YaHoApiService.DAL.Services.Context
         public IQueryable<CustomerReviewDbo> CustomerReviewsWithoutTracking => CustomerReviews.AsNoTracking();
 
         public IQueryable<DeliveryDbo> DeliveriesWithoutTracking => Deliveries.AsNoTracking();
+
+        public IQueryable<ConfirmDeliveryChargeDbo> ConfirmDeliveryChargesWithoutTracking => ConfirmDeliveryCharges.AsNoTracking();
 
         public IQueryable<DeliveryReviewDbo> DeliveryReviewsWithoutTracking => DeliveryReviews.AsNoTracking();
 

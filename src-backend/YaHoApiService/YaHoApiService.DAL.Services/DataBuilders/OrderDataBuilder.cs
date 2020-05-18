@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using YaHo.YaHoApiService.DAL.Data.Entities;
 using YaHo.YaHoApiService.DAL.Data.Enums;
-using YaHo.YaHoApiService.DAL.Services.DataBuilders;
 
 namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
 {

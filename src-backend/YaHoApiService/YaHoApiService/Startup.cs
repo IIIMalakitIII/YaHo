@@ -44,18 +44,13 @@ namespace YaHo.YaHoApiService
 
             services.AddJwtAuthentication(Configuration);
 
+            services.AddAuthorization();
+
             services.AddCors();
 
             services.AddControllers();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "YaHo API",
-                    Description = "API for YaHo"
-                });
-            });
+            services.ConfigureSwagger();
 
         }
 
@@ -85,7 +80,7 @@ namespace YaHo.YaHoApiService
 
             app.UseRouting();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

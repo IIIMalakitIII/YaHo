@@ -12,11 +12,13 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public string DeliveryPlace { get; set; }
 
-        public DateTime? DeliverDate { get; set; }
+        public DateTime? DeliveryDate { get; set; }
 
         public bool Bargain { get; set; }
 
         public DateTime ExpectedDate { get; set; }
+
+        public int DeliveryCharge { get; set; }
 
         public int CustomerId { get; set; }
 
@@ -35,6 +37,8 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
         public ICollection<ProductDbo> Products { get; set; }
 
         public ICollection<OrderRequestDbo> OrderRequests { get; set; }
+
+        public ICollection<ConfirmDeliveryChargeDbo> ConfirmDeliveryCharges { get; set; }
 
 
     }
