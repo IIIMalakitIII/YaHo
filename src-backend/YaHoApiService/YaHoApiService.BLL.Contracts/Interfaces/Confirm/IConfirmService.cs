@@ -13,6 +13,9 @@ namespace YaHo.YaHoApiService.BLL.Contracts.Interfaces.Confirm
             int customerId);
 
         Task<List<ConfirmDeliveryChargeViewData>> GetConfirmsDeliveryCharge(int orderId, string userId);
-        
+
+        Task UpdateConfirmDeliveryCharge(int id, int deliveryId, string userId, bool deliveryConfirm);
+
+
     }
 }

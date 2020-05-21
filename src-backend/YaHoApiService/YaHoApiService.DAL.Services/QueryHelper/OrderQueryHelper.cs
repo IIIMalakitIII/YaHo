@@ -69,11 +69,6 @@ namespace YaHo.YaHoApiService.DAL.Services.QueryHelper
                 query = query.Where(x => x.ExpectedDate.Date <= expectedDateTo.Value.Date);
             }
 
-            if (!expectedDateFrom.HasValue)
-            {
-                query = query.Where(x => x.ExpectedDate.Date <= DateTime.UtcNow);
-            }
-
             return query;
         }
 

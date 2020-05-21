@@ -38,6 +38,14 @@ namespace YaHo.YaHoApiService.BLL.Domain.Validations
             }
         }
 
+        public async Task CheckOrderStatusInCreating(int orderId)
+        {
+            if (!await _orderDataService.IsOrderWithIdInCreatingAsync(orderId))
+            {
+                throw new ValidationException($"Order not in creating, change order status to creating.");
+            }
+        }
+
         public async Task CheckThisUserHaveAccess(int orderId, string userId)
         {
             if (!await _orderDataService.ThisUserHaveAccessAsync(orderId, userId))

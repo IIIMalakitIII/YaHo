@@ -46,7 +46,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
         {
             var user = await _userManager.FindByIdAsync(userId);
 
-            return user.Balance >= money;
+            return user.Balance != null && user.Balance >= money;
         }
 
         public async Task<bool> IsUserWithIdExistsAsync(string id)

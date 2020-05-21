@@ -24,7 +24,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Validations
 
         public async Task CheckUserHasEnoughMoney(string userId, int money)
         {
-            if (await _userDataService.UserHasEnoughMoneyAsync(userId, money))
+            if (!await _userDataService.UserHasEnoughMoneyAsync(userId, money))
             {
                 throw new ValidationException($"You can’t place an order, you don’t have enough money");
             }

@@ -34,7 +34,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
         {
             await _deliveryValidator.CheckDeliveryWithThisIdExists(deliveryId);
 
-            var delivery = await _deliveryDataService.GetDeliveryAsync(deliveryId);
+            var delivery = await _deliveryDataService.GetDeliveryWithoutIncludeAsync(deliveryId);
             delivery.Description = description;
 
             await _deliveryDataService.UpdateDeliveryAsync(delivery);

@@ -90,6 +90,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
         {
             var confirmDbo = await _context.ConfirmDeliveryChargesWithoutTracking
                 .Include(x => x.Order)
+                    .ThenInclude(x => x.Customer)
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
 

@@ -39,4 +39,8 @@
     <ProjectReference Include="..\YaHoApiService.DAL.Services\YaHoApiService.DAL.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\CustomerViewModels\Update\" />
+  </ItemGroup>
+
 </Project>

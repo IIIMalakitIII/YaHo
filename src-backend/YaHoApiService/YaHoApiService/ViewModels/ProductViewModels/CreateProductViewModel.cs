@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using YaHo.YaHoApiService.ViewModels.MediaViewModels;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace YaHo.YaHoApiService.ViewModels.ProductViewModels
 {
-    public class ProductViewModel
+    public class CreateProductViewModel
     {
-        public int ProductId { get; set; }
-
         [Required]
         public int OrderId { get; set; }
 
@@ -24,5 +25,8 @@ namespace YaHo.YaHoApiService.ViewModels.ProductViewModels
 
         [Required]
         public string ProductName { get; set; }
+
+        [DataType(DataType.Upload)]
+        public IFormFileCollection Picture { get; set; }
     }
 }

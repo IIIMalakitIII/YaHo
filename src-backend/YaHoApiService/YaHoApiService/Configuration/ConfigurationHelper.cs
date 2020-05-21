@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,10 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Delivery;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
+using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Product;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
+using YaHo.YaHoApiService.BLL.Contracts.Interfaces.Confirm;
 using YaHo.YaHoApiService.BLL.Domain.Services;
 using YaHo.YaHoApiService.DAL.Data.Entities;
 using YaHo.YaHoApiService.DAL.Services.Context;
@@ -62,7 +63,6 @@ namespace YaHoApiService.Configuration
                 {
                     Title = "YaHoApi service"
                 });
-
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -114,9 +114,11 @@ namespace YaHoApiService.Configuration
         private static void ConfigureBllServices(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDeliveryService, DeliveryService>();
+            services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IConfirmService, ConfirmService>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         private static void ConfigureDalServices(IServiceCollection services)
@@ -125,6 +127,9 @@ namespace YaHoApiService.Configuration
             services.AddScoped<ICustomerDataService, CustomerDataService>();
             services.AddScoped<IDeliveryDataService, DeliveryDataService>();
             services.AddScoped<IOrderDataService, OrderDataService>();
+            services.AddScoped<IConfirmDataService, ConfirmDataService>();
+            services.AddScoped<IProductDataService, ProductDataService>();
+
         }
 
 

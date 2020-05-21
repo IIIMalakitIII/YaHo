@@ -7,6 +7,7 @@ using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Delivery;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
 using YaHo.YaHoApiService.BLL.Contracts.ServiceResults.CreateResult;
 using YaHo.YaHoApiService.BLL.Domain.Validations;
 using YaHo.YaHoApiService.Common.Exceptions;
@@ -75,7 +76,6 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
         public async Task<OrderViewData> GetOrderById(int orderId, int customerId)
         {
             await _orderValidator.CheckOrderWithThisIdExists(orderId);
-
             await _customerValidator.CheckCustomerWithThisIdExists(customerId);
 
             var isCustomerOrder = await _orderDataService.OrderOfThisCustomerAsync(orderId, customerId);
@@ -112,13 +112,22 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             return orders;
         }
 
+        //TODO
         public async Task UpdateOrderStatus(OrderUpdateStatusViewData model, int customerId)
         {
             await _orderValidator.CheckOrderWithThisIdExists(model.OrderId);
-
             await _customerValidator.CheckCustomerWithThisIdExists(customerId);
-
             await _orderValidator.CheckOrderOfThisCustomer(model.OrderId, customerId);
+
+        }
+
+        public async Task UpdateOrderInfo(UpdateOrderViewData model, int customerId)
+        {
+            await _orderValidator.CheckOrderWithThisIdExists(model.OrderId);
+            await _customerValidator.CheckCustomerWithThisIdExists(customerId);
+            await _orderValidator.CheckOrderOfThisCustomer(model.OrderId, customerId);
+
+            await _orderDataService.UpdateOrderInfoAsync(model);
 
         }
 

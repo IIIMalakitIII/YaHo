@@ -23,7 +23,7 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Confirm
 
         public DateTime InitialDate { get; set; }
 
-        public OrderViewData Orders { get; set; }
+        public OrderViewData Order { get; set; }
 
     }
 }

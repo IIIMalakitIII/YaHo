@@ -70,6 +70,17 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return customerViewData;
         }
 
+        public async Task<CustomerViewData> GetCustomerWithoutIncludeAsync(int id)
+        {
+            var customerDbo = await _context.CustomersWithoutTracking
+                .Where(x => x.CustomerId == id)
+                .FirstOrDefaultAsync();
+
+            var customerViewData = _mapper.Map<CustomerViewData>(customerDbo);
+
+            return customerViewData;
+        }
+
         public async Task<List<CustomerViewData>> GetAllCustomerAsync()
         {
             var customersDbo = await _context.CustomersWithoutTracking

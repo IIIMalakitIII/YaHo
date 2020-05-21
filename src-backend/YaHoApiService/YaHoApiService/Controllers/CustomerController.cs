@@ -6,7 +6,6 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer;
 using YaHo.YaHoApiService.ViewModels.CustomerViewModels;
-using YaHo.YaHoApiService.ViewModels.CustomerViewModels.Update;
 
 namespace YaHo.YaHoApiService.Controllers
 {
@@ -29,9 +28,9 @@ namespace YaHo.YaHoApiService.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateCustomer(UpdateCustomerInfoViewModel model)
+        public async Task<ActionResult> UpdateCustomerDescription(string description)
         {
-            await _customerService.UpdateCustomerDescription(model.CustomerId, model.Description);
+            await _customerService.UpdateCustomerDescription(CurrentUser.CustomerId, description);
 
             return Ok();
         }
@@ -40,6 +39,16 @@ namespace YaHo.YaHoApiService.Controllers
         public async Task<ActionResult<CustomerViewModel>> Customer(int customerId)
         {
             var customerViewData = await _customerService.GetCustomer(customerId);
+
+            var customerViewModel = _mapper.Map<CustomerViewModel>(customerViewData);
+
+            return Ok(customerViewModel);
+        }
+
+        [HttpGet("my-customer-info")]
+        public async Task<ActionResult<CustomerViewModel>> MyCustomerInfo()
+        {
+            var customerViewData = await _customerService.GetCustomer(CurrentUser.CustomerId);
 
             var customerViewModel = _mapper.Map<CustomerViewModel>(customerViewData);
 
