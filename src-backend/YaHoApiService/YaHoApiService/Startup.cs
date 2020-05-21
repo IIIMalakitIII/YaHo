@@ -96,7 +96,7 @@ namespace YaHo.YaHoApiService
             app.UseSwagger();
             app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "YaHoAPI"));
 
-            //app.MigrateDataBase();
+            app.MigrateDataBase();
         }
     }
 }
