@@ -6,7 +6,6 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Delivery;
 using YaHo.YaHoApiService.ViewModels.DeliveryViewModels;
-using YaHo.YaHoApiService.ViewModels.DeliveryViewModels.Update;
 
 namespace YaHo.YaHoApiService.Controllers
 {
@@ -17,7 +16,7 @@ namespace YaHo.YaHoApiService.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public class DeliveryController : ControllerBase
+    public class DeliveryController : BaseApiController
     {
         private readonly IMapper _mapper;
         private readonly IDeliveryService _deliveryService;
@@ -29,9 +28,9 @@ namespace YaHo.YaHoApiService.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateDelivery(UpdateDeliveryInfoViewModel model)
+        public async Task<ActionResult> UpdateDeliveryDescription(string description)
         {
-            await _deliveryService.UpdateDeliveryDescription(model.DeliveryId, model.Description);
+            await _deliveryService.UpdateDeliveryDescription(CurrentUser.DeliveryId, description);
 
             return Ok();
         }
@@ -40,6 +39,16 @@ namespace YaHo.YaHoApiService.Controllers
         public async Task<ActionResult<DeliveryViewModel>> Delivery(int deliveryId)
         {
             var deliveryViewData = await _deliveryService.GetDelivery(deliveryId);
+
+            var deliveryViewModel = _mapper.Map<DeliveryViewModel>(deliveryViewData);
+
+            return Ok(deliveryViewModel);
+        }
+
+        [HttpGet("my-delivery-info")]
+        public async Task<ActionResult<DeliveryViewModel>> MyDeliveryInfo()
+        {
+            var deliveryViewData = await _deliveryService.GetDelivery(CurrentUser.DeliveryId);
 
             var deliveryViewModel = _mapper.Map<DeliveryViewModel>(deliveryViewData);
 

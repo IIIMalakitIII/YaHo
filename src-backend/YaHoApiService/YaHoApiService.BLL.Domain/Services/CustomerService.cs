@@ -34,7 +34,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
         {
             await _customerValidator.CheckCustomerWithThisIdExists(customerId);
 
-            var customer = await _customerDataService.GetCustomerAsync(customerId);
+            var customer = await _customerDataService.GetCustomerWithoutIncludeAsync(customerId);
             customer.Description = description;
 
             await _customerDataService.UpdateCustomerAsync(customer);

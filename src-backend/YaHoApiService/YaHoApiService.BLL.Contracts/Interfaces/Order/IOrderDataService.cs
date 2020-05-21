@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
 
 namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 {
@@ -10,11 +11,15 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 
         Task<bool> IsOrderWithIdInProcessAsync(int orderId);
 
+        Task<bool> IsOrderWithIdInCreatingAsync(int orderId);
+
+        Task<bool> ThisUserHaveAccessAsync(int orderId, string userId);
+
+        Task<bool> OrderOfThisCustomerAsync(int orderId, int customerId);
+
         Task<int> CreateOrderAsync(OrderViewData model);
 
         Task<List<OrderViewData>> GetOrdersByFilter(OrderFilterViewData filter);
-
-        Task<bool> OrderOfThisCustomerAsync(int orderId, int customerId);
 
         Task<OrderViewData> GetOrderByIdAsync(int orderId);
 
@@ -26,6 +31,10 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 
         Task DeleteOrderAfterFailureAsync(int orderId);
 
-        Task<bool> ThisUserHaveAccessAsync(int orderId, string userId);
+        Task UpdateOrderAsync(OrderViewData order);
+
+        Task UpdateOrderInfoAsync(UpdateOrderViewData order);
+
+        Task<OrderViewData> GetOrderByIdWithoutIncludeAsync(int orderId);
     }
 }

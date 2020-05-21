@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.CodeAnalysis;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Product;
 using YaHo.YaHoApiService.DAL.Data.Entities;
 using YaHo.YaHoApiService.ViewModels.ProductViewModels;
@@ -12,6 +11,12 @@ namespace YaHo.YaHoApiService.Mapping
         {
             #region ViewModel <= => ViewData
             CreateMap<ProductViewModel, ProductViewData>()
+                .ReverseMap();
+
+            CreateMap<CreateProductViewModel, ProductViewData>()
+                .ReverseMap();
+
+            CreateMap<GetProductViewModel, ProductViewData>()
                 .ReverseMap();
             #endregion
 

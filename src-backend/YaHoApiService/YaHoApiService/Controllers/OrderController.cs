@@ -6,8 +6,10 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
 using YaHo.YaHoApiService.BLL.Contracts.ServiceResults.CreateResult;
 using YaHo.YaHoApiService.ViewModels.OrderViewModels;
+using YaHo.YaHoApiService.ViewModels.OrderViewModels.Update;
 
 namespace YaHo.YaHoApiService.Controllers
 {
@@ -78,6 +80,15 @@ namespace YaHo.YaHoApiService.Controllers
             var ordersViewModel = _mapper.Map<List<OrderViewModel>>(ordersViewData);
 
             return Ok(ordersViewModel);
+        }
+
+        [HttpPut("update-order-info")]
+        public async Task<IActionResult> UpdateOrder(UpdateOrderViewModel model)
+        {
+            var orderViewData = _mapper.Map<UpdateOrderViewData>(model);
+            await _orderService.UpdateOrderInfo(orderViewData, CurrentUser.CustomerId);
+
+            return Ok();
         }
 
     }

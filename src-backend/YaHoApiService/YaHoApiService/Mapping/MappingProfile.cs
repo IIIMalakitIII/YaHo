@@ -10,7 +10,9 @@ namespace YaHo.YaHoApiService.Mapping
 
             MapOrderRequests();
 
-            MapOrderss();
+            MapOrders();
+
+            MapConfirms();
 
             MapProducts();
 

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Delivery;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
@@ -10,7 +10,6 @@ using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Confirm;
 using YaHo.YaHoApiService.BLL.Contracts.Interfaces.Confirm;
 using YaHo.YaHoApiService.BLL.Domain.Validations;
 using YaHo.YaHoApiService.Common.Exceptions;
-using YaHo.YaHoApiService.DAL.Data.Enums;
 
 namespace YaHo.YaHoApiService.BLL.Domain.Services
 {
@@ -120,17 +119,19 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             return confirms;
         }
 
-        public async Task UpdateConfirmDeliveryCharge(int id, int deliveryId, bool deliveryConfirm)
+        public async Task UpdateConfirmDeliveryCharge(int id, int deliveryId, string userId, bool deliveryConfirm)
         {
             await _deliveryValidator.CheckDeliveryWithThisIdExists(deliveryId);
             await _confirmValidator.CheckConfirmDeliveryChargeExists(id);
             await _confirmValidator.CheckConfirmDeliveryChargeNotAnswered(id);
             await _confirmValidator.CheckThisDeliveryHaveAccessToDeliveryCharge(id, deliveryId);
 
+            var confirmGet = await _confirmDataService.GetConfirmDeliveryChargeByIdAsync(id);
+
+            await ConfirmationResponseDeliveryCharge(deliveryConfirm, confirmGet);
             await _confirmDataService.UpdateConfirmDeliveryChargeAsync(id, deliveryConfirm);
         }
 
-        
 
         #region Private_method
 
@@ -143,6 +144,33 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             }
 
             return false;
+        }
+
+        private async Task ConfirmationResponseDeliveryCharge(bool confirm, 
+            ConfirmDeliveryChargeViewData confirmGet)
+        {
+            var order = await _orderDataService.GetOrderByIdWithoutIncludeAsync(confirmGet.OrderId);
+
+            if (!confirm)
+            {
+                await _userDataService.DefrostMoneyAsync(confirmGet.Order.Customer.UserId,
+                    Math.Abs(confirmGet.PreviousPrice - confirmGet.NewPrice));
+            }
+            else
+            {
+                if (confirmGet.PreviousPrice < confirmGet.NewPrice)
+                {
+                    order.DeliveryCharge = confirmGet.NewPrice;
+                    await _orderDataService.UpdateOrderAsync(order);
+                }
+                else if (confirmGet.PreviousPrice > confirmGet.NewPrice)
+                {
+                    await _userDataService.DefrostMoneyAsync(order.Customer.UserId, confirmGet.PreviousPrice - confirmGet.NewPrice);
+
+                    order.DeliveryCharge = confirmGet.NewPrice;
+                    await _orderDataService.UpdateOrderAsync(order);
+                }
+            }
         }
 
         #endregion

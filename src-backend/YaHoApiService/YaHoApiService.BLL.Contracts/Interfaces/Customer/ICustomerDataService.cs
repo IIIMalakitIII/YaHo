@@ -17,5 +17,7 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer
         Task<List<CustomerViewData>> GetAllCustomerAsync();
 
         Task<CustomerViewData> GetCustomerByUserIdAsync(string id);
+
+        Task<CustomerViewData> GetCustomerWithoutIncludeAsync(int id);
     }
 }

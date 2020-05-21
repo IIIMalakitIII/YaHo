@@ -43,6 +43,17 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return deliveryViewData;
         }
 
+        public async Task<DeliveryViewData> GetDeliveryWithoutIncludeAsync(int id)
+        {
+            var deliveryDbo = await _context.DeliveriesWithoutTracking
+                .Where(x => x.DeliveryId == id)
+                .FirstOrDefaultAsync();
+
+            var deliveryViewData = _mapper.Map<DeliveryViewData>(deliveryDbo);
+
+            return deliveryViewData;
+        }
+
         public async Task<DeliveryViewData> GetCustomerByUserIdAsync(string id)
         {
             var deliveryDbo = await _context.DeliveriesWithoutTracking

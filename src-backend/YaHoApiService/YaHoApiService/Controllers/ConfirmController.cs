@@ -31,7 +31,7 @@ namespace YaHo.YaHoApiService.Controllers
         }
 
         [HttpPost("confirm-change-delivery-charge")]
-        public async Task<ActionResult> ConfirmChangeDeliveryCharge(CreateConfirmDeliveryChargeViewModel model)
+        public async Task<IActionResult> ConfirmChangeDeliveryCharge(CreateConfirmDeliveryChargeViewModel model)
         {
             var confirmViewData = _mapper.Map<CreateConfirmDeliveryChargeViewData>(model);
 
@@ -51,19 +51,17 @@ namespace YaHo.YaHoApiService.Controllers
         }
 
         [HttpPut("update-confirm-delivery-charge")]
-        public async Task<ActionResult<IEnumerable<ConfirmDeliveryChargeViewModel>>> ConfirmDeliveryCharge(UpdateDeliveryChargeViewModel model)
+        public async Task<IActionResult> ConfirmDeliveryCharge(UpdateDeliveryChargeViewModel model)
         {
-            var confirmsViewData = await _confirmService.UpdateConfirmDeliveryCharge(model.Id, model.DeliveryConfirm, CurrentUser.DeliveryId);
+            await _confirmService.UpdateConfirmDeliveryCharge(model.Id, CurrentUser.DeliveryId, CurrentUser.UserId, model.DeliveryConfirm);
 
-            var confirmsViewModel = _mapper.Map<List<ConfirmDeliveryChargeViewModel>>(confirmsViewData);
-
-            return Ok(confirmsViewModel);
+            return Ok();
         }
 
-        [HttpDelete("delete-confirm-delivery-charge/{orderId}")]
-        public async Task<ActionResult<IEnumerable<OrderViewModel>>> DeleteConfirmChangeDeliveryCharge(int orderId)
+        [HttpDelete("delete-confirm-delivery-charge/{confirmId}")]
+        public async Task<IActionResult> DeleteConfirmChangeDeliveryCharge(int confirmId)
         {
-            await _confirmService.DeleteConfirmChangeDeliveryCharge(orderId, CurrentUser.UserId, CurrentUser.CustomerId);
+            await _confirmService.DeleteConfirmChangeDeliveryCharge(confirmId, CurrentUser.UserId, CurrentUser.CustomerId);
 
             return Ok();
         }

@@ -40,7 +40,6 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order
         public IEnumerable<ProductViewData> Products { get; set; }
 
         public IEnumerable<OrderRequestViewData> OrderRequests { get; set; }
-        
 
     }
 }

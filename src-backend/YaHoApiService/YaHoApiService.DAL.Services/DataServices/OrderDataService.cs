@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
 using YaHo.YaHoApiService.Common.EntityNames;
+using YaHo.YaHoApiService.Common.Exceptions.BusinessLogic;
 using YaHo.YaHoApiService.Common.Exceptions.DataLogic;
 using YaHo.YaHoApiService.DAL.Data.Entities;
 using YaHo.YaHoApiService.DAL.Data.Enums;
@@ -43,6 +45,13 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             var order = await _context.OrdersWithoutTracking.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
 
             return order.OrderStatus == OrderStatus.InProcess;
+        }
+
+        public async Task<bool> IsOrderWithIdInCreatingAsync(int orderId)
+        {
+            var order = await _context.OrdersWithoutTracking.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
+
+            return order.OrderStatus == OrderStatus.Creating;
         }
 
         public async Task<bool> ThisUserHaveAccessAsync(int orderId, string userId)
@@ -113,13 +122,27 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return orderViewData;
         }
 
+
         public async Task<OrderViewData> GetOrderByIdForCustomerAsync(int orderId)
         {
             
             var order = await _context.OrdersWithoutTracking
                 .Include(x => x.Customer)
+                .Include(x => x.OrderRequests)
                 .Include(x => x.Products)
                     .ThenInclude(x => x.Media)
+                .Where(x => x.OrderId == orderId)
+                .FirstOrDefaultAsync();
+
+            var orderViewData = _mapper.Map<OrderViewData>(order);
+
+            return orderViewData;
+        }
+
+        public async Task<OrderViewData> GetOrderByIdWithoutIncludeAsync(int orderId)
+        {
+
+            var order = await _context.OrdersWithoutTracking
                 .Where(x => x.OrderId == orderId)
                 .FirstOrDefaultAsync();
 
@@ -133,6 +156,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
             var order = await _context.OrdersWithoutTracking
                 .Include(x => x.Customer)
+                    .ThenInclude(x => x.User)
                 .Include(x => x.Products)
                     .ThenInclude(x => x.Media)
                 .Where(x => x.OrderId == orderId && x.OrderStatus == OrderStatus.InProcess)
@@ -172,6 +196,36 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             var ordersViewData = _mapper.Map<List<OrderViewData>>(orders);
 
             return ordersViewData;
+        }
+
+        public async Task UpdateOrderAsync(OrderViewData order)
+        {
+            var orderDbo = await _context.Orders
+                .FirstOrDefaultAsync(x => x.OrderId == order.OrderId);
+
+            if (orderDbo is null)
+            {
+                throw new NotFoundException(EntityNames.Order, order.OrderId);
+            }
+
+            _mapper.Map(order, orderDbo);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrderInfoAsync(UpdateOrderViewData order)
+        {
+            var orderDbo = await _context.Orders
+                .FirstOrDefaultAsync(x => x.OrderId == order.OrderId);
+
+            if (orderDbo is null)
+            {
+                throw new NotFoundException(EntityNames.Order, order.OrderId);
+            }
+
+            _mapper.Map(order, orderDbo);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task GetOrdersForDeliveryAsync(int orderId, int customerId, string newStatus)
