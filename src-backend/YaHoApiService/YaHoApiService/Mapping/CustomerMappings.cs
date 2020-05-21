@@ -11,7 +11,10 @@ namespace YaHo.YaHoApiService.Mapping
         {
             #region ViewModel <= => ViewData
             CreateMap<CustomerViewModel, CustomerViewData>()
+                .ForMember(d => d.User,
+                    m => m.MapFrom(s => s.UserInfo))
                 .ReverseMap();
+
             #endregion
 
             #region ViewData <= => Dbo

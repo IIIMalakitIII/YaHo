@@ -1,4 +1,6 @@
-﻿namespace YaHo.YaHoApiService.DAL.Data.Entities
+﻿using System;
+
+namespace YaHo.YaHoApiService.DAL.Data.Entities
 {
     public class OrderRequestDbo
     {
@@ -8,11 +10,13 @@
 
         public int DeliveryId { get; set; }
 
-        public bool Approved { get; set; }
+        public bool? Approved { get; set; }
 
         public OrderDbo Order { get; set; }
 
         public DeliveryDbo Delivery { get; set; }
+
+        public DateTime InitialDate { get; set; }
 
     }
 }

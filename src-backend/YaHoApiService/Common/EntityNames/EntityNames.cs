@@ -20,5 +20,7 @@
 
         public const string User = "User";
 
+        public const string ConfirmDeliveryCharge = "Confirm Delivery Charge";
+
     }
 }

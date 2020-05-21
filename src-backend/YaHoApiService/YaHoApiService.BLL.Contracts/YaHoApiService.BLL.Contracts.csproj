@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\ViewData\DeliveryReview\" />
-    <Folder Include="DTO\ViewData\Media\" />
-    <Folder Include="DTO\ViewData\OrderRequest\" />
-    <Folder Include="DTO\ViewData\Product\" />
+    <ProjectReference Include="..\YaHoApiService.DAL.Data\YaHoApiService.DAL.Data.csproj" />
   </ItemGroup>
 
 </Project>

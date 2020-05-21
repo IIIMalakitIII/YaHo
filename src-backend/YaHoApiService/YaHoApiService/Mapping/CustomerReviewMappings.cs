@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.CustomerReview;
+using YaHo.YaHoApiService.DAL.Data.Entities;
+using YaHo.YaHoApiService.ViewModels.CustomerReviewViewModels;
 
 namespace YaHo.YaHoApiService.Mapping
 {
@@ -8,9 +11,15 @@ namespace YaHo.YaHoApiService.Mapping
         {
             #region ViewModel <= => ViewData
 
+            CreateMap<CustomerReviewViewModel, CustomerReviewViewData>()
+                .ReverseMap();
+
             #endregion
 
             #region ViewData <= => Dbo
+
+            CreateMap<CustomerReviewViewData, CustomerReviewDbo>()
+                .ReverseMap();
 
             #endregion 
         }

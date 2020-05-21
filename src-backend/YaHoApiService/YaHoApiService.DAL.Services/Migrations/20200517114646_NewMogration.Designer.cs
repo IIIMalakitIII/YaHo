@@ -10,8 +10,8 @@ using YaHo.YaHoApiService.DAL.Services.Context;
 namespace YaHoApiService.DAL.Services.Migrations
 {
     [DbContext(typeof(YaHoContext))]
-    [Migration("20200506132636_NewMigration")]
-    partial class NewMigration
+    [Migration("20200517114646_NewMogration")]
+    partial class NewMogration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -152,6 +152,41 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.ConfirmDeliveryChargeDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool?>("AutomaticConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("CustomerConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("DeliveryConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("InitialDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NewPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreviousPrice")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("ConfirmDeliveryCharges");
+                });
+
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.CustomerDbo", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -273,9 +308,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("FilePath")
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
+                    b.Property<byte[]>("Picture")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -304,7 +338,10 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeliverDate")
+                    b.Property<int>("DeliveryCharge")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeliveryFrom")
@@ -345,11 +382,14 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Approved")
+                    b.Property<bool?>("Approved")
                         .HasColumnType("bit");
 
                     b.Property<int>("DeliveryId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("InitialDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -401,6 +441,7 @@ namespace YaHoApiService.DAL.Services.Migrations
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
@@ -488,178 +529,178 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "14791c3e-bcbb-4d32-a730-fddf8e2301e0",
+                            Id = "a5580b20-e576-48a6-85c4-27656ac6812f",
                             AccessFailedCount = 0,
                             Balance = 500,
-                            ConcurrencyStamp = "928ab880-ab43-4ea6-b536-98febdb5c9b3",
+                            ConcurrencyStamp = "c6e593ea-d7ac-4262-bb68-c1b7bbc31407",
                             Description = "Hello",
                             Email = "user_1@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User_1",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 5, 6, 11, 26, 35, 710, DateTimeKind.Utc).AddTicks(9276),
+                            InitialDate = new DateTime(2020, 5, 17, 9, 46, 46, 224, DateTimeKind.Utc).AddTicks(4179),
                             LastName = "User_1",
                             LockoutEnabled = false,
                             PhoneNumber = "+380500832005",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d1f4ef56-f3ce-439e-93d4-3b9ad5434076",
+                            SecurityStamp = "77796317-a095-4f9f-9f31-e201440971e1",
                             TwoFactorEnabled = false,
                             UserName = "User_1 User_1"
                         },
                         new
                         {
-                            Id = "a6d78c19-9b83-41ad-808c-31cd51819159",
+                            Id = "8e43fadd-429e-4343-b940-55387dd76a4c",
                             AccessFailedCount = 0,
                             Balance = 700,
-                            ConcurrencyStamp = "ed5da01f-dd07-495f-98db-042ac8d26d9a",
+                            ConcurrencyStamp = "c3dae7d8-2179-4030-9be3-8ffd145dfd4e",
                             Description = "Hello",
                             Email = "user_2@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User_2",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 5, 6, 10, 26, 35, 711, DateTimeKind.Utc).AddTicks(237),
+                            InitialDate = new DateTime(2020, 5, 17, 8, 46, 46, 224, DateTimeKind.Utc).AddTicks(5124),
                             LastName = "User_2",
                             LockoutEnabled = false,
                             PhoneNumber = "+380500832006",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "69b7cf31-6bd6-4538-bc14-a701ea6d5617",
+                            SecurityStamp = "79480a49-7f8e-46b5-bcb1-abeaca3b1f4f",
                             TwoFactorEnabled = false,
                             UserName = "User_2 User_2"
                         },
                         new
                         {
-                            Id = "6cc84863-7eed-47e9-b99c-246453b39731",
+                            Id = "ef90f6f9-1a98-4421-a2b6-b084eae8eb6a",
                             AccessFailedCount = 0,
                             Balance = 800,
-                            ConcurrencyStamp = "b34a5a31-6034-4c6a-9493-a039867fc374",
+                            ConcurrencyStamp = "de813256-f9cf-4be6-975b-8fe631c25b50",
                             Description = "Hello",
                             Email = "user_3@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User_3",
-                            InitialDate = new DateTime(2020, 5, 6, 9, 26, 35, 711, DateTimeKind.Utc).AddTicks(278),
+                            InitialDate = new DateTime(2020, 5, 17, 7, 46, 46, 224, DateTimeKind.Utc).AddTicks(5217),
                             LastName = "User_3",
                             LockoutEnabled = false,
                             PhoneNumber = "+380500832007",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5f5b97a3-a93d-4c9b-86e1-1d7497187690",
+                            SecurityStamp = "c09fed34-fb40-4002-af30-a29bdd06d74a",
                             TwoFactorEnabled = false,
                             UserName = "User_3 User_3"
                         },
                         new
                         {
-                            Id = "2be05206-6d39-4b7c-97e1-067b4b6a28dc",
+                            Id = "d4c565ec-aa35-48fd-bc35-a96d60eda79f",
                             AccessFailedCount = 0,
                             Balance = 200,
-                            ConcurrencyStamp = "ee15081b-2f79-42d4-b90c-794de70456c6",
+                            ConcurrencyStamp = "fc8ebf66-82ba-4b78-9018-9d8369af577a",
                             Description = "Hello",
                             Email = "user_4@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User_4",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 5, 6, 8, 26, 35, 711, DateTimeKind.Utc).AddTicks(293),
+                            InitialDate = new DateTime(2020, 5, 17, 6, 46, 46, 224, DateTimeKind.Utc).AddTicks(5231),
                             LastName = "User_4",
                             LockoutEnabled = false,
                             PhoneNumber = "+380500832008",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "894c705f-830a-40ae-9e6d-3248a76c286a",
+                            SecurityStamp = "f038894f-a72d-4cba-a412-4af971196428",
                             TwoFactorEnabled = false,
                             UserName = "User_4 User_4"
                         },
                         new
                         {
-                            Id = "2afbb3c2-12fc-4088-b847-42750c5d7d17",
+                            Id = "2ae3246c-0451-46e8-aeb8-e59a8efbecdd",
                             AccessFailedCount = 0,
                             Balance = 1200,
-                            ConcurrencyStamp = "97a7c4c8-3948-4b05-969b-56387922d3e8",
+                            ConcurrencyStamp = "baed7f14-bf70-4579-bd51-b0f937a73793",
                             Description = "Hello",
                             Email = "user_5@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User_5",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 5, 6, 7, 26, 35, 711, DateTimeKind.Utc).AddTicks(323),
+                            InitialDate = new DateTime(2020, 5, 17, 5, 46, 46, 224, DateTimeKind.Utc).AddTicks(5244),
                             LastName = "User_5",
                             LockoutEnabled = false,
                             PhoneNumber = "+380500832015",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d81ce56b-eba2-4324-9faa-e22827f31a44",
+                            SecurityStamp = "07e6c33c-cf43-4122-a668-cf9da7843c2f",
                             TwoFactorEnabled = false,
                             UserName = "User_5 User_5"
                         },
                         new
                         {
-                            Id = "7a3f73e3-b953-40e4-906c-c94322239ea1",
+                            Id = "062d7a36-8598-4a41-99da-94573f9ca66a",
                             AccessFailedCount = 0,
                             Balance = 600,
-                            ConcurrencyStamp = "0b2423f7-74a6-41bb-815d-59290133fd31",
+                            ConcurrencyStamp = "b09e86c5-9215-4fcc-a6a8-6d38dd53223f",
                             Description = "Hello",
                             Email = "user_6@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User_6",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 5, 6, 6, 26, 35, 711, DateTimeKind.Utc).AddTicks(343),
+                            InitialDate = new DateTime(2020, 5, 17, 4, 46, 46, 224, DateTimeKind.Utc).AddTicks(5280),
                             LastName = "User_6",
                             LockoutEnabled = false,
                             PhoneNumber = "+380500833005",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8e80098b-c264-4e62-ad87-6a2027544535",
+                            SecurityStamp = "e8fd9714-ddda-46c4-b010-bb4dc54e3e1d",
                             TwoFactorEnabled = false,
                             UserName = "User_6 User_6"
                         },
                         new
                         {
-                            Id = "14bda550-3ad1-4ddb-95fb-c8196401187d",
+                            Id = "f78d77be-3724-41d8-a8ea-8a0098b5979f",
                             AccessFailedCount = 0,
                             Balance = 500,
-                            ConcurrencyStamp = "d043c929-2812-45eb-b5b1-0db327b7c1eb",
+                            ConcurrencyStamp = "cee12f17-3bc0-47f5-aa84-8315c88a7388",
                             Description = "Hello",
                             Email = "user_7@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User_7",
-                            InitialDate = new DateTime(2020, 5, 6, 5, 26, 35, 711, DateTimeKind.Utc).AddTicks(355),
+                            InitialDate = new DateTime(2020, 5, 17, 3, 46, 46, 224, DateTimeKind.Utc).AddTicks(5293),
                             LastName = "User_7",
                             LockoutEnabled = false,
                             PhoneNumber = "+380500832105",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ddd3756d-c3b1-4194-ac91-c119edb4d2f5",
+                            SecurityStamp = "dad65ff3-e302-4796-89ab-6bfe07c98101",
                             TwoFactorEnabled = false,
                             UserName = "User_7 User_7"
                         },
                         new
                         {
-                            Id = "f81e47e5-5322-4a08-898b-842975118a2e",
+                            Id = "83ac8522-a61c-4461-999e-d6902cf6346b",
                             AccessFailedCount = 0,
                             Balance = 500,
-                            ConcurrencyStamp = "42a88d0c-de9c-4d0a-b761-c470fd734bd2",
+                            ConcurrencyStamp = "84c9503e-2ffc-4ad9-987a-0f90e2cb0303",
                             Description = "Hello",
                             Email = "user_8@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User_8",
                             Hold = 0,
-                            InitialDate = new DateTime(2020, 5, 6, 11, 26, 35, 711, DateTimeKind.Utc).AddTicks(384),
+                            InitialDate = new DateTime(2020, 5, 17, 9, 46, 46, 224, DateTimeKind.Utc).AddTicks(5322),
                             LastName = "User_8",
                             LockoutEnabled = false,
                             PhoneNumber = "+180500832005",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c5aa39ff-093e-4282-8ee9-51f2cfdafc1a",
+                            SecurityStamp = "94834cb1-8e81-48b8-863f-0b57caafd048",
                             TwoFactorEnabled = false,
                             UserName = "User_8 User_8"
                         },
                         new
                         {
-                            Id = "336b8d41-e833-418f-87e9-25bdbc1e7530",
+                            Id = "513e5755-c568-40c9-98aa-06e14a66f622",
                             AccessFailedCount = 0,
                             Balance = 500,
-                            ConcurrencyStamp = "08f8976d-3966-42d9-99e8-8fbf8c4fd573",
+                            ConcurrencyStamp = "ebb17354-7c56-47a4-881c-64c286f97520",
                             Description = "Hello",
                             Email = "user_9@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "User_9",
-                            InitialDate = new DateTime(2020, 5, 6, 11, 26, 35, 711, DateTimeKind.Utc).AddTicks(397),
+                            InitialDate = new DateTime(2020, 5, 17, 9, 46, 46, 224, DateTimeKind.Utc).AddTicks(5335),
                             LastName = "User_9",
                             LockoutEnabled = false,
                             PhoneNumber = "+380590832005",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1134c43e-65e3-4c56-8fa6-0c48ea517a78",
+                            SecurityStamp = "11990895-c92e-43a6-a873-f9e3072d0089",
                             TwoFactorEnabled = false,
                             UserName = "User_9 User_9"
                         });
@@ -713,6 +754,15 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.ConfirmDeliveryChargeDbo", b =>
+                {
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.OrderDbo", "Order")
+                        .WithMany("ConfirmDeliveryCharges")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

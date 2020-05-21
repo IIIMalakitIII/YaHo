@@ -15,5 +15,7 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer
         Task UpdateCustomerAsync(CustomerViewData model);
 
         Task<List<CustomerViewData>> GetAllCustomerAsync();
+
+        Task<CustomerViewData> GetCustomerByUserIdAsync(string id);
     }
 }

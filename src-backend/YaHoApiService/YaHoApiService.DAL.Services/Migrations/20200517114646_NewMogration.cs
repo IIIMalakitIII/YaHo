@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace YaHoApiService.DAL.Services.Migrations
 {
-    public partial class NewMigration : Migration
+    public partial class NewMogration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -236,9 +236,10 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InitialDate = table.Column<DateTime>(nullable: false),
                     DeliveryPlace = table.Column<string>(maxLength: 100, nullable: true),
-                    DeliverDate = table.Column<DateTime>(nullable: true),
+                    DeliveryDate = table.Column<DateTime>(nullable: true),
                     Bargain = table.Column<bool>(nullable: false),
                     ExpectedDate = table.Column<DateTime>(nullable: false),
+                    DeliveryCharge = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(maxLength: 100, nullable: true),
                     Comment = table.Column<string>(maxLength: 300, nullable: true),
@@ -286,6 +287,31 @@ namespace YaHoApiService.DAL.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ConfirmDeliveryCharges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(nullable: false),
+                    CustomerConfirm = table.Column<bool>(nullable: true),
+                    DeliveryConfirm = table.Column<bool>(nullable: true),
+                    AutomaticConfirm = table.Column<bool>(nullable: true),
+                    PreviousPrice = table.Column<int>(nullable: false),
+                    NewPrice = table.Column<int>(nullable: false),
+                    InitialDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConfirmDeliveryCharges", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ConfirmDeliveryCharges_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderRequests",
                 columns: table => new
                 {
@@ -293,7 +319,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(nullable: false),
                     DeliveryId = table.Column<int>(nullable: false),
-                    Approved = table.Column<bool>(nullable: false)
+                    Approved = table.Column<bool>(nullable: true),
+                    InitialDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -343,8 +370,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                     MediaId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(nullable: false),
-                    FilePath = table.Column<string>(maxLength: 300, nullable: true),
-                    ContentType = table.Column<string>(maxLength: 100, nullable: true)
+                    ContentType = table.Column<string>(maxLength: 100, nullable: true),
+                    Picture = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -362,15 +389,15 @@ namespace YaHoApiService.DAL.Services.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Balance", "ConcurrencyStamp", "Description", "Email", "EmailConfirmed", "FirstName", "Hold", "InitialDate", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "14791c3e-bcbb-4d32-a730-fddf8e2301e0", 0, 500, "928ab880-ab43-4ea6-b536-98febdb5c9b3", "Hello", "user_1@gmail.com", false, "User_1", 0, new DateTime(2020, 5, 6, 11, 26, 35, 710, DateTimeKind.Utc).AddTicks(9276), "User_1", false, null, null, null, null, "+380500832005", false, "d1f4ef56-f3ce-439e-93d4-3b9ad5434076", false, "User_1 User_1" },
-                    { "a6d78c19-9b83-41ad-808c-31cd51819159", 0, 700, "ed5da01f-dd07-495f-98db-042ac8d26d9a", "Hello", "user_2@gmail.com", false, "User_2", 0, new DateTime(2020, 5, 6, 10, 26, 35, 711, DateTimeKind.Utc).AddTicks(237), "User_2", false, null, null, null, null, "+380500832006", false, "69b7cf31-6bd6-4538-bc14-a701ea6d5617", false, "User_2 User_2" },
-                    { "6cc84863-7eed-47e9-b99c-246453b39731", 0, 800, "b34a5a31-6034-4c6a-9493-a039867fc374", "Hello", "user_3@gmail.com", false, "User_3", null, new DateTime(2020, 5, 6, 9, 26, 35, 711, DateTimeKind.Utc).AddTicks(278), "User_3", false, null, null, null, null, "+380500832007", false, "5f5b97a3-a93d-4c9b-86e1-1d7497187690", false, "User_3 User_3" },
-                    { "2be05206-6d39-4b7c-97e1-067b4b6a28dc", 0, 200, "ee15081b-2f79-42d4-b90c-794de70456c6", "Hello", "user_4@gmail.com", false, "User_4", 0, new DateTime(2020, 5, 6, 8, 26, 35, 711, DateTimeKind.Utc).AddTicks(293), "User_4", false, null, null, null, null, "+380500832008", false, "894c705f-830a-40ae-9e6d-3248a76c286a", false, "User_4 User_4" },
-                    { "2afbb3c2-12fc-4088-b847-42750c5d7d17", 0, 1200, "97a7c4c8-3948-4b05-969b-56387922d3e8", "Hello", "user_5@gmail.com", false, "User_5", 0, new DateTime(2020, 5, 6, 7, 26, 35, 711, DateTimeKind.Utc).AddTicks(323), "User_5", false, null, null, null, null, "+380500832015", false, "d81ce56b-eba2-4324-9faa-e22827f31a44", false, "User_5 User_5" },
-                    { "7a3f73e3-b953-40e4-906c-c94322239ea1", 0, 600, "0b2423f7-74a6-41bb-815d-59290133fd31", "Hello", "user_6@gmail.com", false, "User_6", 0, new DateTime(2020, 5, 6, 6, 26, 35, 711, DateTimeKind.Utc).AddTicks(343), "User_6", false, null, null, null, null, "+380500833005", false, "8e80098b-c264-4e62-ad87-6a2027544535", false, "User_6 User_6" },
-                    { "14bda550-3ad1-4ddb-95fb-c8196401187d", 0, 500, "d043c929-2812-45eb-b5b1-0db327b7c1eb", "Hello", "user_7@gmail.com", false, "User_7", null, new DateTime(2020, 5, 6, 5, 26, 35, 711, DateTimeKind.Utc).AddTicks(355), "User_7", false, null, null, null, null, "+380500832105", false, "ddd3756d-c3b1-4194-ac91-c119edb4d2f5", false, "User_7 User_7" },
-                    { "f81e47e5-5322-4a08-898b-842975118a2e", 0, 500, "42a88d0c-de9c-4d0a-b761-c470fd734bd2", "Hello", "user_8@gmail.com", false, "User_8", 0, new DateTime(2020, 5, 6, 11, 26, 35, 711, DateTimeKind.Utc).AddTicks(384), "User_8", false, null, null, null, null, "+180500832005", false, "c5aa39ff-093e-4282-8ee9-51f2cfdafc1a", false, "User_8 User_8" },
-                    { "336b8d41-e833-418f-87e9-25bdbc1e7530", 0, 500, "08f8976d-3966-42d9-99e8-8fbf8c4fd573", "Hello", "user_9@gmail.com", false, "User_9", null, new DateTime(2020, 5, 6, 11, 26, 35, 711, DateTimeKind.Utc).AddTicks(397), "User_9", false, null, null, null, null, "+380590832005", false, "1134c43e-65e3-4c56-8fa6-0c48ea517a78", false, "User_9 User_9" }
+                    { "a5580b20-e576-48a6-85c4-27656ac6812f", 0, 500, "c6e593ea-d7ac-4262-bb68-c1b7bbc31407", "Hello", "user_1@gmail.com", false, "User_1", 0, new DateTime(2020, 5, 17, 9, 46, 46, 224, DateTimeKind.Utc).AddTicks(4179), "User_1", false, null, null, null, null, "+380500832005", false, "77796317-a095-4f9f-9f31-e201440971e1", false, "User_1 User_1" },
+                    { "8e43fadd-429e-4343-b940-55387dd76a4c", 0, 700, "c3dae7d8-2179-4030-9be3-8ffd145dfd4e", "Hello", "user_2@gmail.com", false, "User_2", 0, new DateTime(2020, 5, 17, 8, 46, 46, 224, DateTimeKind.Utc).AddTicks(5124), "User_2", false, null, null, null, null, "+380500832006", false, "79480a49-7f8e-46b5-bcb1-abeaca3b1f4f", false, "User_2 User_2" },
+                    { "ef90f6f9-1a98-4421-a2b6-b084eae8eb6a", 0, 800, "de813256-f9cf-4be6-975b-8fe631c25b50", "Hello", "user_3@gmail.com", false, "User_3", null, new DateTime(2020, 5, 17, 7, 46, 46, 224, DateTimeKind.Utc).AddTicks(5217), "User_3", false, null, null, null, null, "+380500832007", false, "c09fed34-fb40-4002-af30-a29bdd06d74a", false, "User_3 User_3" },
+                    { "d4c565ec-aa35-48fd-bc35-a96d60eda79f", 0, 200, "fc8ebf66-82ba-4b78-9018-9d8369af577a", "Hello", "user_4@gmail.com", false, "User_4", 0, new DateTime(2020, 5, 17, 6, 46, 46, 224, DateTimeKind.Utc).AddTicks(5231), "User_4", false, null, null, null, null, "+380500832008", false, "f038894f-a72d-4cba-a412-4af971196428", false, "User_4 User_4" },
+                    { "2ae3246c-0451-46e8-aeb8-e59a8efbecdd", 0, 1200, "baed7f14-bf70-4579-bd51-b0f937a73793", "Hello", "user_5@gmail.com", false, "User_5", 0, new DateTime(2020, 5, 17, 5, 46, 46, 224, DateTimeKind.Utc).AddTicks(5244), "User_5", false, null, null, null, null, "+380500832015", false, "07e6c33c-cf43-4122-a668-cf9da7843c2f", false, "User_5 User_5" },
+                    { "062d7a36-8598-4a41-99da-94573f9ca66a", 0, 600, "b09e86c5-9215-4fcc-a6a8-6d38dd53223f", "Hello", "user_6@gmail.com", false, "User_6", 0, new DateTime(2020, 5, 17, 4, 46, 46, 224, DateTimeKind.Utc).AddTicks(5280), "User_6", false, null, null, null, null, "+380500833005", false, "e8fd9714-ddda-46c4-b010-bb4dc54e3e1d", false, "User_6 User_6" },
+                    { "f78d77be-3724-41d8-a8ea-8a0098b5979f", 0, 500, "cee12f17-3bc0-47f5-aa84-8315c88a7388", "Hello", "user_7@gmail.com", false, "User_7", null, new DateTime(2020, 5, 17, 3, 46, 46, 224, DateTimeKind.Utc).AddTicks(5293), "User_7", false, null, null, null, null, "+380500832105", false, "dad65ff3-e302-4796-89ab-6bfe07c98101", false, "User_7 User_7" },
+                    { "83ac8522-a61c-4461-999e-d6902cf6346b", 0, 500, "84c9503e-2ffc-4ad9-987a-0f90e2cb0303", "Hello", "user_8@gmail.com", false, "User_8", 0, new DateTime(2020, 5, 17, 9, 46, 46, 224, DateTimeKind.Utc).AddTicks(5322), "User_8", false, null, null, null, null, "+180500832005", false, "94834cb1-8e81-48b8-863f-0b57caafd048", false, "User_8 User_8" },
+                    { "513e5755-c568-40c9-98aa-06e14a66f622", 0, 500, "ebb17354-7c56-47a4-881c-64c286f97520", "Hello", "user_9@gmail.com", false, "User_9", null, new DateTime(2020, 5, 17, 9, 46, 46, 224, DateTimeKind.Utc).AddTicks(5335), "User_9", false, null, null, null, null, "+380590832005", false, "11990895-c92e-43a6-a873-f9e3072d0089", false, "User_9 User_9" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -411,6 +438,11 @@ namespace YaHoApiService.DAL.Services.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConfirmDeliveryCharges_OrderId",
+                table: "ConfirmDeliveryCharges",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerReviews_CustomerId",
@@ -488,6 +520,9 @@ namespace YaHoApiService.DAL.Services.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ConfirmDeliveryCharges");
 
             migrationBuilder.DropTable(
                 name: "CustomerReviews");

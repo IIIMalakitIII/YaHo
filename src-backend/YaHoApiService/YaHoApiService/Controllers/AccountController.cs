@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -8,10 +7,9 @@ using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User;
 using YaHo.YaHoApiService.BLL.Contracts.ServiceResults.CreateResult;
 using YaHo.YaHoApiService.ViewModels.UserViewModels.Auth;
-using YaHo.YaHoApiService.ViewModels.UserViewModels.Get;
 using YaHo.YaHoApiService.ViewModels.UserViewModels.Update;
 
-namespace YaHo.YaHoApiService.Controller
+namespace YaHo.YaHoApiService.Controllers
 {
     [Route("api/Account")]
     [ApiController]
@@ -20,7 +18,7 @@ namespace YaHo.YaHoApiService.Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public class AccountController : ControllerBase
+    public class AccountController : BaseApiController
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
@@ -29,27 +27,6 @@ namespace YaHo.YaHoApiService.Controller
         {
             _mapper = mapper;
             _userService = userService;
-        }
-
-
-        [HttpGet("{userId}")]
-        public async Task<ActionResult<GetUserInfoViewModel>> UserInfo(string userId)
-        {
-            var userViewData = await _userService.GetUserById(userId);
-
-            var userViewModels = _mapper.Map<GetUserInfoViewModel>(userViewData);
-
-            return Ok(userViewModels);
-        }
-
-        [HttpGet("allUser")]
-        public async Task<ActionResult<IEnumerable<GetUserInfoViewModel>>> UsersInfo()
-        {
-            var userViewData = await _userService.GetAllUser();
-
-            var userViewModels = _mapper.Map<IEnumerable<GetUserInfoViewModel>>(userViewData);
-
-            return Ok(userViewModels);
         }
 
         [HttpPut("change-password")]
@@ -69,7 +46,7 @@ namespace YaHo.YaHoApiService.Controller
         }
 
         [HttpPost("sign-up")]
-        public async Task<ActionResult<CreatedViewData>> SignUp(RegisterViewModel model)
+        public async Task<IActionResult> SignUp(RegisterViewModel model)
         {
             var userViewData = _mapper.Map<CreateUserViewData>(model);
 

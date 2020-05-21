@@ -13,8 +13,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
 
             builder.HasKey(x => x.MediaId);
 
-            builder.Property(x => x.FilePath)
-                .HasMaxLength(300);
+            builder.Property(x => x.Picture);
 
             builder.Property(x => x.ContentType)
                 .HasMaxLength(100);

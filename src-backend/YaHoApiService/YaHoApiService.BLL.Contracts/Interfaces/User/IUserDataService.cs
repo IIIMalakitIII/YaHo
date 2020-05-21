@@ -21,5 +21,11 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.User
         Task<UserViewData> GetUserAsync(string userId);
 
         Task ChangePasswordAsync(string userId, string currentPassword, string newPassword);
+
+        Task<bool> UserHasEnoughMoneyAsync(string id, int money);
+
+        Task<bool> FreezeMoneyAsync(string userId, int money);
+
+        Task<bool> DefrostMoneyAsync(string userId, int money);
     }
 }

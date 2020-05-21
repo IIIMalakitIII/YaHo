@@ -44,6 +44,19 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             }
         }
 
+        public async Task<CustomerViewData> GetCustomerByUserIdAsync(string id)
+        {
+            var customerDbo = await _context.CustomersWithoutTracking
+                .Include(x => x.User)
+                .Include(x => x.CustomerReviews)
+                .Where(x => x.UserId == id)
+                .FirstOrDefaultAsync();
+
+            var customerViewData = _mapper.Map<CustomerViewData>(customerDbo);
+
+            return customerViewData;
+        }
+
         public async Task<CustomerViewData> GetCustomerAsync(int id)
         {
             var customerDbo = await _context.CustomersWithoutTracking
@@ -73,8 +86,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
         public async Task UpdateCustomerAsync(CustomerViewData model)
         {
             var customerDbo = await _context.Customers
-                .Include(x => x.User)
-                .Include(x => x.CustomerReviews)
                 .FirstOrDefaultAsync(x => x.CustomerId == model.CustomerId);
 
             if (customerDbo is null)

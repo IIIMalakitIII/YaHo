@@ -27,7 +27,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
 
             builder.Property(x => x.InitialDate);
 
-            builder.Property(x => x.DeliverDate);
+            builder.Property(x => x.DeliveryDate);
 
             builder.Property(x => x.Bargain);
 
