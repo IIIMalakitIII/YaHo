@@ -18,6 +18,8 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
 
             builder.Property(x => x.Rating);
 
+            builder.Property(x => x.TotalRating);
+
             builder.HasIndex(x => x.UserId);
 
             builder.HasOne(x => x.User)

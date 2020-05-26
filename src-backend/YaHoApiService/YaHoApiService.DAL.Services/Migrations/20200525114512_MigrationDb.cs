@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace YaHoApiService.DAL.Services.Migrations
 {
-    public partial class NewMogration : Migration
+    public partial class MigrationDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -166,7 +166,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(maxLength: 300, nullable: true),
-                    Rating = table.Column<int>(nullable: true)
+                    Rating = table.Column<int>(nullable: true),
+                    TotalRating = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -187,7 +188,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(maxLength: 300, nullable: true),
-                    Rating = table.Column<int>(nullable: true)
+                    Rating = table.Column<double>(nullable: false),
+                    TotalRating = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -267,7 +269,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     Description = table.Column<string>(maxLength: 300, nullable: true),
                     DeliveryId = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    Mark = table.Column<int>(nullable: true)
+                    Mark = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -382,22 +384,6 @@ namespace YaHoApiService.DAL.Services.Migrations
                         principalTable: "Products",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Balance", "ConcurrencyStamp", "Description", "Email", "EmailConfirmed", "FirstName", "Hold", "InitialDate", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "a5580b20-e576-48a6-85c4-27656ac6812f", 0, 500, "c6e593ea-d7ac-4262-bb68-c1b7bbc31407", "Hello", "user_1@gmail.com", false, "User_1", 0, new DateTime(2020, 5, 17, 9, 46, 46, 224, DateTimeKind.Utc).AddTicks(4179), "User_1", false, null, null, null, null, "+380500832005", false, "77796317-a095-4f9f-9f31-e201440971e1", false, "User_1 User_1" },
-                    { "8e43fadd-429e-4343-b940-55387dd76a4c", 0, 700, "c3dae7d8-2179-4030-9be3-8ffd145dfd4e", "Hello", "user_2@gmail.com", false, "User_2", 0, new DateTime(2020, 5, 17, 8, 46, 46, 224, DateTimeKind.Utc).AddTicks(5124), "User_2", false, null, null, null, null, "+380500832006", false, "79480a49-7f8e-46b5-bcb1-abeaca3b1f4f", false, "User_2 User_2" },
-                    { "ef90f6f9-1a98-4421-a2b6-b084eae8eb6a", 0, 800, "de813256-f9cf-4be6-975b-8fe631c25b50", "Hello", "user_3@gmail.com", false, "User_3", null, new DateTime(2020, 5, 17, 7, 46, 46, 224, DateTimeKind.Utc).AddTicks(5217), "User_3", false, null, null, null, null, "+380500832007", false, "c09fed34-fb40-4002-af30-a29bdd06d74a", false, "User_3 User_3" },
-                    { "d4c565ec-aa35-48fd-bc35-a96d60eda79f", 0, 200, "fc8ebf66-82ba-4b78-9018-9d8369af577a", "Hello", "user_4@gmail.com", false, "User_4", 0, new DateTime(2020, 5, 17, 6, 46, 46, 224, DateTimeKind.Utc).AddTicks(5231), "User_4", false, null, null, null, null, "+380500832008", false, "f038894f-a72d-4cba-a412-4af971196428", false, "User_4 User_4" },
-                    { "2ae3246c-0451-46e8-aeb8-e59a8efbecdd", 0, 1200, "baed7f14-bf70-4579-bd51-b0f937a73793", "Hello", "user_5@gmail.com", false, "User_5", 0, new DateTime(2020, 5, 17, 5, 46, 46, 224, DateTimeKind.Utc).AddTicks(5244), "User_5", false, null, null, null, null, "+380500832015", false, "07e6c33c-cf43-4122-a668-cf9da7843c2f", false, "User_5 User_5" },
-                    { "062d7a36-8598-4a41-99da-94573f9ca66a", 0, 600, "b09e86c5-9215-4fcc-a6a8-6d38dd53223f", "Hello", "user_6@gmail.com", false, "User_6", 0, new DateTime(2020, 5, 17, 4, 46, 46, 224, DateTimeKind.Utc).AddTicks(5280), "User_6", false, null, null, null, null, "+380500833005", false, "e8fd9714-ddda-46c4-b010-bb4dc54e3e1d", false, "User_6 User_6" },
-                    { "f78d77be-3724-41d8-a8ea-8a0098b5979f", 0, 500, "cee12f17-3bc0-47f5-aa84-8315c88a7388", "Hello", "user_7@gmail.com", false, "User_7", null, new DateTime(2020, 5, 17, 3, 46, 46, 224, DateTimeKind.Utc).AddTicks(5293), "User_7", false, null, null, null, null, "+380500832105", false, "dad65ff3-e302-4796-89ab-6bfe07c98101", false, "User_7 User_7" },
-                    { "83ac8522-a61c-4461-999e-d6902cf6346b", 0, 500, "84c9503e-2ffc-4ad9-987a-0f90e2cb0303", "Hello", "user_8@gmail.com", false, "User_8", 0, new DateTime(2020, 5, 17, 9, 46, 46, 224, DateTimeKind.Utc).AddTicks(5322), "User_8", false, null, null, null, null, "+180500832005", false, "94834cb1-8e81-48b8-863f-0b57caafd048", false, "User_8 User_8" },
-                    { "513e5755-c568-40c9-98aa-06e14a66f622", 0, 500, "ebb17354-7c56-47a4-881c-64c286f97520", "Hello", "user_9@gmail.com", false, "User_9", null, new DateTime(2020, 5, 17, 9, 46, 46, 224, DateTimeKind.Utc).AddTicks(5335), "User_9", false, null, null, null, null, "+380590832005", false, "11990895-c92e-43a6-a873-f9e3072d0089", false, "User_9 User_9" }
                 });
 
             migrationBuilder.CreateIndex(

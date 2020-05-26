@@ -22,6 +22,6 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Product
 
         public OrderViewData Order { get; set; }
 
-        public IEnumerable<MediaViewData> Media { get; set; }
+        public List<MediaViewData> Media { get; set; }
     }
 }

@@ -13,7 +13,9 @@ namespace YaHo.YaHoApiService.ViewModels.CustomerViewModels
         public string Description { get; set; }
 
         public int? Rating { get; set; }
-        
+
+        public int? TotalRating { get; set; }
+
         public UserViewModel UserInfo { get; set; }
         
         public List<CustomerReviewViewModel> CustomerReviews { get; set; }

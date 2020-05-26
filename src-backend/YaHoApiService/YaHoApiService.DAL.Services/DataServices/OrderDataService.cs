@@ -27,8 +27,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             _mapper = mapper;
         }
 
-        public async Task<bool> 
-            IsOrderWithIdExistsAsync(int id)
+        public async Task<bool> IsOrderWithIdExistsAsync(int id)
         {
             return await _context.OrdersWithoutTracking.AnyAsync(x => x.OrderId == id);
         }
@@ -45,6 +44,13 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             var order = await _context.OrdersWithoutTracking.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
 
             return order.OrderStatus == OrderStatus.InProcess;
+        }
+
+        public async Task<bool> IsOrderWithIdInExpectationAsync(int orderId)
+        {
+            var order = await _context.OrdersWithoutTracking.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
+
+            return order.OrderStatus == OrderStatus.InExpectation;
         }
 
         public async Task<bool> IsOrderWithIdInCreatingAsync(int orderId)
@@ -227,21 +233,5 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
             await _context.SaveChangesAsync();
         }
-
-        public async Task GetOrdersForDeliveryAsync(int orderId, int customerId, string newStatus)
-        {
-            /*var orders = await _context.OrdersWithoutTracking
-                .Include(x => x.Customer)
-                .Include(x => x.Products)
-                .ThenInclude(x => x.Media)
-                .Where(x => x.OrderRequests
-                    .Any(u => u.DeliveryId == deliveryId && u.Approved == true))
-                .ToListAsync();
-
-            var ordersViewData = _mapper.Map<List<OrderViewData>>(orders);
-
-            return ordersViewData;*/
-        }
-
     }
 }

@@ -14,6 +14,8 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Customer
 
         public int? Rating { get; set; }
 
+        public int? TotalRating { get; set; }
+
         public UserViewData User { get; set; }
 
         public IEnumerable<CustomerReviewViewData> CustomerReviews { get; set; }

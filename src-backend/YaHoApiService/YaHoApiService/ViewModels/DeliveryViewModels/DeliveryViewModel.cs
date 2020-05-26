@@ -12,10 +12,12 @@ namespace YaHo.YaHoApiService.ViewModels.DeliveryViewModels
 
         public string Description { get; set; }
 
-        public int? Rating { get; set; }
+        public double Rating { get; set; }
+
+        public int TotalRating { get; set; }
 
         public UserViewModel UserInfo { get; set; }
 
-        public List<DeliveryReviewViewModel> DeliveryReviews { get; set; }
+        public IEnumerable<DeliveryReviewViewModel> DeliveryReviews { get; set; }
     }
 }

@@ -9,6 +9,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Delivery;
+using YaHo.YaHoApiService.BAL.Contracts.Interfaces.DeliveryReview;
+using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Media;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Product;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
@@ -119,6 +121,9 @@ namespace YaHoApiService.Configuration
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IConfirmService, ConfirmService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IMediaService, MediaService>();
+            services.AddScoped<IDeliveryReviewService, DeliveryReviewService>();
+
         }
 
         private static void ConfigureDalServices(IServiceCollection services)
@@ -129,6 +134,8 @@ namespace YaHoApiService.Configuration
             services.AddScoped<IOrderDataService, OrderDataService>();
             services.AddScoped<IConfirmDataService, ConfirmDataService>();
             services.AddScoped<IProductDataService, ProductDataService>();
+            services.AddScoped<IMediaDataService, MediaDataService>();
+            services.AddScoped<IDeliveryReviewDataService, DeliveryReviewDataService>();
 
         }
 

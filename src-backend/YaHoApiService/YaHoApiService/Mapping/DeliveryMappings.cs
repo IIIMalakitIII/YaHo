@@ -18,9 +18,19 @@ namespace YaHo.YaHoApiService.Mapping
             #endregion
 
             #region ViewData <= => Dbo
+
             CreateMap<DeliveryViewData, DeliveryDbo>()
-                .ReverseMap();
-            #endregion 
+                .ForMember(d => d.OrderRequests,
+                    m => m.Ignore())
+                .ForMember(d => d.User,
+                    m => m.Ignore())
+                .ForMember(d => d.DeliveryReviews,
+                    m => m.Ignore());
+
+
+            CreateMap<DeliveryDbo, DeliveryViewData>();
+
+            #endregion
         }
     }
 }

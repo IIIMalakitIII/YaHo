@@ -10,7 +10,7 @@
 
         public string UserId { get; set; }
 
-        public int? Mark { get; set; }
+        public int Mark { get; set; }
 
         public DeliveryDbo Delivery { get; set; }
 

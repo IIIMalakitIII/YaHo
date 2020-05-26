@@ -12,6 +12,8 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public int? Rating { get; set; }
 
+        public int? TotalRating { get; set; }
+
         public UserDbo User { get; set; }
 
         public ICollection<CustomerReviewDbo> CustomerReviews { get; set; }
