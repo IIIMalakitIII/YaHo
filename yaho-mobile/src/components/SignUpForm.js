@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, TextInput, Button, Alert} from 'react-native';
 import config from '../../config/default'
 
-export default function SignUpForm() {
+export default function SignUpForm({ navigation }) {
 
     const [state, setState] = React.useState({
         id: null,
@@ -38,6 +38,7 @@ export default function SignUpForm() {
 
             if(response.ok){
                 Alert.alert('Вы усешно зарегистрировались!');
+                navigation.navigate('Sign In');
             }else{
                 const data = await response.json();
                 Alert.alert(data.error || 'Что-то пошло не так');
@@ -109,6 +110,10 @@ export default function SignUpForm() {
                 onPress={() => {
                     register();
                 }}
+            />
+            <Button
+                title="Sign In"
+                onPress={() => navigation.navigate('Sign In')}
             />
         </View>
     );

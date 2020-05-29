@@ -4,7 +4,7 @@ import config from '../../config/default'
 
 
 
-export default function SignInForm() {
+export default function SignInForm({ navigation }) {
 
     const [state, setState] = React.useState({
         email: '',
@@ -42,7 +42,7 @@ export default function SignInForm() {
                     result.token
                 );
 
-                Alert.alert('Добро пожаловать!');
+                navigation.navigate('Profile');
 
             }else{
 
@@ -86,9 +86,16 @@ export default function SignInForm() {
                    login();
                 }}
             />
+
+            <Button
+                title="Sign Up"
+                onPress={() => navigation.navigate('Sign Up')}
+            />
         </View>
     );
 }
+
+
 
 
 const styles = StyleSheet.create({
