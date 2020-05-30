@@ -9,6 +9,8 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
     {
         Task<bool> IsOrderWithIdExistsAsync(int id);
 
+        Task<bool> IsOrderWithIdInExpectationAsync(int orderId);
+
         Task<bool> IsOrderWithIdInProcessAsync(int orderId);
 
         Task<bool> IsOrderWithIdInCreatingAsync(int orderId);

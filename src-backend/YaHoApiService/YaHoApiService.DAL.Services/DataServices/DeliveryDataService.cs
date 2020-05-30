@@ -83,11 +83,12 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
         public async Task UpdateDeliveryAsync(DeliveryViewData model)
         {
             var deliveryDbo = await _context.Deliveries
-                .FirstOrDefaultAsync(x => x.DeliveryId == model.DeliveryId);
+                .Where(x => x.DeliveryId == model.DeliveryId)
+                .FirstOrDefaultAsync();
 
             if (deliveryDbo is null)
             {
-                throw new NotFoundException(EntityNames.Customer, model.DeliveryId);
+                throw new NotFoundException(EntityNames.Delivery, model.DeliveryId);
             }
 
             _mapper.Map(model, deliveryDbo);

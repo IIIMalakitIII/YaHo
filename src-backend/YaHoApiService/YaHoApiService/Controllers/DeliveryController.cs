@@ -67,11 +67,11 @@ namespace YaHo.YaHoApiService.Controllers
         }
 
         [HttpGet("AllDeliveries")]
-        public async Task<ActionResult<IEnumerable<DeliveryViewModel>>> Delivery()
+        public async Task<ActionResult<List<DeliveryViewModel>>> Delivery()
         {
             var deliveriesViewData = await _deliveryService.GetAllDelivery();
 
-            var deliveriesViewModel = _mapper.Map<IEnumerable<DeliveryViewModel>>(deliveriesViewData);
+            var deliveriesViewModel = _mapper.Map<List<DeliveryViewModel>>(deliveriesViewData);
 
             return Ok(deliveriesViewModel);
         }

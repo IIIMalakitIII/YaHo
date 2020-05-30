@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using AutoMapper;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Product;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Media;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Product;
-using YaHo.YaHoApiService.Common.Exceptions;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Product.Update;
 using YaHo.YaHoApiService.Controllers;
 using YaHo.YaHoApiService.ViewModels.ProductViewModels;
+using YaHo.YaHoApiService.ViewModels.ProductViewModels.Update;
 
 namespace YaHoApiService.Controllers
 {
@@ -49,16 +49,19 @@ namespace YaHoApiService.Controllers
             }
 
             var productViewData = _mapper.Map<ProductViewData>(model);
-            productViewData.Media = new List<MediaViewData>();
-            foreach (var file in model.Picture)
+            if (model.Picture != null)
             {
-                productViewData.Media.Append(new MediaViewData()
+                productViewData.Media = new List<MediaViewData>();
+                foreach (var file in model.Picture)
                 {
-                    MediaId = 0,
-                    ProductId = 0,
-                    Picture = ConvertFileToBytes(file),
-                    ContentType = file?.ContentType
-                });
+                    productViewData.Media.Add(new MediaViewData()
+                    {
+                        MediaId = 0,
+                        ProductId = 0,
+                        Picture = ConvertFileToBytes(file),
+                        ContentType = file?.ContentType
+                    });
+                }
             }
 
             await _productService.CreateProduct(productViewData, CurrentUser.CustomerId, CurrentUser.UserId);
@@ -66,6 +69,40 @@ namespace YaHoApiService.Controllers
             return Ok();
         }
 
+        [HttpGet("products-by-order-id")]
+        [DisableRequestSizeLimit]
+        public async Task<ActionResult<IEnumerable<GetProductViewModel>>> ProductsByOrderId(int orderId)
+        {
+            var productsViewData = await _productService.GetProductsByOrderId(orderId, CurrentUser.UserId);
+            var productsViewModel = _mapper.Map<IEnumerable<GetProductViewModel>>(productsViewData);
+
+            return Ok(productsViewModel);
+        }
+
+
+        [HttpGet("product-by-id")]
+        [DisableRequestSizeLimit]
+        public async Task<ActionResult<GetProductViewModel>> ProductById(int productId)
+        {
+            var productViewData = await _productService.GetProductById(productId, CurrentUser.UserId);
+            var productViewModel = _mapper.Map<GetProductViewModel>(productViewData);
+
+            return Ok(productViewModel);
+        }
+
+
+        [HttpPut("product-by-id")]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> ProductInfo(UpdateProductViewModel model)
+        {
+            var productViewData = _mapper.Map<UpdateProductViewData>(model);
+            await _productService.UpdateProductInfo(productViewData, CurrentUser.CustomerId);
+
+            return Ok();
+        }
+
+
+        #region Private_method
 
         private byte[] ConvertFileToBytes(IFormFile file)
         {
@@ -81,7 +118,7 @@ namespace YaHoApiService.Controllers
             return ms.ToArray();
         }
 
-        private bool FilesIsValid(IFormFileCollection files)
+        private bool FilesIsValid(List<IFormFile> files)
         {
             if (files is null)
             {
@@ -105,5 +142,7 @@ namespace YaHoApiService.Controllers
 
             return true;
         }
+
+        #endregion
     }
 }

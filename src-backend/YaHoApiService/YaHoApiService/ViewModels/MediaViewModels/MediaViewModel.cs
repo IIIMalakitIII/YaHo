@@ -15,6 +15,6 @@ namespace YaHo.YaHoApiService.ViewModels.MediaViewModels
         public string ContentType { get; set; }
 
         [AllowedExtensions(new[] { ".jpeg", ".bmp", ".png", ".jpg" })]
-        public IFormFileCollection Picture { get; set; }
+        public byte[] Picture { get; set; }
     }
 }

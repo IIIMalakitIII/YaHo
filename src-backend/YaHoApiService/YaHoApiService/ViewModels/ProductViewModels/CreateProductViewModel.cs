@@ -27,6 +27,6 @@ namespace YaHo.YaHoApiService.ViewModels.ProductViewModels
         public string ProductName { get; set; }
 
         [DataType(DataType.Upload)]
-        public IFormFileCollection Picture { get; set; }
+        public List<IFormFile> Picture { get; set; }
     }
 }

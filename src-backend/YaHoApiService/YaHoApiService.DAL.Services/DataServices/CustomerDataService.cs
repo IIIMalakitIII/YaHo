@@ -29,7 +29,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return await _context.CustomersWithoutTracking.AnyAsync(x => x.CustomerId == id);
         }
 
-
         public async Task CreateCustomerForNewUserAsync(CustomerViewData model)
         {
             var customerDbo = _mapper.Map<CustomerDbo>(model);

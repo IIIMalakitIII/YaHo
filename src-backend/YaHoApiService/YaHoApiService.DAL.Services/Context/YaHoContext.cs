@@ -66,7 +66,7 @@ namespace YaHo.YaHoApiService.DAL.Services.Context
                 .Property(e => e.Id)
                 .ValueGeneratedOnAdd();
 
-            new UserDataBuilder(modelBuilder).SetData();
+            //new UserDataBuilder(modelBuilder).SetData();
         }
     }
 }
