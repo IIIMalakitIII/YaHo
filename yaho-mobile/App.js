@@ -1,29 +1,60 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Home from "./src/components/Home";
-import Profile from "./src/components/Profile";
+import {createDrawerNavigator} from "@react-navigation/drawer";
 import SignInForm from "./src/components/SignInForm";
 import SignUpForm from "./src/components/SignUpForm";
+import SignOut from "./src/components/SignOut";
+import Profile from "./src/components/Profile";
+import AsyncStorage from "@react-native-community/async-storage";
 
 
-
-const Stack = createStackNavigator();
-
+const Drawer = createDrawerNavigator();
 
 export default function App() {
 
+
+
+    const [token, setToken] = React.useState(null);
+
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('jwt');
+
+            if(value !== null) {
+
+               setToken(value);
+               return value;
+            }
+
+            return null;
+        } catch(e) {
+            console.log(e);
+        }
+    };
+
+    const userToken = getData();
+
+
+    console.log("token: ",token);
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="SignInForm">
-                <Stack.Screen name="Sign In" component={SignInForm} />
-                <Stack.Screen name="Sign Up" component={SignUpForm} />
-                <Stack.Screen name="Profile" component={Profile} />
-                <Stack.Screen name="Home" component={Home} />
-            </Stack.Navigator>
+            <Drawer.Navigator>
+                {
+                    token == null ? (
+                        <>
+                            <Drawer.Screen name="Sign In" component={SignInForm} initialParams={{setToken}}/>
+                            <Drawer.Screen name="Sign Up" component={SignUpForm} />
+                        </>
+                    ) : (
+                        <>
+                            <Drawer.Screen name="Profile" component={Profile} />
+                            <Drawer.Screen name="Sign Out" component={SignOut} initialParams={{setToken}} />
+                        </>
+                    )
+                }
+            </Drawer.Navigator>
         </NavigationContainer>
     );
 
 }
-
 

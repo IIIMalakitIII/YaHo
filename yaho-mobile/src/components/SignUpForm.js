@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, TextInput, Button, Alert} from 'react-native';
 import config from '../../config/default'
 
+
 export default function SignUpForm({ navigation }) {
 
     const [state, setState] = React.useState({
@@ -115,6 +116,7 @@ export default function SignUpForm({ navigation }) {
                 title="Sign In"
                 onPress={() => navigation.navigate('Sign In')}
             />
+
         </View>
     );
 }

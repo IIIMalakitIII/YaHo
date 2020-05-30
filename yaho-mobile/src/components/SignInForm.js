@@ -1,19 +1,28 @@
 import React from 'react';
-import {View, StyleSheet, TextInput, Button, Alert, AsyncStorage} from 'react-native';
+import {View, StyleSheet, TextInput, Button, Alert} from 'react-native';
 import config from '../../config/default'
+import AsyncStorage from "@react-native-community/async-storage";
 
 
 
-export default function SignInForm({ navigation }) {
+
+export default function SignInForm({ route, navigation}) {
 
     const [state, setState] = React.useState({
-        email: '',
-        password: ''
+        email: 'mongo@gmail.com',
+        password: 'mongo123456'
     });
 
 
-    async function  login(){
+    const storeData = async (value) => {
+        try {
+            await AsyncStorage.setItem('jwt', value);
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
+    async function  login(){
 
         try{
             const url = config.url + '/api/Account/sign-in';
@@ -37,12 +46,10 @@ export default function SignInForm({ navigation }) {
 
             if(response.ok){
 
-                await AsyncStorage.setItem(
-                    'jwt',
+                await storeData(
                     result.token
                 );
-
-                navigation.navigate('Profile');
+                route.params.setToken(result.token);
 
             }else{
 
@@ -91,6 +98,7 @@ export default function SignInForm({ navigation }) {
                 title="Sign Up"
                 onPress={() => navigation.navigate('Sign Up')}
             />
+
         </View>
     );
 }
