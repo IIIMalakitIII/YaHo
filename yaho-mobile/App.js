@@ -12,8 +12,6 @@ const Drawer = createDrawerNavigator();
 
 export default function App() {
 
-
-
     const [token, setToken] = React.useState(null);
 
     const getData = async () => {
@@ -21,11 +19,9 @@ export default function App() {
             const value = await AsyncStorage.getItem('jwt');
 
             if(value !== null) {
-
                setToken(value);
                return value;
             }
-
             return null;
         } catch(e) {
             console.log(e);
@@ -35,7 +31,6 @@ export default function App() {
     const userToken = getData();
 
 
-    console.log("token: ",token);
     return (
         <NavigationContainer>
             <Drawer.Navigator>

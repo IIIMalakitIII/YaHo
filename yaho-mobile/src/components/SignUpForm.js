@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, TextInput, Button, Alert} from 'react-native';
+import {View, StyleSheet, Alert, ScrollView} from 'react-native';
 import config from '../../config/default'
+import { Button, Input } from 'react-native-elements';
 
 
 export default function SignUpForm({ navigation }) {
@@ -20,7 +21,6 @@ export default function SignUpForm({ navigation }) {
 
         try{
             const url = config.url + '/api/Account/sign-up';
-            //console.log(state);
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -52,82 +52,120 @@ export default function SignUpForm({ navigation }) {
     }
 
     return (
+        <ScrollView >
+        <View style={styles.main}>
+            <View style={styles.container}/>
+            <View style={styles.container}>
 
-        <View>
-            <TextInput
+                <View style={styles.inputBlock}>
 
-                name = 'firstName'
-                placeholder = 'first name'
-                style={styles.form}
-                onChangeText={text => setState({
-                    ...state,
-                    firstName: text
-                })}
-                value={state.firstName}
-            />
-            <TextInput
-                name = 'lastName'
-                placeholder = 'last name'
-                style={styles.form}
-                onChangeText={text => setState({
-                    ...state,
-                    lastName: text
-                })}
-                value={state.lastName}
-            />
-            <TextInput
-                name = 'phoneNumber'
-                placeholder = 'phone number'
-                style={styles.form}
-                onChangeText={text => setState({
-                    ...state,
-                    phoneNumber: text
-                })}
-                value={state.phoneNumber}
-            />
-            <TextInput
-                name = 'email'
-                placeholder = 'email'
-                style={styles.form}
-                onChangeText={text => setState({
-                    ...state,
-                    email: text
-                })}
-                value={state.email}
-            />
-            <TextInput
-                name = 'password'
-                placeholder = 'password'
-                style={styles.form}
-                onChangeText={text => setState({
-                    ...state,
-                    password: text
-                })}
-                value={state.password}
-            />
-            <Button
-                color='#341bff'
-                title='Sing Up'
-                onPress={() => {
-                    register();
-                }}
-            />
-            <Button
-                title="Sign In"
-                onPress={() => navigation.navigate('Sign In')}
-            />
+                    <Input
+                        name = 'firstName'
+                        placeholder = 'first name'
+                        style={styles.form}
+                        onChangeText={text => setState({
+                            ...state,
+                            firstName: text
+                        })}
+                        value={state.firstName}
+                    />
+                    <Input
+                        name = 'lastName'
+                        placeholder = 'last name'
+                        style={styles.form}
+                        onChangeText={text => setState({
+                            ...state,
+                            lastName: text
+                        })}
+                        value={state.lastName}
+                    />
+                    <Input
+                        name = 'phoneNumber'
+                        placeholder = 'phone number'
+                        style={styles.form}
+                        onChangeText={text => setState({
+                            ...state,
+                            phoneNumber: text
+                        })}
+                        value={state.phoneNumber}
+                    />
+                    <Input
+                        name = 'email'
+                        placeholder = 'email'
+                        style={styles.form}
+                        onChangeText={text => setState({
+                            ...state,
+                            email: text
+                        })}
+                        value={state.email}
+                    />
+                    <Input
+                        name = 'password'
+                        placeholder = 'password'
+                        style={styles.form}
+                        onChangeText={text => setState({
+                            ...state,
+                            password: text
+                        })}
+                        value={state.password}
+                    />
 
+                </View>
+
+                <View style={styles.buttonBlock}>
+                    <View style={styles.button}>
+                        <Button
+
+                            type="solid"
+                            title='Sing Up'
+                            onPress={() => {
+                                register();
+                            }}
+                        />
+                    </View>
+
+                    <View style={styles.button}>
+                        <Button
+                            type="outline"
+                            title="Sign In"
+                            onPress={() => navigation.navigate('Sign In')}
+                        />
+                    </View>
+                </View>
+            </View>
+            <View style={styles.container}/>
         </View>
+        </ScrollView>
+
     );
 }
 
 
 const styles = StyleSheet.create({
-    form: {
-        height: 40,
-        borderColor: '#000',
-        borderWidth: 1,
-        width: 300
-    }
+    main: {
+        justifyContent: 'center',
+        flexDirection: 'column'
+    },
+    container: {
+        height:220,
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    buttonBlock: {
+        marginTop: 40,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    inputBlock: {
 
+        width:340,
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    button:{
+        width: 150,
+        marginLeft: 10,
+        marginRight: 10
+    },
 });
