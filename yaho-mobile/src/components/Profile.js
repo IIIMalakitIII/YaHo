@@ -16,7 +16,7 @@ export default function Profile({ route, navigation }) {
 
 
     const getInfo = async () => {
-        try{
+            try{
 
             const token = await AsyncStorage.getItem('jwt');
 
