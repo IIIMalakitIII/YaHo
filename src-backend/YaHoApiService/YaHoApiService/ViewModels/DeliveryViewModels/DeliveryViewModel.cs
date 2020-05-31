@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using YaHo.YaHoApiService.ViewModels.DeliveryReviewViewModels;
-using YaHo.YaHoApiService.ViewModels.UserViewModels;
+﻿using YaHo.YaHoApiService.ViewModels.UserViewModels;
 
 namespace YaHo.YaHoApiService.ViewModels.DeliveryViewModels
 {
@@ -14,10 +12,8 @@ namespace YaHo.YaHoApiService.ViewModels.DeliveryViewModels
 
         public double Rating { get; set; }
 
-        public int TotalRating { get; set; }
+        public int TotalReviewCount { get; set; }
 
         public UserViewModel UserInfo { get; set; }
-
-        public IEnumerable<DeliveryReviewViewModel> DeliveryReviews { get; set; }
     }
 }

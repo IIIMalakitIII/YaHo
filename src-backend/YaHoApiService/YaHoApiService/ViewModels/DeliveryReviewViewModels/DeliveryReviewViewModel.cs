@@ -16,7 +16,5 @@ namespace YaHo.YaHoApiService.ViewModels.DeliveryReviewViewModels
         public int Mark { get; set; }
 
         public UserViewModel User { get; set; }
-
-        public DeliveryViewModel Delivery { get; set; }
     }
 }

@@ -8,10 +8,12 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer;
+using YaHo.YaHoApiService.BAL.Contracts.Interfaces.CustomerReview;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Delivery;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.DeliveryReview;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Media;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
+using YaHo.YaHoApiService.BAL.Contracts.Interfaces.OrderRequest;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Product;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
 using YaHo.YaHoApiService.BLL.Contracts.Interfaces.Confirm;
@@ -123,6 +125,8 @@ namespace YaHoApiService.Configuration
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IDeliveryReviewService, DeliveryReviewService>();
+            services.AddScoped<ICustomerReviewService, CustomerReviewService>();
+            services.AddScoped<IOrderRequestService, OrderRequestService>();
 
         }
 
@@ -136,6 +140,8 @@ namespace YaHoApiService.Configuration
             services.AddScoped<IProductDataService, ProductDataService>();
             services.AddScoped<IMediaDataService, MediaDataService>();
             services.AddScoped<IDeliveryReviewDataService, DeliveryReviewDataService>();
+            services.AddScoped<ICustomerReviewDataService, CustomerReviewDataService>();
+            services.AddScoped<IOrderRequestDataService, OrderRequestDataService>();
 
         }
 

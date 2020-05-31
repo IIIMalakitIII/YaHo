@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -69,8 +70,16 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
                 .ThenInclude(x => x.User)
                 .AnyAsync(x => x.OrderId == orderId &&
                                (x.Customer.User.Id == userId ||
-                                (x.OrderRequests.Any(u => u.Delivery.UserId == userId &&
-                                                          u.Approved == true))));
+                                x.OrderRequests.Any(u => u.Delivery.UserId == userId &&
+                                                          u.Approved == true)));
+        }
+
+        public async Task<bool> ThisOrderNoOneApprovedAsync(int orderId)
+        {
+            return await _context.OrdersWithoutTracking
+                .Include(x => x.OrderRequests)
+                .AnyAsync(x => x.OrderId == orderId &&
+                               x.OrderRequests.All(u => u.Approved != true));
         }
 
         public async Task<int> CreateOrderAsync(OrderViewData model)
@@ -111,7 +120,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
                 .Include(x => x.Customer)
                 .Include(x => x.Products)
                     .ThenInclude(x => x.Media)
-                .Where(x => x.OrderStatus == OrderStatus.InProcess)
+                .Where(x => x.OrderStatus == OrderStatus.InExpectation)
                 .FilterBy(filter.DeliveryСountry,
                     filter.DeliveryCity,
                     filter.DeliveryAddress,
@@ -127,7 +136,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
             return orderViewData;
         }
-
 
         public async Task<OrderViewData> GetOrderByIdForCustomerAsync(int orderId)
         {
@@ -177,7 +185,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
         {
 
             var orders = await _context.OrdersWithoutTracking
-                .Include(x => x.Customer)
                 .Include(x => x.OrderRequests)
                 .Include(x => x.Products)
                     .ThenInclude(x => x.Media)
@@ -219,6 +226,22 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateOrderExpectedDateAsync(int orderId, DateTime newExpectedDate)
+        {
+            var orderDbo = await _context.Orders
+                .FirstOrDefaultAsync(x => x.OrderId == orderId);
+
+            if (orderDbo is null)
+            {
+                throw new NotFoundException(EntityNames.Order, orderId);
+            }
+
+            orderDbo.ExpectedDate = newExpectedDate;
+            _context.Orders.Update(orderDbo);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task UpdateOrderInfoAsync(UpdateOrderViewData order)
         {
             var orderDbo = await _context.Orders
@@ -230,6 +253,23 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             }
 
             _mapper.Map(order, orderDbo);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrderStatusAsync(int orderId, OrderStatus orderStatus)
+        {
+            var orderDbo = await _context.Orders
+                .FirstOrDefaultAsync(x => x.OrderId == orderId);
+
+            if (orderDbo is null)
+            {
+                throw new NotFoundException(EntityNames.Order, orderId);
+            }
+
+            orderDbo.OrderStatus = orderStatus;
+
+            _context.Orders.Update(orderDbo);
 
             await _context.SaveChangesAsync();
         }

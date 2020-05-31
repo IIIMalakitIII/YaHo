@@ -32,9 +32,7 @@ namespace YaHo.YaHoApiService.ViewModels.OrderViewModels
 
         public string DeliveryFrom { get; set; }
 
-        public OrderStatus? OrderStatus { get; set; }
-
-        public DateTime ExpectedDateFault { get; set; }
+        public string OrderStatus { get; set; }
 
         public CustomerViewModel Customer { get; set; }
 

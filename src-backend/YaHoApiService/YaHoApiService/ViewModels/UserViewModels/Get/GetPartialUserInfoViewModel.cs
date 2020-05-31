@@ -8,8 +8,8 @@ namespace YaHo.YaHoApiService.ViewModels.UserViewModels.Get
     {
         public DateTime? InitialDate { get; set; }
 
-        public CustomerViewModel Customer { get; set; }
+        public GetCustomerViewModel Customer { get; set; }
 
-        public DeliveryViewModel Delivery { get; set; }
+        public GetDeliveryViewModel Delivery { get; set; }
     }
 }

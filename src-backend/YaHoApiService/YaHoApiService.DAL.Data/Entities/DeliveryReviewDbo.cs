@@ -15,7 +15,5 @@
         public DeliveryDbo Delivery { get; set; }
 
         public UserDbo User { get; set; }
-
-
     }
 }

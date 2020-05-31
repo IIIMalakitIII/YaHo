@@ -1,4 +1,5 @@
-﻿using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Delivery;
+﻿using System;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Delivery;
 
 namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.OrderRequest
 {
@@ -12,6 +13,9 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.OrderRequest
 
         public bool? Approved { get; set; }
 
+        public DateTime? InitialDate { get; set; }
+
         public DeliveryViewData Delivery { get; set; }
+
     }
 }

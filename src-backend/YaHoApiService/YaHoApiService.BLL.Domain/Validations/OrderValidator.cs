@@ -22,6 +22,14 @@ namespace YaHo.YaHoApiService.BLL.Domain.Validations
             }
         }
 
+        public async Task CheckThisOrderNoOneApproved(int orderId)
+        {
+            if (!await _orderDataService.ThisOrderNoOneApprovedAsync(orderId))
+            {
+                throw new ValidationException($"Delivery already approved");
+            }
+        }
+
         public async Task CheckOrderOfThisCustomer(int orderId, int customerId)
         {
             if (!await _orderDataService.OrderOfThisCustomerAsync(orderId, customerId))
@@ -43,6 +51,14 @@ namespace YaHo.YaHoApiService.BLL.Domain.Validations
             if (!await _orderDataService.IsOrderWithIdInCreatingAsync(orderId))
             {
                 throw new ValidationException($"Order not in creating, change order status to creating.");
+            }
+        }
+
+        public async Task CheckOrderStatusInExpectation(int orderId)
+        {
+            if (!await _orderDataService.IsOrderWithIdInExpectationAsync(orderId))
+            {
+                throw new ValidationException($"Order not in expectation");
             }
         }
 

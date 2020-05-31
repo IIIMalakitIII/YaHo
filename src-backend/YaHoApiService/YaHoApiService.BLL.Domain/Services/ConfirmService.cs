@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer;
@@ -21,8 +20,6 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
 
         private readonly IUserDataService _userDataService;
 
-        private readonly IMapper _mapper;
-
         private readonly DeliveryValidator _deliveryValidator;
 
         private readonly UserValidator _userValidator;
@@ -34,14 +31,13 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
         private readonly ConfirmValidator _confirmValidator;
 
         public ConfirmService(IOrderDataService orderDataService,
-            IUserDataService userDataService, IMapper mapper,
+            IUserDataService userDataService,
             IDeliveryDataService deliveryDataService,
             IConfirmDataService confirmDataService,
             ICustomerDataService customerDataService)
         {
             _orderDataService = orderDataService;
             _confirmDataService = confirmDataService;
-            _mapper = mapper;
             _confirmValidator = new ConfirmValidator(confirmDataService);
             _userDataService = userDataService;
             _userValidator = new UserValidator(userDataService);
@@ -49,6 +45,8 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             _customerValidator = new CustomerValidator(customerDataService);
             _orderValidator = new OrderValidator(orderDataService);
         }
+
+        #region ConfirmDeliveryCharge
 
         public async Task CreateConfirmChangeDeliveryCharge(CreateConfirmDeliveryChargeViewData model, string userId,
             int customerId)
@@ -94,7 +92,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             if (canDelete)
             {
                 var deleteResult = await _confirmDataService.DeleteConfirmDeliveryChargeAsync(confirmDelete.Id);
-                
+
                 if (deleteResult && confirmDelete.NewPrice > confirmDelete.PreviousPrice)
                 {
                     await _userDataService.DefrostMoneyAsync(userId, confirmDelete.NewPrice - confirmDelete.PreviousPrice);
@@ -132,13 +130,133 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             await _confirmDataService.UpdateConfirmDeliveryChargeAsync(id, deliveryConfirm);
         }
 
+        #endregion
+
+
+        #region ConfirmExpectedDate
+
+        public async Task CreateConfirmConfirmExpectedDateLikeCustomer(CreateConfirmExpectedDateViewData model, int customerId, string userId)
+        {
+            await _customerValidator.CheckCustomerWithThisIdExists(customerId);
+            await _orderValidator.CheckOrderWithThisIdExists(model.OrderId);
+            await _orderValidator.CheckOrderOfThisCustomer(model.OrderId, customerId);
+            await _orderValidator.CheckOrderStatusInProcess(model.OrderId);
+            await _confirmValidator.AnyExpectedDateActiveConfirm(model.OrderId);
+
+            var order = await _orderDataService.GetOrderByIdAsync(model.OrderId);
+            model.PreviousExpectedDate = order.ExpectedDate;
+            model.InitialDate = DateTime.UtcNow;
+            model.CustomerConfirm = true;
+            model.CreaterId = userId;
+
+            await _confirmDataService.CreateConfirmForExpectedDateAsync(model);
+        }
+
+        public async Task CreateConfirmConfirmExpectedDateLikeDelivery(CreateConfirmExpectedDateViewData model, string userId)
+        {
+            await _userValidator.CheckUserWithThisIdExists(userId);
+            await _orderValidator.CheckOrderWithThisIdExists(model.OrderId);
+            await _orderValidator.CheckThisUserHaveAccess(model.OrderId, userId);
+            await _orderValidator.CheckOrderStatusInProcess(model.OrderId);
+            await _confirmValidator.AnyExpectedDateActiveConfirm(model.OrderId);
+
+            var order = await _orderDataService.GetOrderByIdAsync(model.OrderId);
+            model.PreviousExpectedDate = order.ExpectedDate;
+            model.InitialDate = DateTime.UtcNow;
+            model.DeliveryConfirm = true;
+            model.CreaterId = userId;
+
+            await _confirmDataService.CreateConfirmForExpectedDateAsync(model);
+        }
+
+        public async Task DeleteConfirmChangeExpectedDate(int id, string userId)
+        {
+            await _userValidator.CheckUserWithThisIdExists(userId);
+            await _confirmValidator.CheckConfirmExpectedDateExists(id);
+            await _confirmValidator.CheckThisUserHaveAccessToDelete(id, userId);
+
+            var confirmDelete = await _confirmDataService.GetConfirmExpectedDateByIdAsync(id);
+
+            var canDelete = CanDeleteConfirmExpectedDate(confirmDelete);
+
+            if (canDelete)
+            {
+                var deleteResult = await _confirmDataService.DeleteConfirmExpectedDateAsync(confirmDelete.Id);
+            }
+            else
+            {
+                throw new BusinessLogicException("Sorry, but you can’t delete this confirmation anymore" +
+                                                 ", because the system or the delivery has already confirmed the action");
+            }
+        }
+
+        public async Task<List<ConfirmExpectedDateViewData>> GetConfirmsExpectedDate(int orderId, string userId)
+        {
+            await _userValidator.CheckUserWithThisIdExists(userId);
+            await _orderValidator.CheckOrderWithThisIdExists(orderId);
+            await _orderValidator.CheckOrderStatusInProcess(orderId);
+            await _orderValidator.CheckThisUserHaveAccess(orderId, userId);
+
+            var confirms = await _confirmDataService.GetConfirmsExpectedDateForOrderAsync(orderId);
+
+            return confirms;
+        }
+
+        public async Task UpdateConfirmExpectedDateLikeDelivery(int id, int deliveryId, bool deliveryConfirm)
+        {
+            await _deliveryValidator.CheckDeliveryWithThisIdExists(deliveryId);
+            await _confirmValidator.CheckConfirmExpectedDateExists(id);
+            await _confirmValidator.CheckConfirmExpectedDateNotAnswered(id);
+            await _confirmValidator.CheckThisDeliveryHaveAccessToExpectedDate(id, deliveryId);
+
+            var confirmGet = await _confirmDataService.GetConfirmExpectedDateByIdAsync(id);
+
+            if (deliveryConfirm)
+            {
+                await _orderDataService.UpdateOrderExpectedDateAsync(confirmGet.OrderId, confirmGet.NewExpectedDate);
+            }
+
+            await _confirmDataService.UpdateConfirmExpectedDateDeliveryAsync(id, deliveryConfirm);
+        }
+
+        public async Task UpdateConfirmExpectedDateLikeCustomer(int id, int customerId, bool customerConfirm)
+        {
+            await _customerValidator.CheckCustomerWithThisIdExists(customerId);
+            await _confirmValidator.CheckConfirmExpectedDateExists(id);
+            await _confirmValidator.CheckConfirmExpectedDateNotAnswered(id);
+            await _confirmValidator.CheckThisCustomerHaveAccessToExpectedDate(id, customerId);
+
+            var confirmGet = await _confirmDataService.GetConfirmExpectedDateByIdAsync(id);
+
+            if (customerConfirm)
+            {
+                await _orderDataService.UpdateOrderExpectedDateAsync(confirmGet.OrderId, confirmGet.NewExpectedDate);
+            }
+
+            await _confirmDataService.UpdateConfirmExpectedDateCustomerAsync(id, customerConfirm);
+        }
+        
+        #endregion
+
 
         #region Private_method
 
         private bool CanDeleteConfirmDeliveryCharge(ConfirmDeliveryChargeViewData model)
+            {
+                if (!model.AutomaticConfirm.HasValue &&
+                    !model.DeliveryConfirm.HasValue)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+        private bool CanDeleteConfirmExpectedDate(ConfirmExpectedDateViewData model)
         {
-            if (!model.AutomaticConfirm.HasValue &&
-                !model.DeliveryConfirm.HasValue)
+            if (!model.AutomaticConfirm.HasValue && 
+                (!model.DeliveryConfirm.HasValue || 
+                 !model.CustomerConfirm.HasValue))
             {
                 return true;
             }

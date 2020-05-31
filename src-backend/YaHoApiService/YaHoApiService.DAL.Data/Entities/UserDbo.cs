@@ -12,9 +12,9 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public string Description { get; set; }
 
-        public int? Balance { get; set; }
+        public int Balance { get; set; }
 
-        public int? Hold { get; set; }
+        public int Hold { get; set; }
 
         public DateTime InitialDate { get; set; }
 
@@ -25,6 +25,11 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
         public ICollection<DeliveryReviewDbo> DeliveryReviews { get; set; }
 
         public ICollection<CustomerReviewDbo> CustomerReviews { get; set; }
+
+        public ICollection<ConfirmExpectedDateDbo> ConfirmsExpectedDate { get; set; }
+
+        public ICollection<ConfirmOrderStatusDbo> ConfirmsOrderStatus { get; set; }
+        
 
     }
 }

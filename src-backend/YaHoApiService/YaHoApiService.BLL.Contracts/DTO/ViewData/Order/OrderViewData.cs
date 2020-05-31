@@ -33,8 +33,6 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order
 
         public OrderStatus? OrderStatus { get; set; }
 
-        public DateTime ExpectedDateFault { get; set; }
-
         public CustomerViewData Customer { get; set; }
 
         public IEnumerable<ProductViewData> Products { get; set; }

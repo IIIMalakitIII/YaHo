@@ -12,7 +12,7 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public double Rating { get; set; }
 
-        public int TotalRating { get; set; }
+        public int TotalReviewCount { get; set; }
 
         public UserDbo User { get; set; }
          

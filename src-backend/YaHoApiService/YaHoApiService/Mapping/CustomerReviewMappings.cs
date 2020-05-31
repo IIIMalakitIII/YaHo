@@ -14,6 +14,9 @@ namespace YaHo.YaHoApiService.Mapping
             CreateMap<CustomerReviewViewModel, CustomerReviewViewData>()
                 .ReverseMap();
 
+            CreateMap<LeaveCustomerReview, CustomerReviewViewData>()
+                .ReverseMap();
+
             #endregion
 
             #region ViewData <= => Dbo

@@ -1,19 +1,21 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Net.Mime;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
+using YaHo.YaHoApiService.Configuration;
 using YaHo.YaHoApiService.ViewModels.UserViewModels.Get;
 
 namespace YaHo.YaHoApiService.Controllers
 {
     [Route("api/UserInfo")]
     [ApiController]
-    [Consumes(MediaTypeNames.Application.Json)]
-    [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -48,6 +50,5 @@ namespace YaHo.YaHoApiService.Controllers
 
             return Ok(userViewModels);
         }
-
     }
 }

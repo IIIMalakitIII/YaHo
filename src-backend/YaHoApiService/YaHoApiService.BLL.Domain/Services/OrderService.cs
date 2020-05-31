@@ -119,6 +119,8 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             await _customerValidator.CheckCustomerWithThisIdExists(customerId);
             await _orderValidator.CheckOrderOfThisCustomer(model.OrderId, customerId);
 
+            // Check order not done 
+
         }
 
         public async Task UpdateOrderInfo(UpdateOrderViewData model, int customerId)

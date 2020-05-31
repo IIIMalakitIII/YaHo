@@ -18,6 +18,11 @@
 
         public const string OrderRequests = "OrderRequests";
 
-        public const string ConfirmDeliveryCharges = "ConfirmDeliveryCharges";
+        public const string ConfirmsDeliveryCharge = "ConfirmsDeliveryCharge";
+
+        public const string ConfirmsExpectedDate = "ConfirmsExpectedDate";
+
+        public const string ConfirmsOrderStatus = "ConfirmsOrderStatus";
+        
     }
 }

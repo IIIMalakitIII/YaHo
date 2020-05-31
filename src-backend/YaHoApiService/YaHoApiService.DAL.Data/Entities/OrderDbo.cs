@@ -30,8 +30,6 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public OrderStatus? OrderStatus { get; set; }
 
-        public DateTime ExpectedDateFault { get; set; }
-
         public CustomerDbo Customer { get; set; }
 
         public ICollection<ProductDbo> Products { get; set; }
@@ -40,6 +38,8 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public ICollection<ConfirmDeliveryChargeDbo> ConfirmDeliveryCharges { get; set; }
 
+        public ICollection<ConfirmExpectedDateDbo> ConfirmsExpectedDate { get; set; }
 
+        public ICollection<ConfirmOrderStatusDbo> ConfirmsOrderStatus { get; set; }
     }
 }

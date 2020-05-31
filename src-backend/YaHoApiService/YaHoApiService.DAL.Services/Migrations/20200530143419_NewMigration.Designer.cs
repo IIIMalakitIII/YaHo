@@ -10,8 +10,8 @@ using YaHo.YaHoApiService.DAL.Services.Context;
 namespace YaHoApiService.DAL.Services.Migrations
 {
     [DbContext(typeof(YaHoContext))]
-    [Migration("20200525114512_MigrationDb")]
-    partial class MigrationDb
+    [Migration("20200530143419_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -184,7 +184,47 @@ namespace YaHoApiService.DAL.Services.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("ConfirmDeliveryCharges");
+                    b.ToTable("ConfirmsDeliveryCharge");
+                });
+
+            modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.ConfirmExpectedDateDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool?>("AutomaticConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CreaterId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("CustomerConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("DeliveryConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("InitialDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("NewExpectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PreviousExpectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreaterId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("ConfirmsExpectedDate");
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.CustomerDbo", b =>
@@ -198,10 +238,10 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
 
-                    b.Property<int?>("Rating")
-                        .HasColumnType("int");
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("TotalRating")
+                    b.Property<int>("TotalReviewCount")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -230,7 +270,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
 
-                    b.Property<int?>("Mark")
+                    b.Property<int>("Mark")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -259,7 +299,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
-                    b.Property<int>("TotalRating")
+                    b.Property<int>("TotalReviewCount")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -361,9 +401,6 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<DateTime>("ExpectedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ExpectedDateFault")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("InitialDate")
                         .HasColumnType("datetime2");
 
@@ -453,7 +490,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Balance")
+                    b.Property<int>("Balance")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -476,7 +513,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<int?>("Hold")
+                    b.Property<int>("Hold")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("InitialDate")
@@ -588,6 +625,20 @@ namespace YaHoApiService.DAL.Services.Migrations
                 {
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.OrderDbo", "Order")
                         .WithMany("ConfirmDeliveryCharges")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.ConfirmExpectedDateDbo", b =>
+                {
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", "User")
+                        .WithMany("ConfirmsExpectedDate")
+                        .HasForeignKey("CreaterId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.OrderDbo", "Order")
+                        .WithMany("ConfirmsExpectedDate")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
