@@ -22,9 +22,11 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
             builder.Property(x => x.Description)
                 .HasMaxLength(300);
 
-            builder.Property(x => x.Price);
+            builder.Property(x => x.Price)
+                .HasColumnType("decimal(18,1)");
 
-            builder.Property(x => x.Tax);
+            builder.Property(x => x.Tax)
+                .HasColumnType("decimal(18,1)");
 
             builder.HasIndex(x => x.OrderId);
 

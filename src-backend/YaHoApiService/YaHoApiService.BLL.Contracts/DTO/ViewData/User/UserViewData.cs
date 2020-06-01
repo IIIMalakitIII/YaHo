@@ -8,6 +8,8 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User
     {
         public string Id { get; set; }
 
+        public int? TelegramId { get; set; }
+
         public string UserName { get; set; }
 
         public string FirstName { get; set; }
@@ -20,9 +22,9 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User
 
         public string Description { get; set; }
 
-        public int? Balance { get; set; }
+        public decimal? Balance { get; set; }
 
-        public int? Hold { get; set; }
+        public decimal? Hold { get; set; }
 
         public DateTime? InitialDate { get; set; }
 

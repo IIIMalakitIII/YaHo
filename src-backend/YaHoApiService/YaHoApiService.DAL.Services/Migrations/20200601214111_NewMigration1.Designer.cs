@@ -10,8 +10,8 @@ using YaHo.YaHoApiService.DAL.Services.Context;
 namespace YaHoApiService.DAL.Services.Migrations
 {
     [DbContext(typeof(YaHoContext))]
-    [Migration("20200530143419_NewMigration")]
-    partial class NewMigration
+    [Migration("20200601214111_NewMigration1")]
+    partial class NewMigration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -171,14 +171,14 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<DateTime>("InitialDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NewPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("NewPrice")
+                        .HasColumnType("decimal(18,1)");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PreviousPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("PreviousPrice")
+                        .HasColumnType("decimal(18,1)");
 
                     b.HasKey("Id");
 
@@ -225,6 +225,46 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("ConfirmsExpectedDate");
+                });
+
+            modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.ConfirmOrderStatusDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool?>("AutomaticConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CreaterId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("CustomerConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("DeliveryConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("InitialDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NewStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreviousStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreaterId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("ConfirmsOrderStatus");
                 });
 
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.CustomerDbo", b =>
@@ -343,6 +383,28 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.ToTable("DeliveryReviews");
                 });
 
+            modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.LiqPayOrderDbo", b =>
+                {
+                    b.Property<string>("LiqPayOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("InitialDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Money")
+                        .HasColumnType("decimal(18,1)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LiqPayOrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LiqPayOrders");
+                });
+
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.MediaDbo", b =>
                 {
                     b.Property<int>("MediaId")
@@ -374,9 +436,6 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Bargain")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
@@ -384,8 +443,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DeliveryCharge")
-                        .HasColumnType("int");
+                    b.Property<decimal>("DeliveryCharge")
+                        .HasColumnType("decimal(18,1)");
 
                     b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("datetime2");
@@ -464,15 +523,15 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,1)");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<int>("Tax")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Tax")
+                        .HasColumnType("decimal(18,1)");
 
                     b.HasKey("ProductId");
 
@@ -490,8 +549,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Balance")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,1)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -513,8 +572,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<int>("Hold")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Hold")
+                        .HasColumnType("decimal(18,1)");
 
                     b.Property<DateTime>("InitialDate")
                         .HasColumnType("datetime2");
@@ -549,6 +608,9 @@ namespace YaHoApiService.DAL.Services.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TelegramId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -644,6 +706,20 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.ConfirmOrderStatusDbo", b =>
+                {
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", "User")
+                        .WithMany("ConfirmsOrderStatus")
+                        .HasForeignKey("CreaterId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.OrderDbo", "Order")
+                        .WithMany("ConfirmsOrderStatus")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.CustomerDbo", b =>
                 {
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", "User")
@@ -684,6 +760,14 @@ namespace YaHoApiService.DAL.Services.Migrations
 
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", "User")
                         .WithMany("DeliveryReviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("YaHo.YaHoApiService.DAL.Data.Entities.LiqPayOrderDbo", b =>
+                {
+                    b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.UserDbo", "User")
+                        .WithMany("LiqPayOrders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

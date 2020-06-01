@@ -8,8 +8,6 @@
 
         public string DeliveryAddress { get; set; }
 
-        public bool? Bargain { get; set; }
-
         public string ExpectedDateFrom { get; set; }
 
         public string ExpectedDateTo { get; set; }

@@ -15,9 +15,9 @@ namespace YaHo.YaHoApiService.ViewModels.ConfirmViewModels
 
         public bool? AutomaticConfirm { get; set; }
 
-        public DateTime PreviousPrice { get; set; }
+        public DateTime PreviousExpectedDate { get; set; }
 
-        public DateTime NewPrice { get; set; }
+        public DateTime NewExpectedDate { get; set; }
 
         public DateTime InitialDate { get; set; }
 

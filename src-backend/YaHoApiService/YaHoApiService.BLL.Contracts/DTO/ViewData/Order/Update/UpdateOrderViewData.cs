@@ -6,8 +6,6 @@
 
         public string DeliveryPlace { get; set; }
 
-        public bool Bargain { get; set; }
-
         public string Title { get; set; }
 
         public string Comment { get; set; }

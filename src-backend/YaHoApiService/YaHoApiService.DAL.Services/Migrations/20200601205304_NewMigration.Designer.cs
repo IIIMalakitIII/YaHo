@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YaHo.YaHoApiService.DAL.Services.Context;
 
 namespace YaHoApiService.DAL.Services.Migrations
 {
     [DbContext(typeof(YaHoContext))]
-    partial class YaHoContextModelSnapshot : ModelSnapshot
+    [Migration("20200601205304_NewMigration")]
+    partial class NewMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,13 +172,13 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("NewPrice")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("PreviousPrice")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -391,7 +393,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Money")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -442,7 +444,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("DeliveryCharge")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("datetime2");
@@ -522,14 +524,14 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ProductId");
 
@@ -548,7 +550,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -571,7 +573,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .HasMaxLength(100);
 
                     b.Property<decimal>("Hold")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("InitialDate")
                         .HasColumnType("datetime2");

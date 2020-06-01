@@ -1,6 +1,6 @@
-﻿namespace YaHo.YaHoApiService.ViewModels.UserViewModels
+﻿namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.LiqPayOrder
 {
-    public class LiqPayCheckoutFormModel
+    public class LiqPayDataViewData
     {
         public decimal Money { get; set; }
 

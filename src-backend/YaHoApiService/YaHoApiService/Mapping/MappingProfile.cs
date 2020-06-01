@@ -22,6 +22,8 @@ namespace YaHo.YaHoApiService.Mapping
 
             MapCustomerReviews();
 
+            MapLiqPay();
+
             MapCustomers();
 
             MapUsers();

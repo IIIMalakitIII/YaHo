@@ -16,9 +16,6 @@ namespace YaHo.YaHoApiService.ViewModels.OrderViewModels.Update
         public string DeliveryAddress { get; set; }
 
         [Required]
-        public bool Bargain { get; set; }
-
-        [Required]
         public string Title { get; set; }
 
         [Required]

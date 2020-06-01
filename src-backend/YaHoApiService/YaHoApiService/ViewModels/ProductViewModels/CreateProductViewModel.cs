@@ -13,10 +13,10 @@ namespace YaHo.YaHoApiService.ViewModels.ProductViewModels
         public int OrderId { get; set; }
 
         [Required]
-        public int Price { get; set; }
+        public decimal Price { get; set; }
 
         [Required]
-        public int Tax { get; set; }
+        public decimal Tax { get; set; }
 
         [Required]
         public string Description { get; set; }

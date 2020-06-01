@@ -12,6 +12,10 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.User
 
         Task<bool> IsUserWithIdExistsAsync(string id);
 
+        Task<bool> AnyUserWithThisTokenId(int tokenId);
+
+        Task UpdateUserTelegramIdAsync(int telegramId, string userId);
+
         Task<List<UserViewData>> GetAllUserAsync();
 
         Task UpdateUserAsync(UpdateUserInfoViewData model);
@@ -22,10 +26,12 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.User
 
         Task ChangePasswordAsync(string userId, string currentPassword, string newPassword);
 
-        Task<bool> UserHasEnoughMoneyAsync(string id, int money);
+        Task ReplenishUserBalanceAsync(string userId, decimal money);
 
-        Task<bool> FreezeMoneyAsync(string userId, int money);
+        Task<bool> UserHasEnoughMoneyAsync(string id, decimal money);
 
-        Task<bool> DefrostMoneyAsync(string userId, int money);
+        Task<bool> FreezeMoneyAsync(string userId, decimal money);
+
+        Task<bool> DefrostMoneyAsync(string userId, decimal money);
     }
 }

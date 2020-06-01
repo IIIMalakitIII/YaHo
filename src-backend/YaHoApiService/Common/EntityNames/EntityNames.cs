@@ -23,5 +23,7 @@
         public const string ConfirmDeliveryCharge = "Confirm Delivery Charge"; 
 
         public const string ConfirmsExpectedDate = "Confirm Expected Date";
+
+        public const string LiqPayOrder = "Liq-Pay Order";
     }
 }

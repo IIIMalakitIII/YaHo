@@ -12,6 +12,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{18A593A5-3A5A-417D-998D-8CBDB6961E5F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D97859EB-D2EA-431F-A12E-95B334C78087}"
+	ProjectSection(SolutionItems) = preProject
+		YaHoApiService\Configuration\LiqPayHelper.cs = YaHoApiService\Configuration\LiqPayHelper.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaHoApiService.BLL.Contracts", "YaHoApiService.BLL.Contracts\YaHoApiService.BLL.Contracts.csproj", "{B3D84289-4594-455D-831F-E3F6A4101B35}"
 EndProject

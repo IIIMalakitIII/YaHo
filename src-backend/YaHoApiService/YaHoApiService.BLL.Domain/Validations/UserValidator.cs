@@ -22,7 +22,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Validations
             }
         }
 
-        public async Task CheckUserHasEnoughMoney(string userId, int money)
+        public async Task CheckUserHasEnoughMoney(string userId, decimal money)
         {
             if (!await _userDataService.UserHasEnoughMoneyAsync(userId, money))
             {
@@ -35,6 +35,14 @@ namespace YaHo.YaHoApiService.BLL.Domain.Validations
             if (!await _userDataService.IsUserEmailExistsAsync(email))
             {
                 throw new ValidationException($"No user with this email: '{email}' .");
+            }
+        }
+
+        public async Task CheckUserWithThisTelegramIdExists(int telegramId)
+        {
+            if (!await _userDataService.AnyUserWithThisTokenId(telegramId))
+            {
+                throw new ValidationException($"No user with this telegramId: '{telegramId}' .");
             }
         }
 

@@ -17,5 +17,7 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.User
         Task<List<UserViewData>> GetAllUser();
 
         Task ChangePassword(string userId, string currentPassword, string newPassword);
+
+        Task UpdateUserTelegramId(int telegramId, string userId);
     }
 }

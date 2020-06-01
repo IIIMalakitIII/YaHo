@@ -8,13 +8,15 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
     {
         public string FirstName { get; set; }
 
+        public int? TelegramId { get; set; }
+
         public string LastName { get; set; }
 
         public string Description { get; set; }
 
-        public int Balance { get; set; }
+        public decimal Balance { get; set; }
 
-        public int Hold { get; set; }
+        public decimal Hold { get; set; }
 
         public DateTime InitialDate { get; set; }
 
@@ -29,7 +31,7 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
         public ICollection<ConfirmExpectedDateDbo> ConfirmsExpectedDate { get; set; }
 
         public ICollection<ConfirmOrderStatusDbo> ConfirmsOrderStatus { get; set; }
-        
 
+        public ICollection<LiqPayOrderDbo> LiqPayOrders { get; set; }
     }
 }

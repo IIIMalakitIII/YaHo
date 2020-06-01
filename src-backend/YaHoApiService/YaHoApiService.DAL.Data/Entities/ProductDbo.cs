@@ -8,9 +8,9 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public int OrderId { get; set; }
 
-        public int Price { get; set; }
+        public decimal Price { get; set; }
 
-        public int Tax { get; set; }
+        public decimal Tax { get; set; }
 
         public string Description { get; set; }
 

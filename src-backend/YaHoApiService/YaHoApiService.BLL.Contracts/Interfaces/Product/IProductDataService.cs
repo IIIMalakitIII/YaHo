@@ -19,7 +19,7 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Product
 
         Task UpdateProductInfoAsync(UpdateProductViewData model);
 
-        Task UpdateProductPriceAsync(int projectId, int newPrice, int newTax);
+        Task UpdateProductPriceAsync(int projectId, decimal newPrice, decimal newTax);
 
         Task DeleteProductAsync(int projectId);
     }

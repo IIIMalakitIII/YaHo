@@ -127,7 +127,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
                     filter.DeliveryFromCity,
                     filter.DeliveryFromСountry,
                     filter.Filter,
-                    filter.Bargain,
                     filter.ExpectedDateFrom,
                     filter.ExpectedDateTo)
                 .ToListAsync();

@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using YaHo.YaHoApiService.Common.Helpers;
 
-namespace YaHo.YaHoApiService.Configuration
+namespace YaHo.YaHoApiService.Common.Helpers
 {
     public class LiqPayHelper
     {
         private const string PrivateKey = "sandbox_jzvr1lJZ6kJON5X4C0XUQHWBtsNOciLVRB5lD4hp";
         private const string PublicKey = "sandbox_i10088105046";
 
-        public static async Task<(string, string)> GetLiqPayProcessedData(decimal amount, string orderId, string resultUrl)
+        public static (string, string) GetLiqPayProcessedData(decimal amount, string orderId, string resultUrl)
         {
             var signature = new LiqPayData
             {

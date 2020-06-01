@@ -88,7 +88,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateProductPriceAsync(int projectId, int newPrice, int newTax)
+        public async Task UpdateProductPriceAsync(int projectId, decimal newPrice, decimal newTax)
         {
             var productDbo = await _context.Products
                 .FirstOrDefaultAsync(x => x.ProductId == projectId);
