@@ -13,13 +13,10 @@ namespace YaHo.YaHoApiService.ViewModels.OrderViewModels
         public string DeliveryCity { get; set; }
 
         [Required]
-        public int DeliveryCharge { get; set; }
+        public decimal DeliveryCharge { get; set; }
 
         [Required]
         public string DeliveryAddress { get; set; }
-
-        [Required]
-        public bool Bargain { get; set; }
 
         [Required]
         public string ExpectedDate { get; set; }

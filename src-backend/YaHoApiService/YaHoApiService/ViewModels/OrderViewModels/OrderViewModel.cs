@@ -18,13 +18,11 @@ namespace YaHo.YaHoApiService.ViewModels.OrderViewModels
 
         public DateTime? DeliveryDate { get; set; }
 
-        public bool Bargain { get; set; }
-
         public DateTime ExpectedDate { get; set; }
 
         public int CustomerId { get; set; }
 
-        public int DeliveryCharge { get; set; }
+        public decimal DeliveryCharge { get; set; }
 
         public string Title { get; set; }
 

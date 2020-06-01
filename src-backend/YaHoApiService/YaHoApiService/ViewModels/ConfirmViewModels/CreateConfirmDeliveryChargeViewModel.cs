@@ -8,7 +8,7 @@ namespace YaHoA.YaHoApiService.ViewModels.ConfirmViewModels
         public int OrderId { get; set; }
 
         [Required]
-        public int NewPrice { get; set; }
+        public decimal NewPrice { get; set; }
 
     }
 }

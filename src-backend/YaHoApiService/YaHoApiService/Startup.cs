@@ -1,6 +1,8 @@
+using System.Globalization;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +34,11 @@ namespace YaHo.YaHoApiService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+            });
+
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.ConfigureDbContext(Configuration);
@@ -72,6 +79,19 @@ namespace YaHo.YaHoApiService
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("en"),
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+
             app.UseCors(options =>
                 options.AllowAnyOrigin()
                     .AllowAnyHeader()
@@ -79,7 +99,7 @@ namespace YaHo.YaHoApiService
 
             app.UseRouting();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -90,7 +110,7 @@ namespace YaHo.YaHoApiService
             app.UseSwagger();
             app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "YaHoAPI"));
 
-            //app.MigrateDataBase();
+            app.MigrateDataBase();
         }
     }
 }

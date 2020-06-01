@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User;
-using YaHo.YaHoApiService.Configuration;
+using YaHo.YaHoApiService.BLL.Contracts.Interfaces.LiqPay;
+using YaHo.YaHoApiService.Common.Helpers;
+using YaHo.YaHoApiService.ViewModels.UserViewModels;
 using YaHo.YaHoApiService.ViewModels.UserViewModels.Auth;
 using YaHo.YaHoApiService.ViewModels.UserViewModels.Update;
 
@@ -26,11 +26,13 @@ namespace YaHo.YaHoApiService.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private readonly ILiqPayService _liqPayService;
 
-        public AccountController(IMapper mapper, IUserService userService)
+        public AccountController(IMapper mapper, IUserService userService, ILiqPayService liqPayService)
         {
             _mapper = mapper;
             _userService = userService;
+            _liqPayService = liqPayService;
         }
 
         [HttpPut("change-password")]
@@ -72,23 +74,29 @@ namespace YaHo.YaHoApiService.Controllers
         }
 
 
-        [HttpGet("go-to-liq-pay")]
-        public async Task<ActionResult> GetLiqPayConfiguration(decimal money)
+        [HttpPut("update-user-telegramId")]
+        public async Task<ActionResult> UpdateUser(int telegramId)
         {
-            var (dataHash, signatureHash) = await
-                LiqPayHelper.GetLiqPayProcessedData(money, Guid.NewGuid().ToString(), "http://localhost:4200");
+            await _userService.UpdateUserTelegramId(telegramId, CurrentUser.UserId);
 
-            return Ok(new
-            {
-                Money = money,
-                Data = dataHash,
-                Signature = signatureHash,
-            });
+            return Ok();
+        }
+
+        [HttpPost("go-to-liq-pay")]
+        public async Task<ActionResult<LiqPayCheckoutFormModel>> GetLiqPayConfiguration(decimal money)
+        {
+
+            var liqPayDataViewData = await _liqPayService.CreateLiqPayOrder(money, CurrentUser.UserId);
+
+            var liqPayDataViewModel = _mapper.Map<LiqPayCheckoutFormModel>(liqPayDataViewData);
+
+            return Ok(liqPayDataViewModel);
         }
 
         [HttpPost("liq-pay-result")]
-        public IActionResult LiqPayResult()
+        public async Task<ActionResult> LiqPayResult()
         {
+
             var requestDictionary = Request.Form.Keys.ToDictionary(key => key, key => Request.Form[key]);
 
             var requestData = Convert.FromBase64String(requestDictionary["data"]);
@@ -96,16 +104,23 @@ namespace YaHo.YaHoApiService.Controllers
             var requestDataDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(decodedString);
             var mySignature = LiqPayHelper.GetLiqPaySignature(requestDictionary["data"]);
 
-            if (!mySignature.Equals(requestDictionary["signature"]))
+            if (requestDataDictionary["status"] == "success")
             {
-                //return RedirectToAction("Completed", new { success = false, result = "ERROR" });
+                if (!mySignature.Equals(requestDictionary["signature"]))
+                {
+                    return Redirect("http://localhost:4200/liq-pay-result/error");
+                }
+
+                var orderId = requestDataDictionary["order_id"];
+                var money = Convert.ToDecimal(requestDataDictionary["amount"]);
+
+                await _liqPayService.LiqPayResult(orderId, money);
+
+                return Redirect("http://localhost:4200/liq-pay-result");
             }
 
-            var orderId = requestDataDictionary["order_id"];
-            var transactionId = requestDataDictionary["transaction_id"];
+            return Redirect("http://localhost:4200/liq-pay-result/error");
 
-            //return RedirectToAction("Completed", new { success = true, result = "Success", orderId, transactionId });
-            return Ok();
         }
 
     }

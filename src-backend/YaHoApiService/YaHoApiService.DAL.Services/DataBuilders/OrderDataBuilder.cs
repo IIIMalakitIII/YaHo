@@ -23,7 +23,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     Comment = "Hello",
                     OrderStatus = OrderStatus.InExpectation,
                     CustomerId = 1,
-                    Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
                     InitialDate = DateTime.UtcNow.AddHours(-2)
                 },
@@ -36,7 +35,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     Comment = "Hello",
                     OrderStatus = OrderStatus.InExpectation,
                     CustomerId = 2,
-                    Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
                     InitialDate = DateTime.UtcNow.AddHours(-3)
                 },
@@ -49,7 +47,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     Comment = "Hello",
                     OrderStatus = OrderStatus.InExpectation,
                     CustomerId = 3,
-                    Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
                     InitialDate = DateTime.UtcNow.AddHours(-4)
                 },
@@ -62,7 +59,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     Comment = "Hello",
                     OrderStatus = OrderStatus.InExpectation,
                     CustomerId = 4,
-                    Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
                     InitialDate = DateTime.UtcNow.AddHours(-5)
                 },
@@ -75,7 +71,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     Comment = "Hello",
                     OrderStatus = OrderStatus.InExpectation,
                     CustomerId = 4,
-                    Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
                     InitialDate = DateTime.UtcNow.AddHours(-6)
                 },
@@ -88,7 +83,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     Comment = "Hello",
                     OrderStatus = OrderStatus.InExpectation,
                     CustomerId = 6,
-                    Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
                     InitialDate = DateTime.UtcNow.AddHours(-7)
                 },
@@ -101,7 +95,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     Comment = "Hello",
                     OrderStatus = OrderStatus.InExpectation,
                     CustomerId = 7,
-                    Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
                     InitialDate = DateTime.UtcNow.AddHours(-8)
                 },
@@ -114,7 +107,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     Comment = "Hello",
                     OrderStatus = OrderStatus.InExpectation,
                     CustomerId = 8,
-                    Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
                     InitialDate = DateTime.UtcNow.AddHours(-2)
                 },
@@ -127,7 +119,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     Comment = "Hello",
                     OrderStatus = OrderStatus.InExpectation,
                     CustomerId = 9,
-                    Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
                     InitialDate = DateTime.UtcNow.AddHours(-2)
                 }

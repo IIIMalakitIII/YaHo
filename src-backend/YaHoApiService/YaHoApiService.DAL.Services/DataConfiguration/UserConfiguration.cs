@@ -20,9 +20,13 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
             builder.Property(x => x.Description)
                 .HasMaxLength(300);
 
-            builder.Property(x => x.Balance);
+            builder.Property(x => x.TelegramId);
 
-            builder.Property(x => x.Hold);
+            builder.Property(x => x.Balance)
+                .HasColumnType("decimal(18,1)");
+
+            builder.Property(x => x.Hold)
+                .HasColumnType("decimal(18,1)");
 
             builder.Property(x => x.InitialDate)
                 .IsRequired();

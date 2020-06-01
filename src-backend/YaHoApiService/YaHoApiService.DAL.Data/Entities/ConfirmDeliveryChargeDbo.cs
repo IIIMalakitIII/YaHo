@@ -14,9 +14,9 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public bool? AutomaticConfirm { get; set; }
 
-        public int PreviousPrice { get; set; }
+        public decimal PreviousPrice { get; set; }
 
-        public int NewPrice { get; set; }
+        public decimal NewPrice { get; set; }
 
         public DateTime InitialDate { get; set; }
 

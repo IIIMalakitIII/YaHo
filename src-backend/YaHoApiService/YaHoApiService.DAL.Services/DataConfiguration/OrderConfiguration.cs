@@ -29,7 +29,8 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
 
             builder.Property(x => x.DeliveryDate);
 
-            builder.Property(x => x.Bargain);
+            builder.Property(x => x.DeliveryCharge)
+                .HasColumnType("decimal(18,1)");
 
             builder.Property(x => x.ExpectedDate);
 

@@ -80,6 +80,13 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             await _userDataService.UpdateUserAsync(model);
         }
 
+        public async Task UpdateUserTelegramId(int telegramId, string userId)
+        {
+            await _userValidator.CheckUserWithThisIdExists(userId);
+
+            await _userDataService.UpdateUserTelegramIdAsync(telegramId, userId);
+        }
+
         public async Task<string> SignIn(string email, string password)
         {
             await _userValidator.CheckUserEmailExists(email);

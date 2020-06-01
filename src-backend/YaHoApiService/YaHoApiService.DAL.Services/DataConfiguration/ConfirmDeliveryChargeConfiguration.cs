@@ -19,9 +19,11 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
 
             builder.Property(x => x.AutomaticConfirm);
 
-            builder.Property(x => x.PreviousPrice);
+            builder.Property(x => x.PreviousPrice)
+                .HasColumnType("decimal(18,1)");
 
-            builder.Property(x => x.NewPrice);
+            builder.Property(x => x.NewPrice)
+                .HasColumnType("decimal(18,1)");
 
             builder.Property(x => x.InitialDate);
 

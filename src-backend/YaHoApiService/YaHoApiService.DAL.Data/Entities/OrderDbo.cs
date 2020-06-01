@@ -14,11 +14,9 @@ namespace YaHo.YaHoApiService.DAL.Data.Entities
 
         public DateTime? DeliveryDate { get; set; }
 
-        public bool Bargain { get; set; }
-
         public DateTime ExpectedDate { get; set; }
 
-        public int DeliveryCharge { get; set; }
+        public decimal DeliveryCharge { get; set; }
 
         public int CustomerId { get; set; }
 

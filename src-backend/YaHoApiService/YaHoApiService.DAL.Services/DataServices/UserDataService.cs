@@ -42,7 +42,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return await _context.UsersWithoutTracking.AnyAsync(x => x.Email == email);
         }
 
-        public async Task<bool> UserHasEnoughMoneyAsync(string userId, int money)
+        public async Task<bool> UserHasEnoughMoneyAsync(string userId, decimal money)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
@@ -54,7 +54,12 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return await _context.UsersWithoutTracking.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> FreezeMoneyAsync(string userId, int money)
+        public async Task<bool> AnyUserWithThisTokenId(int tokenId)
+        {
+            return await _context.UsersWithoutTracking.AnyAsync(x => x.TelegramId == tokenId);
+        }
+
+        public async Task<bool> FreezeMoneyAsync(string userId, decimal money)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
@@ -66,7 +71,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return result.Succeeded;
         }
 
-        public async Task<bool> DefrostMoneyAsync(string userId, int money)
+        public async Task<bool> DefrostMoneyAsync(string userId, decimal money)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
@@ -129,6 +134,20 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             }
         }
 
+        public async Task UpdateUserTelegramIdAsync(int telegramId, string userId)
+        {
+            var loadedDbo = await _userManager.FindByIdAsync(userId);
+
+            loadedDbo.TelegramId = telegramId;
+
+            var result = await _userManager.UpdateAsync(loadedDbo);
+
+            if (!result.Succeeded)
+            {
+                throw new CreateFailureException(EntityNames.User);
+            }
+        }
+
         public async Task ChangePasswordAsync(string userId, string currentPassword, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -153,6 +172,20 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             var token = await GenerateToken(user);
 
             return token;
+        }
+
+        public async Task ReplenishUserBalanceAsync(string userId, decimal money)
+        {
+            var loadedDbo = await _userManager.FindByIdAsync(userId);
+
+            loadedDbo.Balance += money;
+
+            var result = await _userManager.UpdateAsync(loadedDbo);
+
+            if (!result.Succeeded)
+            {
+                throw new CreateFailureException(EntityNames.User);
+            }
         }
 
         private async Task<string> GenerateToken(UserDbo user)

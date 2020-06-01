@@ -41,7 +41,6 @@ namespace YaHo.YaHoApiService.Controllers
         }
 
         [HttpGet("allUser")]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<GetUserInfoViewModel>>> UsersInfo()
         {
             var userViewData = await _userService.GetAllUser();

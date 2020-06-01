@@ -18,6 +18,8 @@ namespace YaHo.YaHoApiService.DAL.Services.Context
 
         public DbSet<DeliveryDbo> Deliveries { get; set; }
 
+        public DbSet<LiqPayOrderDbo> LiqPayOrders { get; set; }
+
         public DbSet<ConfirmDeliveryChargeDbo> ConfirmsDeliveryCharge { get; set; }
 
         public DbSet<ConfirmExpectedDateDbo> ConfirmsExpectedDate { get; set; }
@@ -43,6 +45,8 @@ namespace YaHo.YaHoApiService.DAL.Services.Context
         public IQueryable<CustomerReviewDbo> CustomerReviewsWithoutTracking => CustomerReviews.AsNoTracking();
 
         public IQueryable<DeliveryDbo> DeliveriesWithoutTracking => Deliveries.AsNoTracking();
+
+        public IQueryable<LiqPayOrderDbo> LiqPayOrdersWithoutTracking => LiqPayOrders.AsNoTracking();
 
         public IQueryable<ConfirmExpectedDateDbo> ConfirmsExpectedDateWithoutTracking => ConfirmsExpectedDate.AsNoTracking();
 
@@ -75,6 +79,10 @@ namespace YaHo.YaHoApiService.DAL.Services.Context
 
             modelBuilder.Entity<UserDbo>()
                 .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<LiqPayOrderDbo>()
+                .Property(e => e.LiqPayOrderId)
                 .ValueGeneratedOnAdd();
 
             //new UserDataBuilder(modelBuilder).SetData();

@@ -17,8 +17,6 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order
 
         public DateTime? DeliveryDate { get; set; }
 
-        public bool Bargain { get; set; }
-
         public DateTime ExpectedDate { get; set; }
 
         public int CustomerId { get; set; }
@@ -29,7 +27,7 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order
 
         public string DeliveryFrom { get; set; }
 
-        public int DeliveryCharge { get; set; }
+        public decimal DeliveryCharge { get; set; }
 
         public OrderStatus? OrderStatus { get; set; }
 

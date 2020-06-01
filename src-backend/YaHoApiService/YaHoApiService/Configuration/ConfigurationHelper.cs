@@ -17,6 +17,7 @@ using YaHo.YaHoApiService.BAL.Contracts.Interfaces.OrderRequest;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Product;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
 using YaHo.YaHoApiService.BLL.Contracts.Interfaces.Confirm;
+using YaHo.YaHoApiService.BLL.Contracts.Interfaces.LiqPay;
 using YaHo.YaHoApiService.BLL.Domain.Services;
 using YaHo.YaHoApiService.DAL.Data.Entities;
 using YaHo.YaHoApiService.DAL.Services.Context;
@@ -127,6 +128,7 @@ namespace YaHoApiService.Configuration
             services.AddScoped<IDeliveryReviewService, DeliveryReviewService>();
             services.AddScoped<ICustomerReviewService, CustomerReviewService>();
             services.AddScoped<IOrderRequestService, OrderRequestService>();
+            services.AddScoped<ILiqPayService, LiqPayService>();
 
         }
 
@@ -142,6 +144,7 @@ namespace YaHoApiService.Configuration
             services.AddScoped<IDeliveryReviewDataService, DeliveryReviewDataService>();
             services.AddScoped<ICustomerReviewDataService, CustomerReviewDataService>();
             services.AddScoped<IOrderRequestDataService, OrderRequestDataService>();
+            services.AddScoped<ILiqPayDataService, LiqPayDataService>();
 
         }
 

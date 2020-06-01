@@ -14,7 +14,6 @@ namespace YaHo.YaHoApiService.DAL.Services.QueryHelper
             string deliveryFromCity,
             string deliveryFromСountry,
             string filter,
-            bool? bargain,
             DateTime? expectedDateFrom,
             DateTime? expectedDateTo)
         {
@@ -52,11 +51,6 @@ namespace YaHo.YaHoApiService.DAL.Services.QueryHelper
                     x.Products.All(x => x.Description.Contains(filter)) ||
                     x.DeliveryFrom.Contains(filter) ||
                     x.DeliveryPlace.Contains(filter));
-            }
-
-            if (bargain.HasValue)
-            {
-                query = query.Where(x => x.Bargain == bargain);
             }
 
             if (expectedDateFrom.HasValue)

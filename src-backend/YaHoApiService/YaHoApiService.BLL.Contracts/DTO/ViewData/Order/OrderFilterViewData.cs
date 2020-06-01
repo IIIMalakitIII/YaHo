@@ -10,8 +10,6 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order
 
         public string DeliveryAddress { get; set; }
 
-        public bool? Bargain { get; set; }
-
         public DateTime? ExpectedDateFrom { get; set; }
 
         public DateTime? ExpectedDateTo { get; set; }
