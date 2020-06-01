@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Delivery;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User;
 using YaHo.YaHoApiService.DAL.Data.Entities;
+using YaHo.YaHoApiService.ViewModels.DeliveryViewModels;
 using YaHo.YaHoApiService.ViewModels.UserViewModels;
 using YaHo.YaHoApiService.ViewModels.UserViewModels.Auth;
 using YaHo.YaHoApiService.ViewModels.UserViewModels.Get;

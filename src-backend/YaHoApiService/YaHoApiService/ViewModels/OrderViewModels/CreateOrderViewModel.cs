@@ -36,8 +36,6 @@ namespace YaHo.YaHoApiService.ViewModels.OrderViewModels
         [Required]
         public string DeliveryFromCity { get; set; }
 
-        [Required]
-        public string ExpectedDateFault { get; set; }
 
     }
 }

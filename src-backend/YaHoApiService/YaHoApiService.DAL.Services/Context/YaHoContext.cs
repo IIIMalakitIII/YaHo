@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 using YaHo.YaHoApiService.DAL.Data.Entities;
-using YaHo.YaHoApiService.DAL.Services.DataBuilders;
 
 namespace YaHo.YaHoApiService.DAL.Services.Context
 {
@@ -19,13 +18,19 @@ namespace YaHo.YaHoApiService.DAL.Services.Context
 
         public DbSet<DeliveryDbo> Deliveries { get; set; }
 
-        public DbSet<ConfirmDeliveryChargeDbo> ConfirmDeliveryCharges { get; set; }
+        public DbSet<ConfirmDeliveryChargeDbo> ConfirmsDeliveryCharge { get; set; }
+
+        public DbSet<ConfirmExpectedDateDbo> ConfirmsExpectedDate { get; set; }
+
+        public DbSet<ConfirmOrderStatusDbo> ConfirmsOrderStatus { get; set; }
 
         public DbSet<DeliveryReviewDbo> DeliveryReviews { get; set; }
 
         public DbSet<ProductDbo> Products { get; set; }
 
         public DbSet<MediaDbo> Media { get; set; }
+
+        public DbSet<OrderRequestDbo> OrderRequests { get; set; }
 
         #region QueriesWithoutTracking
 
@@ -39,13 +44,19 @@ namespace YaHo.YaHoApiService.DAL.Services.Context
 
         public IQueryable<DeliveryDbo> DeliveriesWithoutTracking => Deliveries.AsNoTracking();
 
-        public IQueryable<ConfirmDeliveryChargeDbo> ConfirmDeliveryChargesWithoutTracking => ConfirmDeliveryCharges.AsNoTracking();
+        public IQueryable<ConfirmExpectedDateDbo> ConfirmsExpectedDateWithoutTracking => ConfirmsExpectedDate.AsNoTracking();
+
+        public IQueryable<ConfirmDeliveryChargeDbo> ConfirmsDeliveryChargeWithoutTracking => ConfirmsDeliveryCharge.AsNoTracking();
+
+        public IQueryable<ConfirmOrderStatusDbo> ConfirmsOrderStatusWithoutTracking => ConfirmsOrderStatus.AsNoTracking();
 
         public IQueryable<DeliveryReviewDbo> DeliveryReviewsWithoutTracking => DeliveryReviews.AsNoTracking();
 
         public IQueryable<ProductDbo> ProductsWithoutTracking => Products.AsNoTracking();
 
         public IQueryable<MediaDbo> MediaWithoutTracking => Media.AsNoTracking();
+
+        public IQueryable<OrderRequestDbo> OrderRequestsWithoutTracking => OrderRequests.AsNoTracking();
 
         #endregion
 

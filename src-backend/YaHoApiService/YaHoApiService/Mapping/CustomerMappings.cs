@@ -15,11 +15,21 @@ namespace YaHo.YaHoApiService.Mapping
                     m => m.MapFrom(s => s.UserInfo))
                 .ReverseMap();
 
+            CreateMap<GetCustomerViewModel, CustomerViewData>()
+                .ReverseMap();
+
             #endregion
 
             #region ViewData <= => Dbo
+
             CreateMap<CustomerViewData, CustomerDbo>()
-                .ReverseMap();
+                .ForMember(d => d.User,
+                    m => m.Ignore())
+                .ForMember(d => d.CustomerReviews,
+                    m => m.Ignore());
+
+
+            CreateMap<CustomerDbo, CustomerViewData>();
             #endregion 
         }
     }

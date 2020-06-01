@@ -9,7 +9,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
     {
         public void Configure(EntityTypeBuilder<ConfirmDeliveryChargeDbo> builder)
         {
-            builder.ToTable(DataBaseTables.ConfirmDeliveryCharges);
+            builder.ToTable(DataBaseTables.ConfirmsDeliveryCharge);
 
             builder.HasKey(x => x.Id);
 

@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.CustomerReview;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.CustomerReview;
@@ -32,6 +36,27 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             {
                 throw new CreateFailureException(EntityNames.CustomerReview);
             }
+        }
+
+        public async Task<double> CalculateCustomerRating(int customerId)
+        {
+            var rating = await _context.CustomerReviewsWithoutTracking
+                .Where(x => x.CustomerId == customerId)
+                .AverageAsync(x => x.Mark);
+
+            return Math.Round(rating, 1);
+        }
+
+        public async Task<List<CustomerReviewViewData>> GetCustomerReviewAsync(int customerId)
+        {
+            var customerReviewsDbo = await _context.CustomerReviewsWithoutTracking
+                .Include(x => x.User)
+                .Where(x => x.CustomerId == customerId)
+                .ToListAsync();
+
+            var customerReviewsViewData = _mapper.Map<List<CustomerReviewViewData>>(customerReviewsDbo);
+
+            return customerReviewsViewData;
         }
     }
 }

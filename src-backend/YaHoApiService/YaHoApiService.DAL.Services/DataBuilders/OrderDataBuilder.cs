@@ -25,7 +25,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     CustomerId = 1,
                     Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
-                    ExpectedDateFault = DateTime.UtcNow.AddDays(6),
                     InitialDate = DateTime.UtcNow.AddHours(-2)
                 },
                 new OrderDbo
@@ -39,7 +38,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     CustomerId = 2,
                     Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
-                    ExpectedDateFault = DateTime.UtcNow.AddDays(6),
                     InitialDate = DateTime.UtcNow.AddHours(-3)
                 },
                 new OrderDbo
@@ -53,7 +51,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     CustomerId = 3,
                     Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
-                    ExpectedDateFault = DateTime.UtcNow.AddDays(6),
                     InitialDate = DateTime.UtcNow.AddHours(-4)
                 },
                 new OrderDbo
@@ -67,7 +64,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     CustomerId = 4,
                     Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
-                    ExpectedDateFault = DateTime.UtcNow.AddDays(6),
                     InitialDate = DateTime.UtcNow.AddHours(-5)
                 },
                 new OrderDbo
@@ -81,7 +77,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     CustomerId = 4,
                     Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
-                    ExpectedDateFault = DateTime.UtcNow.AddDays(6),
                     InitialDate = DateTime.UtcNow.AddHours(-6)
                 },
                 new OrderDbo
@@ -95,7 +90,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     CustomerId = 6,
                     Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
-                    ExpectedDateFault = DateTime.UtcNow.AddDays(6),
                     InitialDate = DateTime.UtcNow.AddHours(-7)
                 },
                 new OrderDbo
@@ -109,7 +103,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     CustomerId = 7,
                     Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
-                    ExpectedDateFault = DateTime.UtcNow.AddDays(6),
                     InitialDate = DateTime.UtcNow.AddHours(-8)
                 },
                 new OrderDbo
@@ -123,7 +116,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     CustomerId = 8,
                     Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
-                    ExpectedDateFault = DateTime.UtcNow.AddDays(6),
                     InitialDate = DateTime.UtcNow.AddHours(-2)
                 },
                 new OrderDbo
@@ -137,7 +129,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataBuilders
                     CustomerId = 9,
                     Bargain = false,
                     ExpectedDate = DateTime.UtcNow.AddDays(5),
-                    ExpectedDateFault = DateTime.UtcNow.AddDays(6),
                     InitialDate = DateTime.UtcNow.AddHours(-2)
                 }
             };

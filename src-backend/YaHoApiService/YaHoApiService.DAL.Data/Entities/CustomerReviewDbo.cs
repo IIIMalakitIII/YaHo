@@ -10,7 +10,7 @@
 
         public int CustomerId { get; set; }
 
-        public int? Mark { get; set; }
+        public int Mark { get; set; }
 
         public UserDbo User { get; set; }
 

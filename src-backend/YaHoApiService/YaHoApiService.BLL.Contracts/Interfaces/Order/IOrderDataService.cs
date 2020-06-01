@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
+using YaHo.YaHoApiService.DAL.Data.Enums;
 
 namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 {
@@ -19,6 +21,8 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 
         Task<bool> OrderOfThisCustomerAsync(int orderId, int customerId);
 
+        Task<bool> ThisOrderNoOneApprovedAsync(int orderId);
+
         Task<int> CreateOrderAsync(OrderViewData model);
 
         Task<List<OrderViewData>> GetOrdersByFilter(OrderFilterViewData filter);
@@ -35,7 +39,11 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 
         Task UpdateOrderAsync(OrderViewData order);
 
+        Task UpdateOrderStatusAsync(int orderId, OrderStatus orderStatus);
+
         Task UpdateOrderInfoAsync(UpdateOrderViewData order);
+
+        Task UpdateOrderExpectedDateAsync(int orderId, DateTime newExpectedDate);
 
         Task<OrderViewData> GetOrderByIdWithoutIncludeAsync(int orderId);
     }

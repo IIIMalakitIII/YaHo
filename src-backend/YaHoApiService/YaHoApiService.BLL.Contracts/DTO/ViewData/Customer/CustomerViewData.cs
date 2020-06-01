@@ -12,14 +12,10 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Customer
 
         public string Description { get; set; }
 
-        public int? Rating { get; set; }
+        public double Rating { get; set; }
 
-        public int? TotalRating { get; set; }
+        public int TotalReviewCount { get; set; }
 
         public UserViewData User { get; set; }
-
-        public IEnumerable<CustomerReviewViewData> CustomerReviews { get; set; }
-
-        // public IEnumerable<OrderDbo> Orders { get; set; }
     }
 }

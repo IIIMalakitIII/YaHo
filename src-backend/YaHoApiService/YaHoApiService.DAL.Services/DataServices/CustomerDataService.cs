@@ -47,7 +47,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
         {
             var customerDbo = await _context.CustomersWithoutTracking
                 .Include(x => x.User)
-                .Include(x => x.CustomerReviews)
                 .Where(x => x.UserId == id)
                 .FirstOrDefaultAsync();
 
@@ -60,7 +59,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
         {
             var customerDbo = await _context.CustomersWithoutTracking
                 .Include(x => x.User)
-                .Include(x => x.CustomerReviews)
                 .Where(x => x.CustomerId == id)
                 .FirstOrDefaultAsync();
 
@@ -84,7 +82,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
         {
             var customersDbo = await _context.CustomersWithoutTracking
                 .Include(x => x.User)
-                .Include(x => x.CustomerReviews)
                 .ToListAsync();
 
             var customersViewData = _mapper.Map<List<CustomerViewData>>(customersDbo);

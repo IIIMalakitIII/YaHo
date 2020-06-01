@@ -33,8 +33,6 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
 
             builder.Property(x => x.ExpectedDate);
 
-            builder.Property(x => x.ExpectedDateFault);
-
             builder.Property(x => x.OrderStatus);
 
             builder.HasIndex(x => x.CustomerId);

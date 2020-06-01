@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.DeliveryReview;
-using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User;
+﻿using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User;
 
 namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Delivery
 {
@@ -14,10 +12,8 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Delivery
 
         public double Rating { get; set; }
 
-        public int TotalRating { get; set; }
+        public int TotalReviewCount { get; set; }
 
         public UserViewData User { get; set; }
-
-        public IEnumerable<DeliveryReviewViewData> DeliveryReviews { get; set; }
     }
 }

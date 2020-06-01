@@ -69,9 +69,8 @@ namespace YaHo.YaHoApiService
             app.UseMiddleware<RequestPerformanceMiddleware>();
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
-            app.UseStaticFiles();
-
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseCors(options =>
                 options.AllowAnyOrigin()
@@ -80,7 +79,7 @@ namespace YaHo.YaHoApiService
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

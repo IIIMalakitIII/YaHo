@@ -13,10 +13,10 @@ namespace YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.CustomerReview
 
         public int CustomerId { get; set; }
 
-        public int? Mark { get; set; }
+        public int Mark { get; set; }
 
         public UserViewData User { get; set; }
 
-        public CustomerViewData Customer { get; set; }
+        public CustomerViewData Delivery { get; set; }
     }
 }

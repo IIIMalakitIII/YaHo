@@ -25,23 +25,11 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             _mapper = mapper;
         }
 
-        public async Task CreateConfirmForDeliveryChargeAsync(CreateConfirmDeliveryChargeViewData model)
-        {
-            var confirmDeliveryChargeDbo = _mapper.Map<ConfirmDeliveryChargeDbo>(model);
 
-            _context.ConfirmDeliveryCharges.Add(confirmDeliveryChargeDbo);
-
-            var saved = await _context.TrySaveChangesAsync();
-
-            if (!saved)
-            {
-                throw new CreateFailureException(EntityNames.ConfirmDeliveryCharge);
-            }
-        }
-
+        #region ConfirmDeliveryCharge
         public async Task<bool> AnyDeliveryChargeActiveConfirmAsync(int orderId)
         {
-            return await _context.ConfirmDeliveryChargesWithoutTracking
+            return await _context.ConfirmsDeliveryChargeWithoutTracking
                 .Where(x => x.OrderId == orderId)
                 .AnyAsync(x =>
                     !x.AutomaticConfirm.HasValue &&
@@ -52,13 +40,13 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
         public async Task<bool> CheckConfirmDeliveryChargeExistsAsync(int id)
         {
-            return await _context.ConfirmDeliveryChargesWithoutTracking
+            return await _context.ConfirmsDeliveryChargeWithoutTracking
                 .AnyAsync(x => x.Id == id);
         }
 
         public async Task<bool> CheckConfirmDeliveryChargeOfThisCustomerAsync(int id, int customerId)
         {
-            var confirm = await _context.ConfirmDeliveryChargesWithoutTracking
+            var confirm = await _context.ConfirmsDeliveryChargeWithoutTracking
                 .Include(x => x.Order)
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
@@ -68,16 +56,16 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
         public async Task<bool> CheckThisDeliveryHaveAccessToDeliveryChargeAsync(int id, int deliveryId)
         {
-            return await _context.ConfirmDeliveryChargesWithoutTracking
+            return await _context.ConfirmsDeliveryChargeWithoutTracking
                 .Include(x => x.Order)
                 .ThenInclude(x => x.OrderRequests)
                 .AnyAsync(x => x.Id == id &&
-                          x.Order.OrderRequests.Any(o => o.DeliveryId == deliveryId && o.Approved == true));
+                               x.Order.OrderRequests.Any(o => o.DeliveryId == deliveryId && o.Approved == true));
         }
 
         public async Task<bool> CheckConfirmDeliveryChargeNotAnsweredAsync(int id)
         {
-            var confirm = await _context.ConfirmDeliveryChargesWithoutTracking
+            var confirm = await _context.ConfirmsDeliveryChargeWithoutTracking
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -86,11 +74,25 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
                    confirm.InitialDate.AddDays(5) > DateTime.UtcNow;
         }
 
+        public async Task CreateConfirmForDeliveryChargeAsync(CreateConfirmDeliveryChargeViewData model)
+        {
+            var confirmDeliveryChargeDbo = _mapper.Map<ConfirmDeliveryChargeDbo>(model);
+
+            _context.ConfirmsDeliveryCharge.Add(confirmDeliveryChargeDbo);
+
+            var saved = await _context.TrySaveChangesAsync();
+
+            if (!saved)
+            {
+                throw new CreateFailureException(EntityNames.ConfirmDeliveryCharge);
+            }
+        }
+
         public async Task<ConfirmDeliveryChargeViewData> GetConfirmDeliveryChargeByIdAsync(int id)
         {
-            var confirmDbo = await _context.ConfirmDeliveryChargesWithoutTracking
+            var confirmDbo = await _context.ConfirmsDeliveryChargeWithoutTracking
                 .Include(x => x.Order)
-                    .ThenInclude(x => x.Customer)
+                .ThenInclude(x => x.Customer)
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -101,7 +103,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
         public async Task<List<ConfirmDeliveryChargeViewData>> GetConfirmsDeliveryChargeForOrderAsync(int orderId)
         {
-            var confirmsDbo = await _context.ConfirmDeliveryChargesWithoutTracking
+            var confirmsDbo = await _context.ConfirmsDeliveryChargeWithoutTracking
                 .Include(x => x.Order)
                 .Where(x => x.OrderId == orderId)
                 .ToListAsync();
@@ -113,7 +115,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
         public async Task UpdateConfirmDeliveryChargeAsync(int id, bool deliveryConfirm)
         {
-            var confirmDbo = await _context.ConfirmDeliveryCharges
+            var confirmDbo = await _context.ConfirmsDeliveryCharge
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -131,11 +133,11 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
         public async Task<bool> DeleteConfirmDeliveryChargeAsync(int confirmId)
         {
-            var confirmDbo = await _context.ConfirmDeliveryCharges
+            var confirmDbo = await _context.ConfirmsDeliveryCharge
                 .Where(x => x.Id == confirmId)
                 .FirstOrDefaultAsync();
 
-            _context.ConfirmDeliveryCharges.Remove(confirmDbo);
+            _context.ConfirmsDeliveryCharge.Remove(confirmDbo);
 
             var saved = await _context.TrySaveChangesAsync();
 
@@ -146,5 +148,162 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
             return true;
         }
+
+        #endregion
+
+
+        #region ConfirmExpectedDate
+
+        public async Task<bool> AnyExpectedDateActiveConfirmAsync(int orderId)
+        {
+            return await _context.ConfirmsDeliveryChargeWithoutTracking
+                .Where(x => x.OrderId == orderId)
+                .AnyAsync(x =>
+                    !x.AutomaticConfirm.HasValue &&
+                    (!x.DeliveryConfirm.HasValue || !x.CustomerConfirm.HasValue) &&
+                    x.InitialDate.AddDays(5) > DateTime.UtcNow);
+
+        }
+
+        public async Task<bool> CheckConfirmExpectedDateExistsAsync(int id)
+        {
+            return await _context.ConfirmsExpectedDateWithoutTracking
+                .AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> CheckThisCustomerHaveAccessToExpectedDateAsync(int id, int customerId)
+        {
+            var confirm = await _context.ConfirmsExpectedDateWithoutTracking
+                .Include(x => x.Order)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            return confirm.Order.CustomerId == customerId;
+        }
+
+        public async Task<bool> CheckThisDeliveryHaveAccessToExpectedDateAsync(int id, int deliveryId)
+        {
+            return await _context.ConfirmsExpectedDateWithoutTracking
+                .Include(x => x.Order)
+                .ThenInclude(x => x.OrderRequests)
+                .AnyAsync(x => x.Id == id &&
+                               x.Order.OrderRequests.Any(o => o.DeliveryId == deliveryId && o.Approved == true));
+        }
+
+        public async Task<bool> CheckConfirmExpectedDateNotAnsweredAsync(int id)
+        {
+            var confirm = await _context.ConfirmsExpectedDateWithoutTracking
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            return !confirm.AutomaticConfirm.HasValue &&
+                   !confirm.DeliveryConfirm.HasValue &&
+                   !confirm.CustomerConfirm.HasValue &&
+                   confirm.InitialDate.AddDays(5) > DateTime.UtcNow;
+        }
+
+        public async Task<bool> CheckThisUserHaveAccessToDeleteAsync(int id, string userId)
+        {
+            var confirm = await _context.ConfirmsExpectedDateWithoutTracking
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            return confirm.CreaterId == userId;
+        }
+
+        public async Task CreateConfirmForExpectedDateAsync(CreateConfirmExpectedDateViewData model)
+        {
+            var confirmExpectedDateDbo = _mapper.Map<ConfirmExpectedDateDbo>(model);
+
+            _context.ConfirmsExpectedDate.Add(confirmExpectedDateDbo);
+
+            var saved = await _context.TrySaveChangesAsync();
+
+            if (!saved)
+            {
+                throw new CreateFailureException(EntityNames.ConfirmsExpectedDate);
+            }
+        }
+
+        public async Task<ConfirmExpectedDateViewData> GetConfirmExpectedDateByIdAsync(int id)
+        {
+            var confirmDbo = await _context.ConfirmsExpectedDateWithoutTracking
+                .Include(x => x.Order)
+                .ThenInclude(x => x.Customer)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            var confirmViewData = _mapper.Map<ConfirmExpectedDateViewData>(confirmDbo);
+
+            return confirmViewData;
+        }
+
+        public async Task<List<ConfirmExpectedDateViewData>> GetConfirmsExpectedDateForOrderAsync(int orderId)
+        {
+            var confirmsDbo = await _context.ConfirmsExpectedDateWithoutTracking
+                .Include(x => x.Order)
+                .Where(x => x.OrderId == orderId)
+                .ToListAsync();
+
+            var confirmsViewData = _mapper.Map<List<ConfirmExpectedDateViewData>>(confirmsDbo);
+
+            return confirmsViewData;
+        }
+
+        public async Task UpdateConfirmExpectedDateDeliveryAsync(int id, bool deliveryConfirm)
+        {
+            var confirmDbo = await _context.ConfirmsExpectedDateWithoutTracking
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            confirmDbo.DeliveryConfirm = deliveryConfirm;
+
+            _context.Update(confirmDbo);
+
+            var result = await _context.TrySaveChangesAsync();
+
+            if (!result)
+            {
+                throw new BusinessLogicException("Delivery confirme not changed, something is wrong");
+            }
+        }
+
+        public async Task UpdateConfirmExpectedDateCustomerAsync(int id, bool customerConfirm)
+        {
+            var confirmDbo = await _context.ConfirmsExpectedDateWithoutTracking
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            confirmDbo.CustomerConfirm = customerConfirm;
+
+            _context.Update(confirmDbo);
+
+            var result = await _context.TrySaveChangesAsync();
+
+            if (!result)
+            {
+                throw new BusinessLogicException("Delivery confirme not changed, something is wrong");
+            }
+        }
+
+        public async Task<bool> DeleteConfirmExpectedDateAsync(int confirmId)
+        {
+            var confirmDbo = await _context.ConfirmsExpectedDate
+                .Where(x => x.Id == confirmId)
+                .FirstOrDefaultAsync();
+
+            _context.ConfirmsExpectedDate.Remove(confirmDbo);
+
+            var saved = await _context.TrySaveChangesAsync();
+
+            if (!saved)
+            {
+                throw new DeleteFailureException(EntityNames.ConfirmsExpectedDate, confirmId);
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 }

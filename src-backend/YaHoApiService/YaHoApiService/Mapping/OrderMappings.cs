@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
+using System;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
 using YaHo.YaHoApiService.DAL.Data.Entities;
@@ -55,6 +54,7 @@ namespace YaHo.YaHoApiService.Mapping
 
             CreateMap<string, OrderStatus>()
                 .ConvertUsing(x => Enum.Parse<OrderStatus>(x, true));
+
             #endregion
 
             #region ViewData <= => Dbo
@@ -65,8 +65,6 @@ namespace YaHo.YaHoApiService.Mapping
                 .ForMember(d => d.DeliveryCharge,
                     m => m.Ignore())
                 .ForMember(d => d.OrderStatus,
-                    m => m.Ignore())
-                .ForMember(d => d.ExpectedDateFault,
                     m => m.Ignore())
                 .ForMember(d => d.ExpectedDate,
                     m => m.Ignore())
