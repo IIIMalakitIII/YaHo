@@ -21,34 +21,35 @@ export default function Products(props) {
         return Object.keys(obj).map(key => key + '=' + obj[key]).join('&');
     }
 
-    async function  getProducts(){
-
-        const token = await AsyncStorage.getItem('jwt');
-
+    async function  getProducts(flag=false){
         try{
-            const url = config.url + '/api/Products/products-by-order-id/?'+ objectToQueryString({orderId: products.orderId});
 
+            const token = await AsyncStorage.getItem('jwt');
+            if(token) {
 
-            const response = await fetch(url, {
-                method: 'GET',
-                mode: 'cors',
-                cache: 'no-cache',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                const url = config.url + '/api/Products/products-by-order-id/?' + objectToQueryString({orderId: products.orderId});
 
-                },
-                redirect: 'follow',
-                referrerPolicy: 'no-referrer',
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
 
-            });
+                    },
+                    redirect: 'follow',
+                    referrerPolicy: 'no-referrer',
 
-            if(response.ok){
+                });
 
-                const result = await response.json();
-                setProducts({...products, products: result});
+                if (response.ok) {
 
+                    const result = await response.json();
+                    setProducts({...products, products: result, open: flag});
+
+                }
             }
 
         }catch (e) {
@@ -68,9 +69,9 @@ export default function Products(props) {
 
 
 
-    if(products.opened) {
+    if(products.open) {
         return (
-            <CreateProductForm products = {products} setProducts = {setProducts}  />
+            <CreateProductForm products = {products} getProducts = {getProducts}  />
         );
     }else{
         return (
@@ -100,7 +101,8 @@ export default function Products(props) {
                                     setProducts({
                                         ...products,
                                         open: true,
-                                    })
+                                    });
+
                                 }}
                             />
                         </View>
@@ -110,13 +112,7 @@ export default function Products(props) {
                     </View>
                     {
                         products.products.map((value, index) => {
-                            if(products.products.length === 0){
-                                return (
-                                    <View key={index} style={styles.orderBlock}>
-                                        <Text style={styles.orderTitle}>This order hasn`t any products</Text>
-                                    </View>
-                                )
-                            }else{
+
                                 return (
                                     <View key={index} >
 
@@ -129,7 +125,7 @@ export default function Products(props) {
                                         </View>
                                     </View>
                                 )
-                            }
+
                         })
                     }
                 </View>

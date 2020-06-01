@@ -12,10 +12,9 @@ export default function Profile({ navigation }) {
     const [orders, setOrders] = useState([]);
 
 
-
-    const getOrders = async () => {
+    const getOrders = async (flag) => {
         try{
-
+            setProducts({ ...products, create:  flag})
             const token = await AsyncStorage.getItem('jwt');
 
             if(token) {
@@ -70,7 +69,7 @@ export default function Profile({ navigation }) {
     if(products.create){
 
         return (
-            <AddOrder products = {products} setProducts = {setProducts} orders = {orders} setOrders = {setOrders} />
+            <AddOrder getOrders = {getOrders} />
         );
 
     } else if(products.open){
@@ -87,29 +86,24 @@ export default function Profile({ navigation }) {
             <ScrollView >
                 <View style={styles.container}>
 
-                    <View>
+                    <View style={styles.button}>
                         <Button
                             type="solid"
                             title="Create order"
                             onPress={() => {
                                 setProducts({
-                                   ...products,
+                                    ...products,
                                     create: true
                                 })
                             }}
                         />
                     </View>
 
+
                     {
                         orders.map((value, index) => {
 
-                            if( orders.length === 0){
-                                return (
-                                    <View key={index} style={styles.orderBlock}>
-                                        <Text style={styles.orderTitle}>You have no orders</Text>
-                                    </View>
-                                )
-                            }else{
+
                                 return (
                                     <View key={index} style={styles.orderBlock}>
                                         <View style={styles.orderContent}>
@@ -134,7 +128,7 @@ export default function Profile({ navigation }) {
                                         />
                                     </View>
                                 )
-                            }
+
                         })
                     }
                 </View>
@@ -162,5 +156,10 @@ const styles = StyleSheet.create({
     },
     orderContent:{
         marginBottom:10
+    },
+    button:{
+        marginTop: 20,
+        marginBottom: 20,
+        width: 290,
     }
 });

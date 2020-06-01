@@ -225,26 +225,8 @@ export default function AddOrder(props) {
                                         expectedDateFault: ''
                                     });
 
-                                    props.setOrders(
-                                        [
-                                            ...props.orders,
-                                            {
-                                                deliveryCharge: state.deliveryCharge,
-                                                expectedDate: state,
-                                                bargain: state.bargain,
-                                                title: state.title,
-                                                comment: state.comment,
-                                                deliveryPlace: state.deliveryСountry +', '+ state.deliveryCity +', '+ state.deliveryAddress,
-                                                deliveryFrom: state.deliveryFromСountry +', '+  state.deliveryFromCity,
-                                                expectedDateFault: state.expectedDateFault,
-                                                initialDate: new Date().toISOString()
-                                            }
-                                        ]
-                                    )
-                                    props.setProducts({
-                                        ...props.products,
-                                        create: false
-                                    });
+                                    props.getOrders(false);
+
 
                                 }}
                             />
@@ -255,10 +237,7 @@ export default function AddOrder(props) {
                                 type="outline"
                                 title="Back"
                                 onPress={() => {
-                                    props.setProducts({
-                                        ...props.products,
-                                        create: false
-                                    })
+                                    props.getOrders(false);
                                 }}
                             />
                         </View>

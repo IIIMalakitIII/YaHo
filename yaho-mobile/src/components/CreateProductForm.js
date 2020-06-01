@@ -131,32 +131,11 @@ export default function CreateProductForm(props) {
 
                                 type="solid"
                                 title='Add product'
-                                onPress={() => {
-                                    createProduct();
+                                onPress={async () => {
 
-                                    props.setProducts({
-                                        ...props.products,
-                                        products: [...props.products.products, {
-                                            orderId: state.OrderId,
-                                            price: state.Price,
-                                            tax: state.Tax,
-                                            description:state.Description,
-                                            link:state.Link,
-                                            productName:state.ProductName,
-                                            picture: state.Picture
-                                        } ],
-                                        opened: false
-                                    })
+                                    await createProduct();
+                                    await props.getProducts(false);
 
-                                    setState({
-                                        OrderId: 0,
-                                        Price: 0,
-                                        Tax: 0,
-                                        Description: '',
-                                        Link: '',
-                                        ProductName: '',
-                                        Picture: []
-                                    });
 
                                 }}
                             />
@@ -166,21 +145,9 @@ export default function CreateProductForm(props) {
                             <Button
                                 type="outline"
                                 title="Close"
-                                onPress={() => {
+                                onPress={async () => {
+                                    await props.getProducts(false);
 
-                                    setState({
-                                        OrderId: 0,
-                                        Price: 0,
-                                        Tax: 0,
-                                        Description: '',
-                                        Link: '',
-                                        ProductName: '',
-                                        Picture: []
-                                    });
-                                    props.setProducts({
-                                        ...props.products,
-                                        opened: false
-                                    })
                                 }}
                             />
                         </View>
