@@ -1,25 +1,25 @@
 import React from 'react';
-import {View, StyleSheet, Alert, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import config from '../../config/default'
 import { Button, Input, CheckBox } from 'react-native-elements';
 import AsyncStorage from "@react-native-community/async-storage";
 
 
-export default function AddOrder({ navigation }) {
+export default function AddOrder(props) {
 
     const [state, setState] = React.useState({
 
-        deliveryСountry: '',
-        deliveryCity: '',
-        deliveryCharge: 0,
-        deliveryAddress: '',
+        deliveryСountry: 'Ukraine',
+        deliveryCity: 'Kharkiv',
+        deliveryCharge: 20,
+        deliveryAddress: 'Lomonosova 14',
         bargain: true,
-        expectedDate: '',
-        title: '',
-        comment: '',
-        deliveryFromСountry: '',
-        deliveryFromCity: '',
-        expectedDateFault: ''
+        expectedDate: '05.07.2020',
+        title: 'Nasa Pillow',
+        comment: 'Just do it',
+        deliveryFromСountry: 'Poland',
+        deliveryFromCity: 'Warsaw',
+        expectedDateFault: '15.07.2020'
     });
 
     const createOrder = async () => {
@@ -201,8 +201,6 @@ export default function AddOrder({ navigation }) {
                             value={state.expectedDateFault}
                         />
 
-
-
                     </View>
 
                     <View style={styles.buttonBlock}>
@@ -213,6 +211,41 @@ export default function AddOrder({ navigation }) {
                                 title='Create'
                                 onPress={ async () => {
                                     await createOrder();
+                                    setState({
+                                        deliveryСountry: '',
+                                        deliveryCity: '',
+                                        deliveryCharge: 0,
+                                        deliveryAddress: '',
+                                        bargain: true,
+                                        expectedDate: '',
+                                        title: '',
+                                        comment: '',
+                                        deliveryFromСountry: '',
+                                        deliveryFromCity: '',
+                                        expectedDateFault: ''
+                                    });
+
+                                    props.setOrders(
+                                        [
+                                            ...props.orders,
+                                            {
+                                                deliveryCharge: state.deliveryCharge,
+                                                expectedDate: state,
+                                                bargain: state.bargain,
+                                                title: state.title,
+                                                comment: state.comment,
+                                                deliveryPlace: state.deliveryСountry +', '+ state.deliveryCity +', '+ state.deliveryAddress,
+                                                deliveryFrom: state.deliveryFromСountry +', '+  state.deliveryFromCity,
+                                                expectedDateFault: state.expectedDateFault,
+                                                initialDate: new Date().toISOString()
+                                            }
+                                        ]
+                                    )
+                                    props.setProducts({
+                                        ...props.products,
+                                        create: false
+                                    });
+
                                 }}
                             />
                         </View>
@@ -221,7 +254,12 @@ export default function AddOrder({ navigation }) {
                             <Button
                                 type="outline"
                                 title="Back"
-                                onPress={() => navigation.goBack()}
+                                onPress={() => {
+                                    props.setProducts({
+                                        ...props.products,
+                                        create: false
+                                    })
+                                }}
                             />
                         </View>
                     </View>
@@ -256,17 +294,17 @@ const styles = StyleSheet.create({
     },
     inputBlock: {
 
-        width:340,
+        width: 340,
         flexDirection: 'column',
         justifyContent: 'center',
 
     },
-    button:{
+    button: {
         width: 150,
         marginLeft: 10,
         marginRight: 10
     },
-    check:{
+    check: {
         backgroundColor: '#ffffff',
         borderColor: '#7b8894',
         marginBottom: 15,

@@ -7,6 +7,7 @@ import SignOut from "./src/components/SignOut";
 import Profile from "./src/components/Profile";
 import AsyncStorage from "@react-native-community/async-storage";
 import AddOrder from "./src/components/AddOrder";
+import UserOrders from "./src/components/UserOrders";
 
 
 const Drawer = createDrawerNavigator();
@@ -44,8 +45,8 @@ export default function App() {
                     ) : (
                         <>
                             <Drawer.Screen name="Profile" component={Profile} />
+                            <Drawer.Screen name="My orders" component={UserOrders} />
                             <Drawer.Screen name="Sign Out" component={SignOut} initialParams={{setToken}} />
-                            <Drawer.Screen name="Add order" component={AddOrder} />
                         </>
                     )
                 }
