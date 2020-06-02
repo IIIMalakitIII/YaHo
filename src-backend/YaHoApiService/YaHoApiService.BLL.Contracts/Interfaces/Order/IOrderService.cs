@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
 using YaHo.YaHoApiService.BLL.Contracts.ServiceResults.CreateResult;
+using YaHo.YaHoApiService.DAL.Data.Enums;
 
 namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 {
@@ -19,5 +20,9 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
         Task<CreatedViewData> CreateOrder(OrderViewData model, string userId);
 
         Task UpdateOrderInfo(UpdateOrderViewData model, int customerId);
+
+        Task UpdateOrderStatus(OrderStatus status, int orderId, int customerId);
+
+        Task DeleteOrder(int orderId, int customerId, string userId);
     }
 }

@@ -44,8 +44,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                     TelegramId = table.Column<int>(nullable: true),
                     LastName = table.Column<string>(maxLength: 100, nullable: false),
                     Description = table.Column<string>(maxLength: 300, nullable: true),
-                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Hold = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
+                    Hold = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
                     InitialDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -209,7 +209,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                 {
                     LiqPayOrderId = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    Money = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Money = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
                     InitialDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -261,7 +261,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     DeliveryPlace = table.Column<string>(maxLength: 100, nullable: true),
                     DeliveryDate = table.Column<DateTime>(nullable: true),
                     ExpectedDate = table.Column<DateTime>(nullable: false),
-                    DeliveryCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DeliveryCharge = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(maxLength: 100, nullable: true),
                     Comment = table.Column<string>(maxLength: 300, nullable: true),
@@ -317,8 +317,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                     CustomerConfirm = table.Column<bool>(nullable: true),
                     DeliveryConfirm = table.Column<bool>(nullable: true),
                     AutomaticConfirm = table.Column<bool>(nullable: true),
-                    PreviousPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    NewPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PreviousPrice = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
+                    NewPrice = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
                     InitialDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -421,7 +421,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -431,8 +431,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                     ProductId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Tax = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
+                    Tax = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
                     Description = table.Column<string>(maxLength: 300, nullable: true),
                     Link = table.Column<string>(maxLength: 300, nullable: true),
                     ProductName = table.Column<string>(maxLength: 100, nullable: true)
@@ -445,7 +445,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -466,7 +466,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -104,7 +104,7 @@ namespace YaHo.YaHoApiService.Controllers
             var requestDataDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(decodedString);
             var mySignature = LiqPayHelper.GetLiqPaySignature(requestDictionary["data"]);
 
-            if (requestDataDictionary["status"] == "success")
+            if (requestDataDictionary["status"] == "sandbox")
             {
                 if (!mySignature.Equals(requestDictionary["signature"]))
                 {

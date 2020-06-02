@@ -31,6 +31,7 @@ namespace YaHo.YaHoApiService.BLL.Contracts.Interfaces.Confirm
 
         #endregion
 
+
         #region ConfirmExpectedDate
 
         Task<bool> AnyExpectedDateActiveConfirmAsync(int orderId);
@@ -56,6 +57,35 @@ namespace YaHo.YaHoApiService.BLL.Contracts.Interfaces.Confirm
         Task UpdateConfirmExpectedDateCustomerAsync(int id, bool customerConfirm);
 
         Task<bool> DeleteConfirmExpectedDateAsync(int confirmId);
+
+        #endregion
+
+
+        #region ConfirmOrderStatus
+
+        Task<bool> AnyOrderStatusActiveConfirmAsync(int orderId);
+
+        Task<bool> CheckConfirmOrderStatusExistsAsync(int id);
+
+        Task<bool> CheckThisCustomerHaveAccessToOrderStatusAsync(int id, int customerId);
+
+        Task<bool> CheckThisDeliveryHaveAccessToOrderStatusAsync(int id, int deliveryId);
+
+        Task<bool> CheckConfirmOrderStatusNotAnsweredAsync(int id);
+
+        Task<bool> CheckThisUserHaveAccessToDeleteOrderStatusAsync(int id, string userId);
+
+        Task CreateConfirmForOrderStatusAsync(CreateConfirmOrderStatusViewData model);
+
+        Task<ConfirmOrderStatusViewData> GetConfirmOrderStatusByIdAsync(int id);
+
+        Task<List<ConfirmOrderStatusViewData>> GetConfirmsOrderStatusForOrderAsync(int orderId);
+
+        Task UpdateConfirmOrderStatusDeliveryAsync(int id, bool deliveryConfirm);
+
+        Task UpdateConfirmOrderStatusCustomerAsync(int id, bool customerConfirm);
+
+        Task<bool> DeleteConfirmOrderStatusAsync(int confirmId);
 
         #endregion
     }

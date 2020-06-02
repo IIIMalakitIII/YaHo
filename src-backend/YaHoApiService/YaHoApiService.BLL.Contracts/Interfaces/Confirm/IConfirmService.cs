@@ -36,5 +36,24 @@ namespace YaHo.YaHoApiService.BLL.Contracts.Interfaces.Confirm
         Task UpdateConfirmExpectedDateLikeCustomer(int id, int customerId, bool customerConfirm);
 
         #endregion
+
+
+        #region ConfirmOrderStatus
+
+        Task CreateConfirmOrderStatusLikeCustomer(CreateConfirmOrderStatusViewData model, string userId,
+            int customerId);
+
+        Task CreateConfirmOrderStatusLikeDelivery(CreateConfirmOrderStatusViewData model, string userId);
+
+        Task DeleteConfirmChangeOrderStatus(int id, string userId);
+
+        Task<List<ConfirmOrderStatusViewData>> GetConfirmsOrderStatus(int orderId, string userId);
+
+        Task UpdateConfirmOrderStatusLikeDelivery(int id, string userId, int deliveryId, bool deliveryConfirm);
+
+        Task UpdateConfirmOrderStatusLikeCustomer(int id, string userId, int customerId, bool customerConfirm);
+
+
+        #endregion
     }
 }

@@ -33,7 +33,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
             builder.HasOne(x => x.Order)
                 .WithMany(r => r.Products)
                 .HasForeignKey(x => x.OrderId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

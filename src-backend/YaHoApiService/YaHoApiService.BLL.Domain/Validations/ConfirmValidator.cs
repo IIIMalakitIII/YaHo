@@ -57,6 +57,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Validations
 
         #endregion
 
+
         #region ConfirmExpectedDate
 
         public async Task AnyExpectedDateActiveConfirm(int orderId)
@@ -102,6 +103,60 @@ namespace YaHo.YaHoApiService.BLL.Domain.Validations
         public async Task CheckThisUserHaveAccessToDelete(int id, string userId)
         {
             if (!await _confirmDataService.CheckThisUserHaveAccessToDeleteAsync(id, userId))
+            {
+                throw new ValidationException($"You don't have access to this confirmation.");
+            }
+        }
+
+
+        #endregion
+
+
+        #region ConfirmOrderStatus
+
+        public async Task AnyOrderStatusActiveConfirm(int orderId)
+        {
+            if (await _confirmDataService.AnyOrderStatusActiveConfirmAsync(orderId))
+            {
+                throw new ValidationException($"You cannot make a new confirmation while another is active.");
+            }
+        }
+
+        public async Task CheckConfirmOrderStatusExists(int confirmId)
+        {
+            if (!await _confirmDataService.CheckConfirmOrderStatusExistsAsync(confirmId))
+            {
+                throw new ValidationException($"There is no such confirmation with this id {confirmId}.");
+            }
+        }
+
+        public async Task CheckThisCustomerHaveAccessToOrderStatus(int confirmId, int customerId)
+        {
+            if (!await _confirmDataService.CheckThisCustomerHaveAccessToOrderStatusAsync(confirmId, customerId))
+            {
+                throw new ValidationException($"You cannot change this confirmation.");
+            }
+        }
+
+        public async Task CheckThisDeliveryHaveAccessToOrderStatus(int confirmId, int deliveryId)
+        {
+            if (!await _confirmDataService.CheckThisDeliveryHaveAccessToOrderStatusAsync(confirmId, deliveryId))
+            {
+                throw new ValidationException($"You don't have access to this action.");
+            }
+        }
+
+        public async Task CheckConfirmOrderStatusNotAnswered(int confirmId)
+        {
+            if (!await _confirmDataService.CheckConfirmOrderStatusNotAnsweredAsync(confirmId))
+            {
+                throw new ValidationException($"You can't update this confirmation.");
+            }
+        }
+
+        public async Task CheckThisUserHaveAccessToDeleteOrderStatus(int id, string userId)
+        {
+            if (!await _confirmDataService.CheckThisUserHaveAccessToDeleteOrderStatusAsync(id, userId))
             {
                 throw new ValidationException($"You don't have access to this confirmation.");
             }

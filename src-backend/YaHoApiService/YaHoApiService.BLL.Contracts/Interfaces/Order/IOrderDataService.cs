@@ -23,6 +23,8 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 
         Task<bool> ThisOrderNoOneApprovedAsync(int orderId);
 
+        Task<bool> IsOrderWithIdDoneAsync(int orderId);
+
         Task<int> CreateOrderAsync(OrderViewData model);
 
         Task<List<OrderViewData>> GetOrdersByFilter(OrderFilterViewData filter);
@@ -37,6 +39,8 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 
         Task DeleteOrderAfterFailureAsync(int orderId);
 
+        Task DeleteOrderAsync(int orderId);
+
         Task UpdateOrderAsync(OrderViewData order);
 
         Task UpdateOrderStatusAsync(int orderId, OrderStatus orderStatus);
@@ -46,5 +50,9 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
         Task UpdateOrderExpectedDateAsync(int orderId, DateTime newExpectedDate);
 
         Task<OrderViewData> GetOrderByIdWithoutIncludeAsync(int orderId);
+
+        Task<decimal> GetOrderMoneyAsync(int orderId);
+
+        Task UpdateOrderDeliveryDateAsync(int orderId);
     }
 }

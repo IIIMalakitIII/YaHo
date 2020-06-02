@@ -49,7 +49,8 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             await _orderValidator.CheckOrderWithThisIdExists(product.OrderId);
             await _customerValidator.CheckCustomerWithThisIdExists(customerId);
             await _orderValidator.CheckOrderOfThisCustomer(product.OrderId, customerId);
-            await _orderValidator.CheckOrderStatusInCreating(product.OrderId);
+            await _orderValidator.CheckOrderStatusNotDone(product.OrderId);
+            await _orderValidator.CheckOrderStatusNotInProcess(product.OrderId);
             await _userValidator.CheckUserHasEnoughMoney(userId, product.Price + product.Tax);
 
             await _productDataService.CreateProductAsync(product);
@@ -96,7 +97,21 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             await _productValidator.CheckCustomerWithThisIdHaveAccess(model.ProductId, customerId);
 
             await _productDataService.UpdateProductInfoAsync(model);
+        }
 
+        public async Task DeleteProduct(int productId, int customerId, string userId)
+        {
+            await _productValidator.CheckProductWithThisIdExists(productId);
+            await _productValidator.CheckCustomerWithThisIdHaveAccess(productId, customerId);
+            var product = await _productDataService.GetProductByIdAsync(productId);
+
+            await _orderValidator.CheckOrderStatusNotInProcess(product.OrderId);
+            await _orderValidator.CheckOrderStatusNotDone(product.OrderId);
+
+            var userMoney = product.Price + product.Tax;
+
+            await _userDataService.DefrostMoneyAsync(userId, userMoney);
+            await _productDataService.DeleteProductAsync(productId);
         }
     }
 }

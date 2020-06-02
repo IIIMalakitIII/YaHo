@@ -10,8 +10,8 @@ using YaHo.YaHoApiService.DAL.Services.Context;
 namespace YaHoApiService.DAL.Services.Migrations
 {
     [DbContext(typeof(YaHoContext))]
-    [Migration("20200601214111_NewMigration1")]
-    partial class NewMigration1
+    [Migration("20200602132016_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -777,7 +777,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.ProductDbo", "Product")
                         .WithMany("Media")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -801,7 +801,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.OrderDbo", "Order")
                         .WithMany("OrderRequests")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -810,7 +810,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     b.HasOne("YaHo.YaHoApiService.DAL.Data.Entities.OrderDbo", "Order")
                         .WithMany("Products")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

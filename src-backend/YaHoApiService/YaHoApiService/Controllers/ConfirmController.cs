@@ -8,7 +8,6 @@ using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Confirm;
 using YaHo.YaHoApiService.BLL.Contracts.Interfaces.Confirm;
 using YaHo.YaHoApiService.ViewModels.ConfirmViewModels;
 using YaHo.YaHoApiService.ViewModels.ConfirmViewModels.Update;
-using YaHo.YaHoApiService.ViewModels.OrderViewModels;
 using YaHoA.YaHoApiService.ViewModels.ConfirmViewModels;
 using YaHoApiService.ViewModels.ConfirmViewModels.Update;
 
@@ -31,6 +30,8 @@ namespace YaHo.YaHoApiService.Controllers
             _mapper = mapper;
             _confirmService = confirmService;
         }
+
+        #region ConfirmDeliveryCharge
 
         [HttpPost("confirm-change-delivery-charge")]
         public async Task<IActionResult> ConfirmChangeDeliveryCharge(CreateConfirmDeliveryChargeViewModel model)
@@ -68,6 +69,9 @@ namespace YaHo.YaHoApiService.Controllers
 
             return Ok();
         }
+
+        #endregion
+
 
         #region ConfirmExpectedDate
 
@@ -124,6 +128,65 @@ namespace YaHo.YaHoApiService.Controllers
 
             return Ok();
         }
+
+        #endregion
+
+        #region ConfirmOrderStatus
+
+        [HttpPost("confirm-change-order-status-like-customer")]
+        public async Task<IActionResult> ConfirmChangeOrderStatusLikeCustomer(CreateConfirmExpectedDateViewModel model)
+        {
+            var confirmViewData = _mapper.Map<CreateConfirmExpectedDateViewData>(model);
+
+            await _confirmService.CreateConfirmConfirmExpectedDateLikeCustomer(confirmViewData, CurrentUser.CustomerId, CurrentUser.UserId);
+
+            return Ok();
+        }
+
+        [HttpPost("confirm-change-order-status-like-delivery")]
+        public async Task<IActionResult> ConfirmChangeOrderStatusLikeDelivery(CreateConfirmExpectedDateViewModel model)
+        {
+            var confirmViewData = _mapper.Map<CreateConfirmExpectedDateViewData>(model);
+
+            await _confirmService.CreateConfirmConfirmExpectedDateLikeDelivery(confirmViewData, CurrentUser.UserId);
+
+            return Ok();
+        }
+
+        [HttpGet("confirms-order-status/{orderId}")]
+        public async Task<ActionResult<IEnumerable<ConfirmExpectedDateViewModel>>> ConfirmOrderStatus(int orderId)
+        {
+            var confirmsViewData = await _confirmService.GetConfirmsExpectedDate(orderId, CurrentUser.UserId);
+
+            var confirmsViewModel = _mapper.Map<List<ConfirmExpectedDateViewModel>>(confirmsViewData);
+
+            return Ok(confirmsViewModel);
+        }
+
+        [HttpPut("update-confirm-order-status-like-customer")]
+        public async Task<IActionResult> ConfirmOrderStatusLikeCustomer(UpdateExpectedDateViewModel model)
+        {
+            await _confirmService.UpdateConfirmExpectedDateLikeCustomer(model.Id, CurrentUser.CustomerId, model.UserConfirm);
+
+            return Ok();
+        }
+
+        [HttpPut("update-confirm-order-status-like-delivery")]
+        public async Task<IActionResult> ConfirmOrderStatusLikeDelivery(UpdateExpectedDateViewModel model)
+        {
+            await _confirmService.UpdateConfirmExpectedDateLikeCustomer(model.Id, CurrentUser.DeliveryId, model.UserConfirm);
+
+            return Ok();
+        }
+
+        [HttpDelete("delete-confirm-order-status/{confirmId}")]
+        public async Task<IActionResult> DeleteConfirmChangeOrderStatus(int confirmId)
+        {
+            await _confirmService.DeleteConfirmChangeExpectedDate(confirmId, CurrentUser.UserId);
+
+            return Ok();
+        }
+
 
         #endregion
     }

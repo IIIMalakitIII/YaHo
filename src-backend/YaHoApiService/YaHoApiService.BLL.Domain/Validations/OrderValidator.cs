@@ -46,6 +46,31 @@ namespace YaHo.YaHoApiService.BLL.Domain.Validations
             }
         }
 
+        public async Task CheckOrderStatusNotInProcess(int orderId)
+        {
+            if (await _orderDataService.IsOrderWithIdInProcessAsync(orderId))
+            {
+                throw new ValidationException($"Order in process you cant change anything");
+            }
+        }
+
+
+        public async Task CheckOrderStatusDone(int orderId)
+        {
+            if (!await _orderDataService.IsOrderWithIdDoneAsync(orderId))
+            {
+                throw new ValidationException($"Order completed its cannot be changed.");
+            }
+        }
+
+        public async Task CheckOrderStatusNotDone(int orderId)
+        {
+            if (await _orderDataService.IsOrderWithIdDoneAsync(orderId))
+            {
+                throw new ValidationException($"Order done you cant change anything");
+            }
+        }
+
         public async Task CheckOrderStatusInCreating(int orderId)
         {
             if (!await _orderDataService.IsOrderWithIdInCreatingAsync(orderId))

@@ -22,7 +22,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
             builder.HasOne(x => x.Order)
                 .WithMany(r => r.OrderRequests)
                 .HasForeignKey(x => x.OrderId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Delivery)
                 .WithMany(r => r.OrderRequests)
