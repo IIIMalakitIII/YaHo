@@ -5,12 +5,12 @@ import config from "../../config/default";
 import { Button, Input} from 'react-native-elements';
 import Products from "./Products";
 import AddOrder from "./AddOrder";
+import OrderRequests from "./OrderRequests";
 
 
 export default function UserOrders({ navigation }) {
 
     const [orders, setOrders] = useState([]);
-
 
 
     const updateStatus = async (status, id) => {
@@ -50,7 +50,7 @@ export default function UserOrders({ navigation }) {
 
     const getOrders = async (flag) => {
         try{
-            setProducts({ ...products, create:  flag})
+            setProducts({ ...products, create:  flag, requests: flag})
             const token = await AsyncStorage.getItem('jwt');
 
             if(token) {
@@ -97,12 +97,20 @@ export default function UserOrders({ navigation }) {
     const [products, setProducts] = useState({
         open: false,
         create: false,
+        requests: false,
         products: [],
         orderId: 0
     });
 
 
-    if(products.create){
+    if(products.requests){
+
+        return (
+            <OrderRequests getOrders = {getOrders} orderId = {products.orderId} />
+        );
+
+
+    }else if(products.create){
 
         return (
             <AddOrder getOrders = {getOrders} />
@@ -137,6 +145,16 @@ export default function UserOrders({ navigation }) {
 
                     {
                         orders.map((value, index) => {
+
+
+
+                                let requestCount = 0;
+
+                                value.orderRequests.map(x=>{
+                                    if(x.approved === null ){
+                                        requestCount +=1;
+                                    }
+                                })
 
                                 let status;
 
@@ -195,7 +213,7 @@ export default function UserOrders({ navigation }) {
 
                                         <View style = {styles.separator}/>
                                         {
-                                            value.orderRequests.length !== 0 ?
+                                            requestCount !== 0 ?
                                                 <Button
 
                                                     linearGradientProps={{
@@ -203,9 +221,13 @@ export default function UserOrders({ navigation }) {
                                                         start: {x: 0, y: 0.5},
                                                         end: {x: 0, y: 0.5},
                                                     }}
-                                                    title= {`${value.orderRequests.length} new requests`}
+                                                    title= {`${requestCount} new requests`}
                                                     onPress={ async () => {
-
+                                                        setProducts({
+                                                            ...products,
+                                                            requests: true,
+                                                            orderId: value.orderId
+                                                        })
                                                     }}
                                                 /> : <View/>
                                         }
