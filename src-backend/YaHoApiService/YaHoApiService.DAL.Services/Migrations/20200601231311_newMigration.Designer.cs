@@ -10,8 +10,8 @@ using YaHo.YaHoApiService.DAL.Services.Context;
 namespace YaHoApiService.DAL.Services.Migrations
 {
     [DbContext(typeof(YaHoContext))]
-    [Migration("20200601214111_NewMigration1")]
-    partial class NewMigration1
+    [Migration("20200601231311_newMigration")]
+    partial class newMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

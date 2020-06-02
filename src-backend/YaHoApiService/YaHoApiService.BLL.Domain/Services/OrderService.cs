@@ -8,6 +8,7 @@ using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.User;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User;
 using YaHo.YaHoApiService.BLL.Contracts.ServiceResults.CreateResult;
 using YaHo.YaHoApiService.BLL.Domain.Validations;
 using YaHo.YaHoApiService.Common.Exceptions;
@@ -72,7 +73,11 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
 
             return filteredOrders;
         }
-
+        public async Task<UserViewData> GetUserByOrderId(int orderId)
+        {
+            var order = await _orderDataService.GetOrderByIdAsync(orderId);
+            return order?.Customer?.User;
+        }
         public async Task<OrderViewData> GetOrderById(int orderId, int customerId)
         {
             await _orderValidator.CheckOrderWithThisIdExists(orderId);
@@ -132,7 +137,6 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             await _orderDataService.UpdateOrderInfoAsync(model);
 
         }
-
         #region Private_methods 
         private void UpdateGradeForUserResult(OrderUpdateStatusViewData model, int customerId)
         {

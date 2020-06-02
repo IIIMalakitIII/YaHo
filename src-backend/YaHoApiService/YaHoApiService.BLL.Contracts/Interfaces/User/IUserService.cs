@@ -19,5 +19,7 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.User
         Task ChangePassword(string userId, string currentPassword, string newPassword);
 
         Task UpdateUserTelegramId(int telegramId, string userId);
+
+        Task<bool> TelegramIdExists(int telegramId);
     }
 }

@@ -41,10 +41,11 @@ namespace YaHoApiService.DAL.Services.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 100, nullable: false),
+                    TelegramId = table.Column<int>(nullable: true),
                     LastName = table.Column<string>(maxLength: 100, nullable: false),
                     Description = table.Column<string>(maxLength: 300, nullable: true),
-                    Balance = table.Column<int>(nullable: true),
-                    Hold = table.Column<int>(nullable: true),
+                    Balance = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
+                    Hold = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
                     InitialDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -166,8 +167,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(maxLength: 300, nullable: true),
-                    Rating = table.Column<int>(nullable: true),
-                    TotalRating = table.Column<int>(nullable: true)
+                    Rating = table.Column<double>(nullable: false),
+                    TotalReviewCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -189,13 +190,33 @@ namespace YaHoApiService.DAL.Services.Migrations
                     UserId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(maxLength: 300, nullable: true),
                     Rating = table.Column<double>(nullable: false),
-                    TotalRating = table.Column<int>(nullable: false)
+                    TotalReviewCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Deliveries", x => x.DeliveryId);
                     table.ForeignKey(
                         name: "FK_Deliveries_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LiqPayOrders",
+                columns: table => new
+                {
+                    LiqPayOrderId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Money = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
+                    InitialDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LiqPayOrders", x => x.LiqPayOrderId);
+                    table.ForeignKey(
+                        name: "FK_LiqPayOrders_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -211,7 +232,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                     Description = table.Column<string>(maxLength: 300, nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     CustomerId = table.Column<int>(nullable: false),
-                    Mark = table.Column<int>(nullable: true)
+                    Mark = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -239,15 +260,13 @@ namespace YaHoApiService.DAL.Services.Migrations
                     InitialDate = table.Column<DateTime>(nullable: false),
                     DeliveryPlace = table.Column<string>(maxLength: 100, nullable: true),
                     DeliveryDate = table.Column<DateTime>(nullable: true),
-                    Bargain = table.Column<bool>(nullable: false),
                     ExpectedDate = table.Column<DateTime>(nullable: false),
-                    DeliveryCharge = table.Column<int>(nullable: false),
+                    DeliveryCharge = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(maxLength: 100, nullable: true),
                     Comment = table.Column<string>(maxLength: 300, nullable: true),
                     DeliveryFrom = table.Column<string>(maxLength: 100, nullable: true),
-                    OrderStatus = table.Column<int>(nullable: true),
-                    ExpectedDateFault = table.Column<DateTime>(nullable: false)
+                    OrderStatus = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -289,7 +308,7 @@ namespace YaHoApiService.DAL.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ConfirmDeliveryCharges",
+                name: "ConfirmsDeliveryCharge",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -298,15 +317,79 @@ namespace YaHoApiService.DAL.Services.Migrations
                     CustomerConfirm = table.Column<bool>(nullable: true),
                     DeliveryConfirm = table.Column<bool>(nullable: true),
                     AutomaticConfirm = table.Column<bool>(nullable: true),
-                    PreviousPrice = table.Column<int>(nullable: false),
-                    NewPrice = table.Column<int>(nullable: false),
+                    PreviousPrice = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
+                    NewPrice = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
                     InitialDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ConfirmDeliveryCharges", x => x.Id);
+                    table.PrimaryKey("PK_ConfirmsDeliveryCharge", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ConfirmDeliveryCharges_Orders_OrderId",
+                        name: "FK_ConfirmsDeliveryCharge_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ConfirmsExpectedDate",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(nullable: false),
+                    CustomerConfirm = table.Column<bool>(nullable: true),
+                    DeliveryConfirm = table.Column<bool>(nullable: true),
+                    AutomaticConfirm = table.Column<bool>(nullable: true),
+                    PreviousExpectedDate = table.Column<DateTime>(nullable: false),
+                    NewExpectedDate = table.Column<DateTime>(nullable: false),
+                    CreaterId = table.Column<string>(nullable: true),
+                    InitialDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConfirmsExpectedDate", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ConfirmsExpectedDate_AspNetUsers_CreaterId",
+                        column: x => x.CreaterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ConfirmsExpectedDate_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ConfirmsOrderStatus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(nullable: false),
+                    CustomerConfirm = table.Column<bool>(nullable: true),
+                    DeliveryConfirm = table.Column<bool>(nullable: true),
+                    AutomaticConfirm = table.Column<bool>(nullable: true),
+                    PreviousStatus = table.Column<int>(nullable: false),
+                    NewStatus = table.Column<int>(nullable: false),
+                    CreaterId = table.Column<string>(nullable: true),
+                    InitialDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConfirmsOrderStatus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ConfirmsOrderStatus_AspNetUsers_CreaterId",
+                        column: x => x.CreaterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ConfirmsOrderStatus_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
@@ -348,8 +431,8 @@ namespace YaHoApiService.DAL.Services.Migrations
                     ProductId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(nullable: false),
-                    Price = table.Column<int>(nullable: false),
-                    Tax = table.Column<int>(nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
+                    Tax = table.Column<decimal>(type: "decimal(18,1)", nullable: false),
                     Description = table.Column<string>(maxLength: 300, nullable: true),
                     Link = table.Column<string>(maxLength: 300, nullable: true),
                     ProductName = table.Column<string>(maxLength: 100, nullable: true)
@@ -426,8 +509,28 @@ namespace YaHoApiService.DAL.Services.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConfirmDeliveryCharges_OrderId",
-                table: "ConfirmDeliveryCharges",
+                name: "IX_ConfirmsDeliveryCharge_OrderId",
+                table: "ConfirmsDeliveryCharge",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConfirmsExpectedDate_CreaterId",
+                table: "ConfirmsExpectedDate",
+                column: "CreaterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConfirmsExpectedDate_OrderId",
+                table: "ConfirmsExpectedDate",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConfirmsOrderStatus_CreaterId",
+                table: "ConfirmsOrderStatus",
+                column: "CreaterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConfirmsOrderStatus_OrderId",
+                table: "ConfirmsOrderStatus",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
@@ -462,6 +565,11 @@ namespace YaHoApiService.DAL.Services.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_DeliveryReviews_UserId",
                 table: "DeliveryReviews",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LiqPayOrders_UserId",
+                table: "LiqPayOrders",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -508,13 +616,22 @@ namespace YaHoApiService.DAL.Services.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ConfirmDeliveryCharges");
+                name: "ConfirmsDeliveryCharge");
+
+            migrationBuilder.DropTable(
+                name: "ConfirmsExpectedDate");
+
+            migrationBuilder.DropTable(
+                name: "ConfirmsOrderStatus");
 
             migrationBuilder.DropTable(
                 name: "CustomerReviews");
 
             migrationBuilder.DropTable(
                 name: "DeliveryReviews");
+
+            migrationBuilder.DropTable(
+                name: "LiqPayOrders");
 
             migrationBuilder.DropTable(
                 name: "Media");

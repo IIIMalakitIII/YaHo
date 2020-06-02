@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Customer;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Delivery;
@@ -85,6 +86,21 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             await _userValidator.CheckUserWithThisIdExists(userId);
 
             await _userDataService.UpdateUserTelegramIdAsync(telegramId, userId);
+        }
+
+        public async Task<bool> TelegramIdExists(int telegramId)
+        {
+            List<UserViewData> users = await _userDataService.GetAllUserAsync();
+            List<UserViewData> result = users.Where(u => u.TelegramId == telegramId).ToList();
+            if (result.Count != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         public async Task<string> SignIn(string email, string password)

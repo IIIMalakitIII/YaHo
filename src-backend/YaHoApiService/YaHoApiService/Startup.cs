@@ -13,6 +13,7 @@ using YaHo.YaHoApiService.DAL.Services.Context;
 using YaHo.YaHoApiService.Mapping;
 using YaHo.YaHoApiService.Middleware;
 using YaHoApiService.Configuration;
+using YaHoApiService.TelegramBot;
 
 namespace YaHo.YaHoApiService
 {
@@ -55,7 +56,7 @@ namespace YaHo.YaHoApiService
 
             services.AddCors();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
             services.ConfigureSwagger();
 
@@ -111,6 +112,8 @@ namespace YaHo.YaHoApiService
             app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "YaHoAPI"));
 
             app.MigrateDataBase();
+
+            Bot.GetBotClientAsync().Wait();
         }
     }
 }

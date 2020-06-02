@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
+using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.User;
 using YaHo.YaHoApiService.BLL.Contracts.ServiceResults.CreateResult;
 
 namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
@@ -17,6 +18,8 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
         Task<List<OrderViewData>> GetCustomerOrders(int customerId);
 
         Task<CreatedViewData> CreateOrder(OrderViewData model, string userId);
+
+        Task<UserViewData> GetUserByOrderId(int orderId);
 
         Task UpdateOrderInfo(UpdateOrderViewData model, int customerId);
     }

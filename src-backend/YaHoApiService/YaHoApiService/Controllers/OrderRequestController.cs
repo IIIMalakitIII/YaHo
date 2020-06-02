@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
 using YaHo.YaHoApiService.BAL.Contracts.Interfaces.OrderRequest;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.OrderRequest;
 using YaHo.YaHoApiService.Controllers;
 using YaHo.YaHoApiService.ViewModels.OrderRequestViewModels;
+using YaHoApiService.TelegramBot;
 
 namespace YaHoApiService.Controllers
 {
@@ -25,18 +27,23 @@ namespace YaHoApiService.Controllers
 
         private readonly IMapper _mapper;
         private readonly IOrderRequestService _orderRequestService;
+        private readonly IOrderService _orderService;
 
-        public OrderRequestController(IMapper mapper, IOrderRequestService orderRequestService)
+        public OrderRequestController(IMapper mapper, IOrderRequestService orderRequestService, IOrderService orderService)
         {
             _mapper = mapper;
             _orderRequestService = orderRequestService;
+            _orderService = orderService;
+
+
         }
 
         [HttpPost("create-order-request")]
         public async Task<IActionResult> CreateOrderRequest(int orderId)
         {
             await _orderRequestService.CreateOrderRequest(orderId, CurrentUser.DeliveryId);
-
+            var customerUser = await _orderService.GetUserByOrderId(orderId);
+            Bot.SendNotification(customerUser.TelegramId);
             return Ok();
         }
 
@@ -44,7 +51,6 @@ namespace YaHoApiService.Controllers
         public async Task<IActionResult> ApproveOrderRequest(int requestId)
         {
             await _orderRequestService.ApproveOrderRequest(requestId, CurrentUser.CustomerId);
-
             return Ok();
         }
 
