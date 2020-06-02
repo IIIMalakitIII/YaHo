@@ -51,7 +51,8 @@ namespace YaHo.YaHoApiService.Controllers
 
             var filteredOrder = await _orderService.GetOrdersByFilter(filterViewData);
 
-            return Ok(filteredOrder);
+            var filteredOrderViewModel = _mapper.Map<IEnumerable<OrderViewModel>>(filteredOrder);
+            return Ok(filteredOrderViewModel);
         }
 
         [HttpGet("order-by-id/{orderId}")]
