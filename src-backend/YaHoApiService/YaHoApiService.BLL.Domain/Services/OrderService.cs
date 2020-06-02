@@ -75,7 +75,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
         }
         public async Task<UserViewData> GetUserByOrderId(int orderId)
         {
-            var order = await _orderDataService.GetOrderByIdAsync(orderId);
+            var order = await _orderDataService.GetAnyOrderByIdAsync(orderId);
             return order?.Customer?.User;
         }
         public async Task<OrderViewData> GetOrderById(int orderId, int customerId)

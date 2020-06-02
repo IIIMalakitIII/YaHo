@@ -31,6 +31,8 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order
 
         Task<OrderViewData> GetOrderByIdAsync(int orderId);
 
+        Task<OrderViewData> GetAnyOrderByIdAsync(int orderId);
+
         Task<OrderViewData> GetOrderByIdForCustomerAsync(int orderId);
 
         Task<List<OrderViewData>> GetOrdersForCustomerAsync(int customerId);

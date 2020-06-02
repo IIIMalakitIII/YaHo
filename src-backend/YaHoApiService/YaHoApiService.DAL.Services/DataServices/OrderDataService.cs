@@ -186,6 +186,22 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return orderViewData;
         }
 
+        public async Task<OrderViewData> GetAnyOrderByIdAsync(int orderId)
+        {
+
+            var order = await _context.OrdersWithoutTracking
+                .Include(x => x.Customer)
+                    .ThenInclude(x => x.User)
+                .Include(x => x.Products)
+                    .ThenInclude(x => x.Media)
+                .Where(x => x.OrderId == orderId)
+                .FirstOrDefaultAsync();
+
+            var orderViewData = _mapper.Map<OrderViewData>(order);
+
+            return orderViewData;
+        }
+
         public async Task<OrderViewData> GetOrderByIdAsync(int orderId)
         {
 
