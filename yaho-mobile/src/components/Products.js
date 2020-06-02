@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Alert, ScrollView, Text} from 'react-native';
+import {View, StyleSheet, Alert, ScrollView, Text, Image} from 'react-native';
 import { Button } from 'react-native-elements';
 import CreateProductForm from "./CreateProductForm";
 import {Link} from "@react-navigation/native";
 import AsyncStorage from "@react-native-community/async-storage";
 import config from "../../config/default.json";
-
-
-
 
 export default function Products(props) {
 
@@ -113,18 +110,42 @@ export default function Products(props) {
                     {
                         products.products.map((value, index) => {
 
-                                return (
-                                    <View key={index} >
+                            console.log(`${value.productName}: ${value.media.length}`);
+                            return (
+                                <View key={index} >
+                                    <View style={styles.orderBlock}>
 
-                                        <View style={styles.orderBlock}>
-                                            <Text style={styles.orderTitle}>{value.productName}</Text>
-                                            <Link to={value.link} style={styles.link}>{value.link}</Link>
-                                            <Text>Description: {value.description}</Text>
-                                            <Text>Price: {value.price}</Text>
-                                            <Text>Tax: {value.tax}</Text>
+                                        <Text style={styles.orderTitle}>{value.productName}</Text>
+                                        <Link to={value.link} style={styles.link}>{value.link}</Link>
+                                        <View>
+                                            {
+                                                value.media.map((x, i) => {
+
+                                                    console.log(`media: ${value.productName}: data:${x.contentType};base64,`);
+                                                    return (
+                                                        <View key={i}>
+                                                            <Image
+                                                                style={{
+                                                                    width: 250,
+                                                                    height: 250,
+                                                                    resizeMode: 'contain'
+                                                                }}
+                                                                source={{
+                                                                    uri: `data:${x.contentType};base64,${x.picture}`
+                                                                }}
+                                                            />
+                                                        </View>
+                                                    )
+                                                })
+                                            }
                                         </View>
+
+                                        <Text>Description: {value.description}</Text>
+                                        <Text>Price: {value.price}</Text>
+                                        <Text>Tax: {value.tax}</Text>
                                     </View>
-                                )
+                                </View>
+                            )
 
                         })
                     }

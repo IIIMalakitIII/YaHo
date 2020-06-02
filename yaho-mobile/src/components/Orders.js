@@ -7,10 +7,9 @@ import Products from "./Products";
 import AddOrder from "./AddOrder";
 
 
-export default function UserOrders({ navigation }) {
+export default function Profile({ navigation }) {
 
     const [orders, setOrders] = useState([]);
-
 
     const getOrders = async (flag) => {
         try{
@@ -76,7 +75,7 @@ export default function UserOrders({ navigation }) {
 
 
         return (
-           <Products products = {products} setProducts = {setProducts} />
+            <Products products = {products} setProducts = {setProducts} />
         );
 
     }else{
@@ -104,29 +103,30 @@ export default function UserOrders({ navigation }) {
                         orders.map((value, index) => {
 
 
-                                return (
-                                    <View key={index} style={styles.orderBlock}>
-                                        <View style={styles.orderContent}>
-                                            <Text style={styles.orderTitle}> {value.title}</Text>
-                                            <Text> {value.comment}</Text>
-                                            <Text> Delivery from: {value.deliveryFrom}</Text>
-                                            <Text> Delivery to: {value.deliveryPlace}</Text>
-                                            <Text> Initial date: {value.initialDate.split('T')[0]}</Text>
-                                            <Text> Expected date: {value.expectedDate.split('T')[0]}</Text>
-                                        </View>
-                                        <Button
-                                            type="outline"
-                                            title="Overview"
-                                            onPress={() => {
-                                                setProducts({
-                                                    open: true,
-                                                    products: value.products,
-                                                    orderId: value.orderId
-                                                })
-                                            }}
-                                        />
+                            return (
+                                <View key={index} style={styles.orderBlock}>
+                                    <View style={styles.orderContent}>
+                                        <Text style={styles.orderTitle}> {value.title}</Text>
+                                        <Text> {value.comment}</Text>
+                                        <Text> Delivery from: {value.deliveryFrom}</Text>
+                                        <Text> Delivery to: {value.deliveryPlace}</Text>
+                                        <Text> Initial date: {value.initialDate.split('T')[0]}</Text>
+                                        <Text> Expected date: {value.expectedDate.split('T')[0]}</Text>
+                                        <Text> Fault date: {value.expectedDateFault.split('T')[0]}</Text>
                                     </View>
-                                )
+                                    <Button
+                                        type="outline"
+                                        title="Overview"
+                                        onPress={() => {
+                                            setProducts({
+                                                open: true,
+                                                products: value.products,
+                                                orderId: value.orderId
+                                            })
+                                        }}
+                                    />
+                                </View>
+                            )
 
                         })
                     }

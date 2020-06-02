@@ -13,13 +13,11 @@ export default function AddOrder(props) {
         deliveryCity: 'Kharkiv',
         deliveryCharge: 20,
         deliveryAddress: 'Lomonosova 14',
-        bargain: true,
         expectedDate: '05.07.2020',
         title: 'Nasa Pillow',
         comment: 'Just do it',
         deliveryFromСountry: 'Poland',
         deliveryFromCity: 'Warsaw',
-        expectedDateFault: '15.07.2020'
     });
 
     const createOrder = async () => {
@@ -124,23 +122,6 @@ export default function AddOrder(props) {
                             value={state.deliveryAddress}
                         />
 
-                        <CheckBox
-                            title='bargain'
-                            containerStyle={styles.check}
-                            checkedColor='#7b8894'
-                            uncheckedColor='#7b8894'
-                            size={30}
-                            fontFamily='System'
-                            checked={state.bargain}
-                            onPress={ () =>
-                                setState({
-                                    ...state,
-                                    bargain: !state.bargain
-                                })
-
-                            }
-                        />
-
 
                         <Input
                             name = 'expectedDate'
@@ -190,17 +171,6 @@ export default function AddOrder(props) {
                         />
 
 
-                        <Input
-                            name = 'expectedDateFault'
-                            placeholder = 'expected date fault'
-                            style={styles.form}
-                            onChangeText={text => setState({
-                                ...state,
-                                expectedDateFault: text
-                            })}
-                            value={state.expectedDateFault}
-                        />
-
                     </View>
 
                     <View style={styles.buttonBlock}>
@@ -216,13 +186,11 @@ export default function AddOrder(props) {
                                         deliveryCity: '',
                                         deliveryCharge: 0,
                                         deliveryAddress: '',
-                                        bargain: true,
                                         expectedDate: '',
                                         title: '',
                                         comment: '',
                                         deliveryFromСountry: '',
                                         deliveryFromCity: '',
-                                        expectedDateFault: ''
                                     });
 
                                     props.getOrders(false);

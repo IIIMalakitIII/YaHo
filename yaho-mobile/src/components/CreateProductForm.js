@@ -1,25 +1,47 @@
-import React from 'react';
-import {View, StyleSheet, Alert, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, Alert, ScrollView, Image} from 'react-native';
 import config from '../../config/default'
 import { Button, Input } from 'react-native-elements';
 import AsyncStorage from "@react-native-community/async-storage";
-
+import * as ImagePicker from "expo-image-picker";
 
 
 export default function CreateProductForm(props) {
 
     const [state, setState] = React.useState({
-        OrderId: props.products.orderId,
-        Price: 400,
-        Tax: 20,
-        Description: 'fgrgftgrggfr',
-        Link: 'https;//amazon.com',
-        ProductName: 'Imma',
+        orderId: props.products.orderId,
+        price: 400,
+        tax: 20,
+        description: 'fgrgftgrggfr',
+        link: 'https;//amazon.com',
+        productName: 'Imma',
+        picture: []
     });
 
+    const pickImage = async () => {
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled) {
 
-    async function  createProduct(){
+                setState({
+                    ...state,
+                    Picture: state.picture.push(result)
+                });
+            }
+            console.log(result);
 
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+
+    const createProduct = async () => {
         try{
 
             const token = await AsyncStorage.getItem('jwt');
@@ -29,12 +51,30 @@ export default function CreateProductForm(props) {
 
                 const formData = new FormData();
 
-                formData.append('OrderId', state.OrderId);
-                formData.append('Price', state.Price);
-                formData.append('Tax', state.Tax);
-                formData.append('Description', state.Description);
-                formData.append('Link', state.Link);
-                formData.append('ProductName', state.ProductName);
+
+                formData.append('orderId', state.orderId);
+                formData.append('price', state.price);
+                formData.append('tax', state.tax);
+                formData.append('description', state.description);
+                formData.append('link', state.link);
+                formData.append('productName', state.productName);
+
+
+                state.picture.map((value, index) => {
+
+                    let fileName = value.uri.split('/')[value.uri.split('/').length-1];
+                    formData.append(
+                        'picture',
+                        {
+                            uri: value.uri,
+                            name: fileName,
+                            type: `${value.type}/${fileName.split('.')[fileName.split('.').length-1]}`
+                        });
+                });
+
+               /* state.picture.forEach(x => {
+                    formData.append('picture', { uri: x.uri, name:'889b16ed-a2c0-43b2-a8a6-1c70bf858d7c.png', type: 'image/png'});
+                })*/
 
 
                 const response = await fetch(url, {
@@ -46,12 +86,9 @@ export default function CreateProductForm(props) {
                     body: formData
                 });
 
-                if (response.ok) {
-
+               /* if (response.ok) {
                     const result = await response.json();
-                    setState(result);
-
-                }
+                }*/
             }
 
         }catch (e) {
@@ -60,7 +97,7 @@ export default function CreateProductForm(props) {
     }
 
 
-
+    console.log("pictures",state.picture);
 
     return (
         <ScrollView >
@@ -77,9 +114,9 @@ export default function CreateProductForm(props) {
                             style={styles.form}
                             onChangeText={text => setState({
                                 ...state,
-                                ProductName: text
+                                productName: text
                             })}
-                            value={state.ProductName}
+                            value={state.productName}
                         />
 
                         <Input
@@ -88,9 +125,9 @@ export default function CreateProductForm(props) {
                             style={styles.form}
                             onChangeText={text => setState({
                                 ...state,
-                                Link: text
+                                link: text
                             })}
-                            value={state.Link}
+                            value={state.link}
                         />
                         <Input
                             name = 'Description'
@@ -98,9 +135,9 @@ export default function CreateProductForm(props) {
                             style={styles.form}
                             onChangeText={text => setState({
                                 ...state,
-                                Description: text
+                                description: text
                             })}
-                            value={state.Description}
+                            value={state.description}
                         />
                         <Input
                             name = 'Price'
@@ -108,9 +145,9 @@ export default function CreateProductForm(props) {
                             style={styles.form}
                             onChangeText={text => setState({
                                 ...state,
-                                Price: Number(text)
+                                price: Number(text)
                             })}
-                            value={state.Price.toString()}
+                            value={state.price.toString()}
                         />
                         <Input
                             name = 'Tax'
@@ -118,25 +155,20 @@ export default function CreateProductForm(props) {
                             style={styles.form}
                             onChangeText={text => setState({
                                 ...state,
-                                Tax: Number(text)
+                                tax: Number(text)
                             })}
-                            value={state.Tax.toString()}
+                            value={state.tax.toString()}
                         />
-
                     </View>
 
                     <View style={styles.buttonBlock}>
                         <View style={styles.button}>
                             <Button
-
                                 type="solid"
                                 title='Add product'
                                 onPress={async () => {
-
                                     await createProduct();
                                     await props.getProducts(false);
-
-
                                 }}
                             />
                         </View>
@@ -147,10 +179,28 @@ export default function CreateProductForm(props) {
                                 title="Close"
                                 onPress={async () => {
                                     await props.getProducts(false);
-
                                 }}
                             />
                         </View>
+                    </View>
+                    <View>
+                        <Button
+                            title='Add image'
+                            onPress={pickImage}
+                        />
+                        {
+
+                            state.picture.map((value, index) => {
+
+                                return (
+                                    <View >
+                                        {
+                                            value && <Image source={{ uri: value.uri }} style={{ width: 300, height: 300 }}/>
+                                        }
+                                    </View>
+                                )
+                            })
+                        }
                     </View>
                 </View>
                 <View style={styles.container}/>
