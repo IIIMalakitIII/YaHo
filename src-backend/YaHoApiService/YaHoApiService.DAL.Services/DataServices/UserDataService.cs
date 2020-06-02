@@ -174,6 +174,19 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return token;
         }
 
+        public async Task SendMoneyToUserAsync(string fromUserId, string toUserId, decimal money)
+        {
+            var fromUser = await _userManager.FindByIdAsync(fromUserId);
+            fromUser.Hold -= money;
+
+            await _userManager.UpdateAsync(fromUser);
+
+            var toUser = await _userManager.FindByIdAsync(toUserId);
+            toUser.Balance += money;
+
+            await _userManager.UpdateAsync(toUser);
+        }
+
         public async Task ReplenishUserBalanceAsync(string userId, decimal money)
         {
             var loadedDbo = await _userManager.FindByIdAsync(userId);

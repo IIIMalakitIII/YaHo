@@ -47,6 +47,13 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             return order.OrderStatus == OrderStatus.InProcess;
         }
 
+        public async Task<bool> IsOrderWithIdDoneAsync(int orderId)
+        {
+            var order = await _context.OrdersWithoutTracking.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
+
+            return order.OrderStatus == OrderStatus.Done;
+        }
+
         public async Task<bool> IsOrderWithIdInExpectationAsync(int orderId)
         {
             var order = await _context.OrdersWithoutTracking.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
@@ -102,6 +109,21 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
         {
             var orderDbo = await _context.Orders
                     .FirstOrDefaultAsync(x => x.OrderId == orderId);
+
+            _context.Orders.Remove(orderDbo);
+
+            var saved = await _context.TrySaveChangesAsync();
+
+            if (!saved)
+            {
+                throw new DeleteFailureException(EntityNames.Order, orderId);
+            }
+        }
+
+        public async Task DeleteOrderAsync(int orderId)
+        {
+            var orderDbo = await _context.Orders
+                .FirstOrDefaultAsync(x => x.OrderId == orderId);
 
             _context.Orders.Remove(orderDbo);
 
@@ -271,6 +293,40 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
             _context.Orders.Update(orderDbo);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrderDeliveryDateAsync(int orderId)
+        {
+            var orderDbo = await _context.Orders
+                .FirstOrDefaultAsync(x => x.OrderId == orderId);
+
+            if (orderDbo is null)
+            {
+                throw new NotFoundException(EntityNames.Order, orderId);
+            }
+
+            orderDbo.DeliveryDate = DateTime.UtcNow;
+
+            _context.Orders.Update(orderDbo);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<decimal> GetOrderMoneyAsync(int orderId)
+        {
+            var order = await _context.OrdersWithoutTracking
+                .Include(x => x.Products)
+                .Where(x => x.OrderId == orderId)
+                .FirstOrDefaultAsync();
+
+            var money = order.DeliveryCharge;
+
+            foreach (var product in order.Products)
+            {
+                money += (product.Price + product.Tax);
+            }
+
+            return money;
         }
     }
 }

@@ -28,6 +28,8 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.User
 
         Task ReplenishUserBalanceAsync(string userId, decimal money);
 
+        Task SendMoneyToUserAsync(string fromUserId, string toUserId, decimal money);
+
         Task<bool> UserHasEnoughMoneyAsync(string id, decimal money);
 
         Task<bool> FreezeMoneyAsync(string userId, decimal money);

@@ -17,6 +17,16 @@ namespace YaHo.YaHoApiService.Mapping
             CreateMap<ConfirmExpectedDateViewModel, ConfirmExpectedDateViewData>()
                 .ReverseMap();
 
+            CreateMap<ConfirmOrderStatusViewModel, ConfirmOrderStatusViewData>()
+                .ReverseMap();
+
+            CreateMap<CreateConfirmOrderStatusViewModel, CreateConfirmOrderStatusViewData>()
+                .ForMember(d => d.InitialDate,
+                    m => m.Ignore())
+                .ForMember(d => d.PreviousStatus,
+                    m => m.Ignore())
+                .ReverseMap();
+
             CreateMap<CreateConfirmDeliveryChargeViewModel, CreateConfirmDeliveryChargeViewData>()
                 .ForMember(d => d.InitialDate,
                     m => m.Ignore())
@@ -40,10 +50,16 @@ namespace YaHo.YaHoApiService.Mapping
             CreateMap<CreateConfirmExpectedDateViewData, ConfirmExpectedDateDbo>()
                 .ReverseMap();
 
+            CreateMap<CreateConfirmOrderStatusViewData, ConfirmOrderStatusDbo>()
+                .ReverseMap();
+
             CreateMap<ConfirmDeliveryChargeViewData, ConfirmDeliveryChargeDbo>()
                 .ReverseMap();
 
             CreateMap<ConfirmExpectedDateViewData, ConfirmExpectedDateDbo>()
+                .ReverseMap();
+
+            CreateMap<ConfirmOrderStatusViewData, ConfirmOrderStatusDbo>()
                 .ReverseMap();
             #endregion 
         }

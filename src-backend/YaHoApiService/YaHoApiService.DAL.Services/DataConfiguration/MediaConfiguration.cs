@@ -23,7 +23,7 @@ namespace YaHo.YaHoApiService.DAL.Services.DataConfiguration
             builder.HasOne(x => x.Product)
                 .WithMany(r => r.Media)
                 .HasForeignKey(x => x.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

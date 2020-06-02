@@ -137,6 +137,32 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             await _orderDataService.UpdateOrderInfoAsync(model);
 
         }
+
+        public async Task UpdateOrderStatus(OrderStatus status, int orderId, int customerId)
+        {
+            await _orderValidator.CheckOrderWithThisIdExists(orderId);
+            await _customerValidator.CheckCustomerWithThisIdExists(customerId);
+            await _orderValidator.CheckOrderOfThisCustomer(orderId, customerId);
+            await _orderValidator.CheckOrderStatusNotInProcess(orderId);
+            await _orderValidator.CheckOrderStatusNotDone(orderId);
+
+            await _orderDataService.UpdateOrderStatusAsync(orderId, status);
+        }
+
+        public async Task DeleteOrder(int orderId, int customerId, string userId)
+        {
+            await _orderValidator.CheckOrderWithThisIdExists(orderId);
+            await _customerValidator.CheckCustomerWithThisIdExists(customerId);
+            await _orderValidator.CheckOrderOfThisCustomer(orderId, customerId);
+            await _orderValidator.CheckOrderStatusNotInProcess(orderId);
+            await _orderValidator.CheckOrderStatusNotDone(orderId);
+
+            var orderMoney = await _orderDataService.GetOrderMoneyAsync(orderId);
+
+            await _userDataService.DefrostMoneyAsync(userId, orderMoney);
+            await _orderDataService.DeleteOrderAsync(orderId);
+        }
+
         #region Private_methods 
         private void UpdateGradeForUserResult(OrderUpdateStatusViewData model, int customerId)
         {

@@ -24,6 +24,8 @@
 
         public const string ConfirmsExpectedDate = "Confirm Expected Date";
 
+        public const string ConfirmsOrderStatus = "Confirm Order Status";
+
         public const string LiqPayOrder = "Liq-Pay Order";
     }
 }

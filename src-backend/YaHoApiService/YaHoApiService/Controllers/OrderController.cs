@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using YaHo.YaHoApiService.BAL.Contracts.Interfaces.Order;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Order.Update;
 using YaHo.YaHoApiService.BLL.Contracts.ServiceResults.CreateResult;
+using YaHo.YaHoApiService.DAL.Data.Enums;
 using YaHo.YaHoApiService.ViewModels.OrderViewModels;
 using YaHo.YaHoApiService.ViewModels.OrderViewModels.Update;
 
@@ -88,6 +90,21 @@ namespace YaHo.YaHoApiService.Controllers
             var orderViewData = _mapper.Map<UpdateOrderViewData>(model);
             await _orderService.UpdateOrderInfo(orderViewData, CurrentUser.CustomerId);
 
+            return Ok();
+        }
+
+        [HttpPut("update-order-status")]
+        public async Task<IActionResult> UpdateOrder(UpdateOrderStatus model)
+        { 
+            await _orderService.UpdateOrderStatus(Enum.Parse<OrderStatus>(model.OrderStatus, true), model.OrderId, CurrentUser.CustomerId);
+
+            return Ok();
+        }
+
+        [HttpDelete("delete-order")]
+        public async Task<IActionResult> DeleteOrder(int orderId)
+        {
+            await _orderService.DeleteOrder(orderId, CurrentUser.CustomerId, CurrentUser.UserId);
             return Ok();
         }
 

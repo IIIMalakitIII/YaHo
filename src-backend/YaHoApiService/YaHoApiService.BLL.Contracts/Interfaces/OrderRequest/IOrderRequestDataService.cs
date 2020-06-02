@@ -27,5 +27,7 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.OrderRequest
         Task DeleteOrderRequestAsync(int requestId);
 
         Task RejectAllOrderRequestsAsync(int orderId);
+
+        Task RejectApprovedDeliveryToOrderAsync(int orderId);
     }
 }

@@ -101,6 +101,13 @@ namespace YaHoApiService.Controllers
             return Ok();
         }
 
+        [HttpDelete("delete-product")]
+        public async Task<IActionResult> DeleteProduct(int productId)
+        {
+            await _productService.DeleteProduct(productId, CurrentUser.CustomerId, CurrentUser.UserId);
+            return Ok();
+        }
+
 
         #region Private_method
 

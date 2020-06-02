@@ -14,6 +14,8 @@ namespace YaHo.YaHoApiService.BAL.Contracts.Interfaces.Product
         Task<ProductViewData> GetProductById(int productId, string userId);
 
         Task UpdateProductInfo(UpdateProductViewData model, int customerId);
+
+        Task DeleteProduct(int productId, int customerId, string userId);
     }
 
 }

@@ -141,5 +141,18 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task RejectApprovedDeliveryToOrderAsync(int orderId)
+        {
+            var orderRequestDbo = await _context.OrderRequestsWithoutTracking
+                .Where(x => x.OrderId == orderId && x.Approved == true)
+                .FirstOrDefaultAsync();
+
+            orderRequestDbo.Approved = false;
+
+            _context.OrderRequests.Update(orderRequestDbo);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
