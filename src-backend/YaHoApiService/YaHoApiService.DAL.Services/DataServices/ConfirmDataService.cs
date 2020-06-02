@@ -197,9 +197,9 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
                 .FirstOrDefaultAsync();
 
             return !confirm.AutomaticConfirm.HasValue &&
-                   !confirm.DeliveryConfirm.HasValue &&
-                   !confirm.CustomerConfirm.HasValue &&
-                   confirm.InitialDate.AddDays(5) > DateTime.UtcNow;
+                               (!confirm.DeliveryConfirm.HasValue ||
+                               !confirm.CustomerConfirm.HasValue) &&
+                               confirm.InitialDate.AddDays(5) > DateTime.UtcNow;
         }
 
         public async Task<bool> CheckThisUserHaveAccessToDeleteAsync(int id, string userId)
@@ -352,8 +352,8 @@ namespace YaHo.YaHoApiService.DAL.Services.DataServices
                 .FirstOrDefaultAsync();
 
             return !confirm.AutomaticConfirm.HasValue &&
-                   !confirm.DeliveryConfirm.HasValue &&
-                   !confirm.CustomerConfirm.HasValue &&
+                   (!confirm.DeliveryConfirm.HasValue ||
+                   !confirm.CustomerConfirm.HasValue) &&
                    confirm.InitialDate.AddDays(5) > DateTime.UtcNow;
         }
 

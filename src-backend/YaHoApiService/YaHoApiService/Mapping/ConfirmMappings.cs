@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using System;
 using YaHo.YaHoApiService.BLL.Contracts.DTO.ViewData.Confirm;
 using YaHo.YaHoApiService.DAL.Data.Entities;
+using YaHo.YaHoApiService.DAL.Data.Enums;
 using YaHo.YaHoApiService.ViewModels.ConfirmViewModels;
 using YaHoA.YaHoApiService.ViewModels.ConfirmViewModels;
 
@@ -21,6 +23,8 @@ namespace YaHo.YaHoApiService.Mapping
                 .ReverseMap();
 
             CreateMap<CreateConfirmOrderStatusViewModel, CreateConfirmOrderStatusViewData>()
+                .ForMember(d => d.NewStatus,
+                m => m.MapFrom(s => Enum.Parse<OrderStatus>(s.NewOrderStatus, true)))
                 .ForMember(d => d.InitialDate,
                     m => m.Ignore())
                 .ForMember(d => d.PreviousStatus,

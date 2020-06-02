@@ -261,7 +261,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             model.PreviousStatus = order.OrderStatus;
             model.InitialDate = DateTime.UtcNow;
             model.CustomerConfirm = true;
-
+            model.CreaterId = userId;
             await _confirmDataService.CreateConfirmForOrderStatusAsync(model);
         }
 
@@ -271,7 +271,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             await _orderValidator.CheckOrderWithThisIdExists(model.OrderId);
             await _orderValidator.CheckThisUserHaveAccess(model.OrderId, userId);
             await _orderValidator.CheckOrderStatusInProcess(model.OrderId);
-            await _confirmValidator.AnyExpectedDateActiveConfirm(model.OrderId);
+            await _confirmValidator.AnyOrderStatusActiveConfirm(model.OrderId);
 
             if (model.NewStatus == OrderStatus.Canceled)
             {
@@ -285,6 +285,7 @@ namespace YaHo.YaHoApiService.BLL.Domain.Services
             model.PreviousStatus = order.OrderStatus;
             model.InitialDate = DateTime.UtcNow;
             model.DeliveryConfirm = true;
+            model.CreaterId = userId;
 
             await _confirmDataService.CreateConfirmForOrderStatusAsync(model);
         }
