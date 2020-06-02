@@ -9,8 +9,8 @@ import { Button, Input } from 'react-native-elements';
 export default function SignInForm({ route, navigation}) {
 
     const [state, setState] = React.useState({
-        email: '',
-        password: ''
+        email: 'mongo@gmail.com',
+        password: 'mongo123456'
     });
 
 
@@ -53,7 +53,7 @@ export default function SignInForm({ route, navigation}) {
 
             }else{
 
-                Alert.alert(data.error || 'Что-то пошло не так');
+                Alert.alert('Что-то пошло не так');
             }
 
         }catch (e) {

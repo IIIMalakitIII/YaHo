@@ -7,10 +7,9 @@ import AsyncStorage from "@react-native-community/async-storage";
 import config from "../../config/default.json";
 import Swiper from 'react-native-swiper'
 
-export default function Products(props) {
+export default function OrderDetails(props) {
 
     const [products, setProducts] = useState({
-        open: false,
         products: [],
         orderId: props.products.orderId
     });
@@ -19,11 +18,47 @@ export default function Products(props) {
         return Object.keys(obj).map(key => key + '=' + obj[key]).join('&');
     }
 
-    async function  getProducts(flag=false){
+    async function deliver() {
+        try{
+            const token = await AsyncStorage.getItem('jwt');
+            if(token) {
+                const url = config.url + '/api/OrderRequest/create-order-request/?' + objectToQueryString({orderId: products.orderId});
+                const response = await fetch(url, {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    redirect: 'follow',
+                    referrerPolicy: 'no-referrer',
+
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                }
+            }
+        }catch (e) {
+            console.log(e);
+        }
+
+
+    }
+
+
+    function objectToQueryString(obj) {
+        return Object.keys(obj).map(key => key + '=' + obj[key]).join('&');
+    }
+
+    async function getProducts(){
         try{
 
             const token = await AsyncStorage.getItem('jwt');
             if(token) {
+
                 const url = config.url + '/api/Products/products-by-order-id/?' + objectToQueryString({orderId: products.orderId});
 
                 const response = await fetch(url, {
@@ -34,15 +69,17 @@ export default function Products(props) {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
+
                     },
                     redirect: 'follow',
                     referrerPolicy: 'no-referrer',
+
                 });
 
                 if (response.ok) {
 
                     const result = await response.json();
-                    setProducts({...products, products: result, open: flag});
+                    setProducts({...products, products: result});
 
                 }
             }
@@ -96,18 +133,19 @@ export default function Products(props) {
                         <View style={styles.button}>
                             <Button
                                 type="solid"
-                                title="Add Product"
+                                title="Deliver"
                                 linearGradientProps={{
                                     colors: ['pink', '#0a7161' ],
                                     start: { x: 0, y: 0.5 },
                                     end: { x: 0, y: 0.5 },
                                 }}
-                                onPress={() => {
-                                    setProducts({
-                                        ...products,
-                                        open: true,
-                                    });
-
+                                onPress={ async () => {
+                                    await deliver();
+                                    props.setProducts({
+                                        open: false,
+                                        products:[],
+                                        orderId: 0
+                                    })
                                 }}
                             />
                         </View>
@@ -129,27 +167,24 @@ export default function Products(props) {
                                         <Text>Tax: {value.tax}</Text>
                                     </View>
 
-
                                     <View style={styles.image}>
-                                    <Swiper style={styles.wrapper} autoplay={true} height={250} >
-                                        {
-                                            value.media.map((x, i) => {
-                                                return (
-                                                    <View key={i} style={styles.slide}>
-                                                        <Image
-                                                            style={styles.image}
-                                                            source={{
-                                                                uri: `data:${x.contentType};base64,${x.picture}`
-                                                            }}
-                                                        />
-                                                    </View>
-                                                )
-                                            })
-                                        }
-                                    </Swiper>
-                                </View>
-
-
+                                        <Swiper style={styles.wrapper} autoplay={true} height={250} >
+                                            {
+                                                value.media.map((x, i) => {
+                                                    return (
+                                                        <View key={i} style={styles.slide}>
+                                                            <Image
+                                                                style={styles.image}
+                                                                source={{
+                                                                    uri: `data:${x.contentType};base64,${x.picture}`
+                                                                }}
+                                                            />
+                                                        </View>
+                                                    )
+                                                })
+                                            }
+                                        </Swiper>
+                                    </View>
                                 </View>
                             )
 
@@ -170,12 +205,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-
     orderBlock:{
         marginTop: 30,
         marginBottom: 20,
     },
-
     orderTitle:{
         fontWeight:'bold'
     },

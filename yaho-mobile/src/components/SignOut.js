@@ -27,12 +27,21 @@ export default function SignOut({route, navigation}) {
                             navigation.goBack();
                         }}
                         title="No"
+                        linearGradientProps={{
+                            colors: ['pink', '#a62245' ],
+                            start: { x: 0, y: 0.5 },
+                            end: { x: 0, y: 0.5 },
+                        }}
                     />
                 </View>
 
                 <View style={styles.button}>
                     <Button
-                        type="outline"
+                        linearGradientProps={{
+                            colors: ['pink', '#0a7161' ],
+                            start: { x: 0, y: 0.5 },
+                            end: { x: 0, y: 0.5 },
+                        }}
                         onPress={() =>
                         {
                             const remove = removeValue();

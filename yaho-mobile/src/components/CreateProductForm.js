@@ -15,7 +15,7 @@ export default function CreateProductForm(props) {
         price: 400,
         tax: 20,
         description: 'fgrgftgrggfr',
-        link: 'https;//amazon.com',
+        link: 'https://amazon.com',
         productName: 'Imma',
         picture: []
     });
@@ -163,6 +163,11 @@ export default function CreateProductForm(props) {
                         <View style={styles.button}>
                             <Button
                                 type="solid"
+                                linearGradientProps={{
+                                    colors: ['pink', '#0a7161' ],
+                                    start: { x: 0, y: 0.5 },
+                                    end: { x: 0, y: 0.5 },
+                                }}
                                 title='Add product'
                                 onPress={async () => {
                                     await createProduct();
@@ -173,7 +178,11 @@ export default function CreateProductForm(props) {
 
                         <View style={styles.button}>
                             <Button
-                                type="outline"
+                                linearGradientProps={{
+                                    colors: ['pink', '#a62245' ],
+                                    start: { x: 0, y: 0.5 },
+                                    end: { x: 0, y: 0.5 },
+                                }}
                                 title="Close"
                                 onPress={async () => {
                                     await props.getProducts(false);
@@ -188,6 +197,11 @@ export default function CreateProductForm(props) {
                         <Button
                             title='Add image'
                             onPress={pickImage}
+                            linearGradientProps={{
+                                colors: ['pink', '#125fb3' ],
+                                start: { x: 0, y: 0.5 },
+                                end: { x: 0, y: 0.5 },
+                            }}
                         />
                     </View>
 

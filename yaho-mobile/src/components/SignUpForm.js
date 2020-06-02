@@ -7,13 +7,11 @@ import { Button, Input } from 'react-native-elements';
 export default function SignUpForm({ navigation }) {
 
     const [state, setState] = React.useState({
-        id: null,
         firstName: '',
         lastName: '',
         phoneNumber: '',
         email: '',
-        password: '',
-        description: null
+        password: ''
     });
 
     async function register(){
@@ -21,6 +19,7 @@ export default function SignUpForm({ navigation }) {
 
         try{
             const url = config.url + '/api/Account/sign-up';
+
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -33,7 +32,6 @@ export default function SignUpForm({ navigation }) {
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
                 body: JSON.stringify(state)
-
             });
 
 
@@ -118,8 +116,8 @@ export default function SignUpForm({ navigation }) {
 
                             type="solid"
                             title='Sing Up'
-                            onPress={() => {
-                                register();
+                            onPress={async () => {
+                               await register();
                             }}
                         />
                     </View>

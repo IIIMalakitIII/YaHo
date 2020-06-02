@@ -12,6 +12,42 @@ export default function UserOrders({ navigation }) {
     const [orders, setOrders] = useState([]);
 
 
+
+    const updateStatus = async (status, id) => {
+        try{
+            const token = await AsyncStorage.getItem('jwt');
+            if(token) {
+
+
+                const url = config.url + '/api/Orders/update-order-status';
+
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    redirect: 'follow',
+                    referrerPolicy: 'no-referrer',
+                    body: JSON.stringify({
+                        orderId: id,
+                        orderStatus: status
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                }
+            }
+        }catch (e) {
+            console.log(e);
+        }
+    };
+
+
     const getOrders = async (flag) => {
         try{
             setProducts({ ...products, create:  flag})
@@ -99,10 +135,22 @@ export default function UserOrders({ navigation }) {
                         />
                     </View>
 
-
                     {
                         orders.map((value, index) => {
 
+                                let status;
+
+                                if(value.orderStatus === 'InExpectation' ){
+                                    status = 'in expectation';
+                                }else if (value.orderStatus === 'InProcess'){
+                                    status = 'in process';
+                                }else if (value.orderStatus === 'Creating'){
+                                    status = 'creating';
+                                }else if (value.orderStatus === 'Canceled'){
+                                    status = 'canceled';
+                                }else if (value.orderStatus === 'Done'){
+                                    status = 'done';
+                                }
 
                                 return (
                                     <View key={index} style={styles.orderBlock}>
@@ -113,10 +161,11 @@ export default function UserOrders({ navigation }) {
                                             <Text> Delivery to: {value.deliveryPlace}</Text>
                                             <Text> Initial date: {value.initialDate.split('T')[0]}</Text>
                                             <Text> Expected date: {value.expectedDate.split('T')[0]}</Text>
+                                            <Text> Status: {status}</Text>
                                         </View>
                                         <Button
                                             type="outline"
-                                            title="Overview"
+                                            title="overview"
                                             onPress={() => {
                                                 setProducts({
                                                     open: true,
@@ -125,6 +174,42 @@ export default function UserOrders({ navigation }) {
                                                 })
                                             }}
                                         />
+                                    <View style = {styles.separator}/>
+
+                                        {
+                                            value.orderStatus === 'Creating' ?
+                                            <Button
+
+                                                linearGradientProps={{
+                                                    colors: ['pink', '#0a7161'],
+                                                    start: {x: 0, y: 0.5},
+                                                    end: {x: 0, y: 0.5},
+                                                }}
+                                                title="publish"
+                                                onPress={ async () => {
+                                                    await updateStatus('InExpectation', value.orderId);
+                                                    await getOrders();
+                                                }}
+                                            /> : <View/>
+                                        }
+
+                                        <View style = {styles.separator}/>
+                                        {
+                                            value.orderRequests.length !== 0 ?
+                                                <Button
+
+                                                    linearGradientProps={{
+                                                        colors: ['pink', '#a62245'],
+                                                        start: {x: 0, y: 0.5},
+                                                        end: {x: 0, y: 0.5},
+                                                    }}
+                                                    title= {`${value.orderRequests.length} new requests`}
+                                                    onPress={ async () => {
+
+                                                    }}
+                                                /> : <View/>
+                                        }
+
                                     </View>
                                 )
 
@@ -160,5 +245,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 20,
         width: 290,
+    },
+    separator:{
+        marginTop: 10,
     }
 });
