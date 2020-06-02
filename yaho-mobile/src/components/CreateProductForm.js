@@ -1,9 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, StyleSheet, Alert, ScrollView, Image} from 'react-native';
 import config from '../../config/default'
 import { Button, Input } from 'react-native-elements';
 import AsyncStorage from "@react-native-community/async-storage";
 import * as ImagePicker from "expo-image-picker";
+import Swiper from 'react-native-swiper'
+
 
 
 export default function CreateProductForm(props) {
@@ -20,6 +22,7 @@ export default function CreateProductForm(props) {
 
     const pickImage = async () => {
         try {
+
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsEditing: true,
@@ -102,12 +105,9 @@ export default function CreateProductForm(props) {
     return (
         <ScrollView >
             <View style={styles.main}>
-                <View style={styles.container}/>
+
                 <View style={styles.container}>
-
                     <View style={styles.inputBlock}>
-
-
                         <Input
                             name = 'ProductName'
                             placeholder = 'product name'
@@ -118,7 +118,6 @@ export default function CreateProductForm(props) {
                             })}
                             value={state.productName}
                         />
-
                         <Input
                             name = 'Link'
                             placeholder = 'link'
@@ -160,7 +159,6 @@ export default function CreateProductForm(props) {
                             value={state.tax.toString()}
                         />
                     </View>
-
                     <View style={styles.buttonBlock}>
                         <View style={styles.button}>
                             <Button
@@ -183,27 +181,40 @@ export default function CreateProductForm(props) {
                             />
                         </View>
                     </View>
-                    <View>
+                </View>
+
+                <View  style={styles.imageBlock}>
+                    <View style={styles.buttonImage}>
                         <Button
                             title='Add image'
                             onPress={pickImage}
                         />
-                        {
-
-                            state.picture.map((value, index) => {
-
-                                return (
-                                    <View >
-                                        {
-                                            value && <Image source={{ uri: value.uri }} style={{ width: 300, height: 300 }}/>
-                                        }
-                                    </View>
-                                )
-                            })
-                        }
                     </View>
+
+                    {
+                        state.picture.length !== 0 ?
+
+                            <View style={styles.imgContainer}>
+                                <Swiper style={styles.wrapper} autoplay={true}  height={300}>
+                                    {
+                                        state.picture.map((value, index) => {
+                                            return (
+                                                <View key={index} style={styles.slide}>
+                                                    {
+                                                        value && <Image source={{uri: value.uri}} style={styles.image}/>
+                                                    }
+                                                </View>
+                                            )
+                                        })
+                                    }
+                                </Swiper>
+                            </View>
+                            : <View/>
+
+                    }
                 </View>
-                <View style={styles.container}/>
+
+
             </View>
         </ScrollView>
 
@@ -217,7 +228,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     container: {
-        height:220,
+        marginTop: 100,
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -228,7 +239,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     inputBlock: {
-
         width:340,
         flexDirection: 'column',
         justifyContent: 'center',
@@ -237,5 +247,32 @@ const styles = StyleSheet.create({
         width: 150,
         marginLeft: 10,
         marginRight: 10
+    },
+    buttonImage:{
+        marginTop: 20,
+        width: 320,
+    },
+    imgContainer:{
+
+        marginTop: 40,
+        flex: 1,
+        marginBottom: 40,
+    },
+    imageBlock:{
+
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    slide: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    },
+    image:{
+        width: 300,
+        height: 300,
+    },
+    wrapper: {
+
     },
 });

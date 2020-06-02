@@ -4,12 +4,23 @@ import AsyncStorage from "@react-native-community/async-storage";
 import config from "../../config/default";
 import { Button, Input} from 'react-native-elements';
 import Products from "./Products";
-import AddOrder from "./AddOrder";
 
 
 export default function Profile({ navigation }) {
 
     const [orders, setOrders] = useState([]);
+    const [search, setSearch] = useState({
+
+        deliveryCountry: '',
+        deliveryCity:'',
+        deliveryAddress:'',
+        expectedDateFrom:'',
+        expectedDateTo:'',
+        filter:'',
+        deliveryFromCountry:'',
+        deliveryFromCity:''
+
+    });
 
     const getOrders = async (flag) => {
         try{
@@ -18,7 +29,7 @@ export default function Profile({ navigation }) {
 
             if(token) {
 
-                const url = config.url + '/api/Orders/my-order-like-customer';
+                const url = config.url + '/api/Orders/order-list';
 
                 const response = await fetch(url, {
                     method: 'GET',
@@ -65,14 +76,7 @@ export default function Profile({ navigation }) {
     });
 
 
-    if(products.create){
-
-        return (
-            <AddOrder getOrders = {getOrders} />
-        );
-
-    } else if(products.open){
-
+    if(products.open){
 
         return (
             <Products products = {products} setProducts = {setProducts} />
@@ -83,22 +87,26 @@ export default function Profile({ navigation }) {
         return (
 
             <ScrollView >
-                <View style={styles.container}>
 
-                    <View style={styles.button}>
-                        <Button
-                            type="solid"
-                            title="Create order"
-                            onPress={() => {
-                                setProducts({
-                                    ...products,
-                                    create: true
-                                })
-                            }}
+
+                <View style={styles.inputContainer}>
+                    <View style={styles.input}>
+                        <Input
+                            name = 'filter'
+                            placeholder = 'filter'
+                            style={styles.form}
+                            onChangeText={text => setSearch({
+                                ...search,
+                                filter: text
+                            })}
+                            value={search.filter}
                         />
                     </View>
+                </View>
 
 
+
+                <View style={styles.container}>
                     {
                         orders.map((value, index) => {
 
@@ -112,7 +120,7 @@ export default function Profile({ navigation }) {
                                         <Text> Delivery to: {value.deliveryPlace}</Text>
                                         <Text> Initial date: {value.initialDate.split('T')[0]}</Text>
                                         <Text> Expected date: {value.expectedDate.split('T')[0]}</Text>
-                                        <Text> Fault date: {value.expectedDateFault.split('T')[0]}</Text>
+
                                     </View>
                                     <Button
                                         type="outline"
@@ -160,5 +168,11 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 20,
         width: 290,
-    }
+    },
+    inputContainer:{
+        marginTop: 50,
+    },
+    input:{
+
+    },
 });

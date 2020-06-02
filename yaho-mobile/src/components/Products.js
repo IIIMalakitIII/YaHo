@@ -5,6 +5,7 @@ import CreateProductForm from "./CreateProductForm";
 import {Link} from "@react-navigation/native";
 import AsyncStorage from "@react-native-community/async-storage";
 import config from "../../config/default.json";
+import Swiper from 'react-native-swiper'
 
 export default function Products(props) {
 
@@ -114,36 +115,34 @@ export default function Products(props) {
                             return (
                                 <View key={index} >
                                     <View style={styles.orderBlock}>
-
                                         <Text style={styles.orderTitle}>{value.productName}</Text>
                                         <Link to={value.link} style={styles.link}>{value.link}</Link>
-                                        <View>
-                                            {
-                                                value.media.map((x, i) => {
-
-                                                    console.log(`media: ${value.productName}: data:${x.contentType};base64,`);
-                                                    return (
-                                                        <View key={i}>
-                                                            <Image
-                                                                style={{
-                                                                    width: 250,
-                                                                    height: 250,
-                                                                    resizeMode: 'contain'
-                                                                }}
-                                                                source={{
-                                                                    uri: `data:${x.contentType};base64,${x.picture}`
-                                                                }}
-                                                            />
-                                                        </View>
-                                                    )
-                                                })
-                                            }
-                                        </View>
-
                                         <Text>Description: {value.description}</Text>
                                         <Text>Price: {value.price}</Text>
                                         <Text>Tax: {value.tax}</Text>
                                     </View>
+
+
+                                    <View style={styles.image}>
+                                    <Swiper style={styles.wrapper} autoplay={true} height={250} >
+                                        {
+                                            value.media.map((x, i) => {
+                                                return (
+                                                    <View key={i} style={styles.slide}>
+                                                        <Image
+                                                            style={styles.image}
+                                                            source={{
+                                                                uri: `data:${x.contentType};base64,${x.picture}`
+                                                            }}
+                                                        />
+                                                    </View>
+                                                )
+                                            })
+                                        }
+                                    </Swiper>
+                                </View>
+
+
                                 </View>
                             )
 
@@ -194,5 +193,19 @@ const styles = StyleSheet.create({
     logo:{
         fontSize:30,
         fontWeight: 'bold',
-    }
+    },
+    slide: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    },
+    image:{
+        width: 300,
+        height: 300,
+    },
+    wrapper: {
+
+    },
+
+
 });
