@@ -134,47 +134,47 @@ namespace YaHo.YaHoApiService.Controllers
         #region ConfirmOrderStatus
 
         [HttpPost("confirm-change-order-status-like-customer")]
-        public async Task<IActionResult> ConfirmChangeOrderStatusLikeCustomer(CreateConfirmExpectedDateViewModel model)
+        public async Task<IActionResult> ConfirmChangeOrderStatusLikeCustomer(CreateConfirmOrderStatusViewModel model)
         {
-            var confirmViewData = _mapper.Map<CreateConfirmExpectedDateViewData>(model);
+            var confirmViewData = _mapper.Map<CreateConfirmOrderStatusViewData>(model);
 
-            await _confirmService.CreateConfirmConfirmExpectedDateLikeCustomer(confirmViewData, CurrentUser.CustomerId, CurrentUser.UserId);
+            await _confirmService.CreateConfirmOrderStatusLikeCustomer(confirmViewData, CurrentUser.UserId, CurrentUser.CustomerId);
 
             return Ok();
         }
 
         [HttpPost("confirm-change-order-status-like-delivery")]
-        public async Task<IActionResult> ConfirmChangeOrderStatusLikeDelivery(CreateConfirmExpectedDateViewModel model)
+        public async Task<IActionResult> ConfirmChangeOrderStatusLikeDelivery(CreateConfirmOrderStatusViewModel model)
         {
-            var confirmViewData = _mapper.Map<CreateConfirmExpectedDateViewData>(model);
+            var confirmViewData = _mapper.Map<CreateConfirmOrderStatusViewData>(model);
 
-            await _confirmService.CreateConfirmConfirmExpectedDateLikeDelivery(confirmViewData, CurrentUser.UserId);
+            await _confirmService.CreateConfirmOrderStatusLikeDelivery(confirmViewData, CurrentUser.UserId);
 
             return Ok();
         }
 
         [HttpGet("confirms-order-status/{orderId}")]
-        public async Task<ActionResult<IEnumerable<ConfirmExpectedDateViewModel>>> ConfirmOrderStatus(int orderId)
+        public async Task<ActionResult<IEnumerable<ConfirmOrderStatusViewModel>>> ConfirmOrderStatus(int orderId)
         {
-            var confirmsViewData = await _confirmService.GetConfirmsExpectedDate(orderId, CurrentUser.UserId);
+            var confirmsViewData = await _confirmService.GetConfirmsOrderStatus(orderId, CurrentUser.UserId);
 
-            var confirmsViewModel = _mapper.Map<List<ConfirmExpectedDateViewModel>>(confirmsViewData);
+            var confirmsViewModel = _mapper.Map<List<ConfirmOrderStatusViewModel>>(confirmsViewData);
 
             return Ok(confirmsViewModel);
         }
 
         [HttpPut("update-confirm-order-status-like-customer")]
-        public async Task<IActionResult> ConfirmOrderStatusLikeCustomer(UpdateExpectedDateViewModel model)
+        public async Task<IActionResult> ConfirmOrderStatusLikeCustomer(UpdateOrderStatusViewModel model)
         {
-            await _confirmService.UpdateConfirmExpectedDateLikeCustomer(model.Id, CurrentUser.CustomerId, model.UserConfirm);
+            await _confirmService.UpdateConfirmOrderStatusLikeCustomer(model.Id, CurrentUser.UserId, CurrentUser.CustomerId, model.UserConfirm);
 
             return Ok();
         }
 
         [HttpPut("update-confirm-order-status-like-delivery")]
-        public async Task<IActionResult> ConfirmOrderStatusLikeDelivery(UpdateExpectedDateViewModel model)
+        public async Task<IActionResult> ConfirmOrderStatusLikeDelivery(UpdateOrderStatusViewModel model)
         {
-            await _confirmService.UpdateConfirmExpectedDateLikeCustomer(model.Id, CurrentUser.DeliveryId, model.UserConfirm);
+            await _confirmService.UpdateConfirmOrderStatusLikeCustomer(model.Id, CurrentUser.UserId, CurrentUser.DeliveryId, model.UserConfirm);
 
             return Ok();
         }
@@ -182,7 +182,7 @@ namespace YaHo.YaHoApiService.Controllers
         [HttpDelete("delete-confirm-order-status/{confirmId}")]
         public async Task<IActionResult> DeleteConfirmChangeOrderStatus(int confirmId)
         {
-            await _confirmService.DeleteConfirmChangeExpectedDate(confirmId, CurrentUser.UserId);
+            await _confirmService.DeleteConfirmChangeOrderStatus(confirmId, CurrentUser.UserId);
 
             return Ok();
         }
