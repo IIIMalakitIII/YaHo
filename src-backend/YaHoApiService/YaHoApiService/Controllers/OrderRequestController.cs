@@ -42,8 +42,12 @@ namespace YaHoApiService.Controllers
         public async Task<IActionResult> CreateOrderRequest(int orderId)
         {
             await _orderRequestService.CreateOrderRequest(orderId, CurrentUser.DeliveryId);
-            var customerUser = await _orderService.GetUserByOrderId(orderId);
-            Bot.SendNotification(customerUser.TelegramId);
+            try
+            {
+                var customerUser = await _orderService.GetUserByOrderId(orderId);
+                Bot.SendNotification(customerUser.TelegramId);
+            }
+            catch { }
             return Ok();
         }
 
