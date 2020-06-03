@@ -14,10 +14,10 @@ export default function AddOrder(props) {
         deliveryCharge: 20,
         deliveryAddress: 'Lomonosova 14',
         expectedDate: '05.07.2020',
-        title: 'Nasa Pillow',
-        comment: 'Just do it',
-        deliveryFromСountry: 'Poland',
-        deliveryFromCity: 'Warsaw',
+        title: 'Iphone X',
+        comment: '5.8” or 6.5” Super Retina XDR display',
+        deliveryFromСountry: 'USA',
+        deliveryFromCity: 'New York',
     });
 
     const createOrder = async () => {

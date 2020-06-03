@@ -12,11 +12,11 @@ export default function CreateProductForm(props) {
 
     const [state, setState] = React.useState({
         orderId: props.products.orderId,
-        price: 400,
+        price: 990,
         tax: 20,
         description: 'fgrgftgrggfr',
-        link: 'https://amazon.com',
-        productName: 'Imma',
+        link: 'https://www.apple.com/',
+        productName: 'Iphone X',
         picture: []
     });
 

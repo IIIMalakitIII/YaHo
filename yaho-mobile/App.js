@@ -8,6 +8,9 @@ import Profile from "./src/components/Profile";
 import AsyncStorage from "@react-native-community/async-storage";
 import UserOrders from "./src/components/UserOrders";
 import Orders from "./src/components/Orders";
+import UserDeliveries from "./src/components/UserDeliveries";
+import UserRequests from "./src/components/UserRequests";
+import AddTelegram from "./src/components/AddTelegram";
 
 
 
@@ -48,6 +51,9 @@ export default function App() {
                             <Drawer.Screen name="Profile" component={Profile} />
                             <Drawer.Screen name="Find order" component={Orders} />
                             <Drawer.Screen name="My orders" component={UserOrders} />
+                            <Drawer.Screen name="My deliveries" component={UserDeliveries} />
+                            <Drawer.Screen name="My requests" component={UserRequests} />
+                            <Drawer.Screen name="Telegram account" component={AddTelegram} />
                             <Drawer.Screen name="Sign Out" component={SignOut} initialParams={{setToken}} />
                         </>
                     )

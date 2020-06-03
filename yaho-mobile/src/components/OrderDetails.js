@@ -101,99 +101,122 @@ export default function OrderDetails(props) {
 
 
 
-    if(products.open) {
-        return (
-            <CreateProductForm products = {products} getProducts = {getProducts}  />
-        );
-    }else{
-        return (
-            <ScrollView >
-                <View style={styles.container}>
+    return (
+        <ScrollView >
+            <View style={styles.container}>
 
-                    <View style={styles.buttonBlock}>
-                        <View style={styles.button}>
-                            <Button
-                                type="solid"
-                                title="Close"
-                                linearGradientProps={{
-                                    colors: ['pink', '#a62245' ],
-                                    start: { x: 0, y: 0.5 },
-                                    end: { x: 0, y: 0.5 },
-                                }}
-                                onPress={() => {
-                                    props.setProducts({
-                                        open: false,
-                                        products:[],
-                                        orderId: 0
-                                    })
-                                }}
-                            />
-                        </View>
-
-                        <View style={styles.button}>
-                            <Button
-                                type="solid"
-                                title="Deliver"
-                                linearGradientProps={{
-                                    colors: ['pink', '#0a7161' ],
-                                    start: { x: 0, y: 0.5 },
-                                    end: { x: 0, y: 0.5 },
-                                }}
-                                onPress={ async () => {
-                                    await deliver();
-                                    props.setProducts({
-                                        open: false,
-                                        products:[],
-                                        orderId: 0
-                                    })
-                                }}
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.logoBlock}>
-                        <Text style={styles.logo}>Products</Text>
-                    </View>
                     {
-                        products.products.map((value, index) => {
-
-                            console.log(`${value.productName}: ${value.media.length}`);
-                            return (
-                                <View key={index} >
-                                    <View style={styles.orderBlock}>
-                                        <Text style={styles.orderTitle}>{value.productName}</Text>
-                                        <Link to={value.link} style={styles.link}>{value.link}</Link>
-                                        <Text>Description: {value.description}</Text>
-                                        <Text>Price: {value.price}</Text>
-                                        <Text>Tax: {value.tax}</Text>
-                                    </View>
-
-                                    <View style={styles.image}>
-                                        <Swiper style={styles.wrapper} autoplay={true} height={250} >
-                                            {
-                                                value.media.map((x, i) => {
-                                                    return (
-                                                        <View key={i} style={styles.slide}>
-                                                            <Image
-                                                                style={styles.image}
-                                                                source={{
-                                                                    uri: `data:${x.contentType};base64,${x.picture}`
-                                                                }}
-                                                            />
-                                                        </View>
-                                                    )
+                        props.delivery ? (
+                                <View style={styles.buttonBlock}>
+                                    <View style={styles.button}>
+                                        <Button
+                                            type="solid"
+                                            title="Close"
+                                            linearGradientProps={{
+                                                colors: ['pink', '#a62245' ],
+                                                start: { x: 0, y: 0.5 },
+                                                end: { x: 0, y: 0.5 },
+                                            }}
+                                            onPress={() => {
+                                                props.setProducts({
+                                                    open: false,
+                                                    products:[],
+                                                    orderId: 0
                                                 })
-                                            }
-                                        </Swiper>
+                                            }}
+                                        />
                                     </View>
                                 </View>
-                            )
 
-                        })
+                            ) : (
+
+                            <View style={styles.buttonBlock}>
+                                <View style={styles.button}>
+                                    <Button
+                                        type="solid"
+                                        title="Close"
+                                        linearGradientProps={{
+                                            colors: ['pink', '#a62245' ],
+                                            start: { x: 0, y: 0.5 },
+                                            end: { x: 0, y: 0.5 },
+                                        }}
+                                        onPress={() => {
+                                            props.setProducts({
+                                                open: false,
+                                                products:[],
+                                                orderId: 0
+                                            })
+                                        }}
+                                    />
+                                </View>
+
+                                <View style={styles.button}>
+                                    <Button
+                                        type="solid"
+                                        title="Deliver"
+                                        linearGradientProps={{
+                                            colors: ['pink', '#0a7161' ],
+                                            start: { x: 0, y: 0.5 },
+                                            end: { x: 0, y: 0.5 },
+                                        }}
+                                        onPress={ async () => {
+                                            await deliver();
+                                            props.setProducts({
+                                                open: false,
+                                                products:[],
+                                                orderId: 0
+                                            })
+                                        }}
+                                    />
+                                </View>
+                            </View>
+                        )
+
                     }
+                <View style={styles.logoBlock}>
+                    <Text style={styles.logo}>Products</Text>
                 </View>
-            </ScrollView>
-        );
-    }
+                {
+                    products.products.map((value, index) => {
+
+                        console.log(`${value.productName}: ${value.media.length}`);
+                        return (
+                            <View key={index} >
+                                <View style={styles.orderBlock}>
+                                    <Text style={styles.orderTitle}>{value.productName}</Text>
+                                    <Link to={value.link} style={styles.link}>{value.link}</Link>
+                                    <Text>Description: {value.description}</Text>
+                                    <Text>Price: {value.price}</Text>
+                                    <Text>Tax: {value.tax}</Text>
+                                </View>
+
+                                <View style={styles.image}>
+                                    <Swiper style={styles.wrapper} autoplay={true} height={250} >
+                                        {
+                                            value.media.map((x, i) => {
+                                                return (
+                                                    <View key={i} style={styles.slide}>
+                                                        <Image
+                                                            style={styles.image}
+                                                            source={{
+                                                                uri: `data:${x.contentType};base64,${x.picture}`
+                                                            }}
+                                                        />
+                                                    </View>
+                                                )
+                                            })
+                                        }
+                                    </Swiper>
+                                </View>
+                            </View>
+                        )
+
+                    })
+                }
+            </View>
+        </ScrollView>
+    );
+
 }
 
 

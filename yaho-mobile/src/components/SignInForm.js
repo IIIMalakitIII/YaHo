@@ -9,8 +9,8 @@ import { Button, Input } from 'react-native-elements';
 export default function SignInForm({ route, navigation}) {
 
     const [state, setState] = React.useState({
-        email: 'mongo@gmail.com',
-        password: 'mongo123456'
+        email: '',
+        password: ''
     });
 
 
@@ -43,6 +43,9 @@ export default function SignInForm({ route, navigation}) {
 
 
             const result = await response.json();
+
+
+
 
             if(response.ok){
 

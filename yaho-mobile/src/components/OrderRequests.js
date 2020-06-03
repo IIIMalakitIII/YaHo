@@ -151,7 +151,7 @@ export default function Products(props) {
                 <View style={styles.container}>
 
                     <View style={styles.buttonBlock}>
-                        <View style={styles.button}>
+                        <View style={styles.buttonClose}>
                             <Button
                                 type="solid"
                                 title="Close"
@@ -180,6 +180,7 @@ export default function Products(props) {
                                         <Text>rating: {value.delivery.rating}</Text>
                                     </View>
                                     <View style={styles.buttonContainer}>
+
                                         <View style={styles.button}>
                                             <Button
                                                 type="solid"
@@ -240,12 +241,36 @@ const styles = StyleSheet.create({
     orderContent:{
         marginBottom:10
     },
-    button:{
+    buttonClose:{
         marginTop: 20,
         marginBottom: 20,
         width: 290,
     },
     separator:{
         marginTop: 10,
-    }
+    },
+    buttonContainer:{
+        flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    button:{
+        width: 130,
+        marginRight: 15,
+        marginLeft: 15,
+    },
+    info:{
+        marginTop: 10,
+        marginLeft: 15,
+    },
+    logoBlock:{
+        marginTop:30,
+        marginBottom:30,
+        justifyContent:'center',
+        alignItems: 'center',
+    },
+    logo:{
+        fontSize:30,
+        fontWeight: 'bold',
+    },
 });
