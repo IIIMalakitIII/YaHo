@@ -10,23 +10,14 @@
         <div class="col-md-6 pt-3" *ngIf="userInfo">
             <div class="card bg-light mb-3" style="max-width:100%;">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h3 class="pt-2">
-                                Balance: <span class="badge badge-success">{{userInfo.balance}} ₴</span>
-                            </h3>
-                            <h3 class="pt-2">
-                                Hold: <span class="badge badge-primary">{{userInfo.hold}} ₴</span>
-                            </h3>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mt-4 text-center">
-                                <a class="btn btn-primary text-white" [routerLink]="['/account/liq-pay']">
-                                    Go To Recharge
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <a class="btn btn-block" [routerLink]="['/account/liq-pay']">
+                        <h3 class="pt-2">
+                            Balance: <span class="badge badge-success">{{userInfo.balance}} ₴</span>
+                        </h3>
+                        <h3 class="pt-2">
+                            Hold: <span class="badge badge-primary">{{userInfo.hold}} ₴</span>
+                        </h3>
+                    </a>
                 </div>
                 <div class="card-body">
                     <div class="form-group pt-3">
@@ -135,6 +126,24 @@
                                 Change Password
                             </button>
                         </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card bg-light mb-3 pt-2" style="max-width: 100%;" *ngIf="userInfo">
+                <div class="card-header">                
+                    <div class="form-group text-center pt-2">
+                        <h4 class="text-black"> Change Telegram Id</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="telegramGroup" class="pt-2" (ngSubmit)="onSubmitTelegramId()">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Telegram Id</mat-label>
+                            <input matInput formControlName="telegramId" type="number">
+                        </mat-form-field>
+                        <button mat-raised-button color="primary" type="submit" class="btn-block">
+                            Change
+                        </button>
                     </form>
                 </div>
             </div>

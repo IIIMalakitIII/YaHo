@@ -1,20 +1,44 @@
 <ng-container *ngIf="orders">
     <div class="row">
         <div class="col-md-6">
-            <div *ngFor="let order of orders">
+            <div class="pt-2" *ngFor="let order of orders">
                 <div class="card" style="width: 100%">
                     <div class="card-header">
-                        {{ order.Title }}
+                        {{ order.title }}   
+                        <button class="btn btn-secondary float-right" *ngIf="order.orderStatus === 'Creating'">Creating</button>
+                        <button class="btn btn-primary float-right" *ngIf="order.orderStatus === 'InProcess'">In Process</button>
+                        <button class="btn btn-info float-right" *ngIf="order.orderStatus === 'InExpectation'">In Expectation</button>
+                        <button class="btn btn-danger float-right" *ngIf="order.orderStatus === 'Canceled'">Canceled</button>
+                        <button class="btn btn-success float-right"  *ngIf="order.orderStatus === 'Done'">Done</button>
                     </div>
                     <div class="card-body">
                         <ul class="list-group">
                             <li class="list-group-item">
-                                {{ deliveryPlace }}
+                                Delivery Place: {{ order.deliveryPlace }}
+                            </li>
+                            <li class="list-group-item">
+                                Customer Place: {{ order.deliveryPlace }}
+                            </li>
+                            <li class="list-group-item">
+                                Delivery From: {{ order.deliveryFrom }}
+                            </li>
+                            <li class="list-group-item" *ngIf="order.deliveryDate">
+                                Delivery Date: {{ order.deliveryDate | date:'medium' }}
+                            </li>
+                            <li class="list-group-item">
+                                Expected Date: {{ order.expectedDate | date:'medium' }}
+                            </li>
+                            <li class="list-group-item">
+                                Delivery Charge: {{ order.deliveryCharge }} ₴
+                            </li>
+                            <li class="list-group-item">
+                                Comment: {{ order.comment }}
+                            </li>
+                            <li class="list-group-item">
+                                Initial Date: {{order.initialDate | date:'medium' }}
                             </li>
                         </ul>
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <button href="#" class="btn btn-success">Get OrderRequest</button>
                       </div>
                 </div>
             </div>

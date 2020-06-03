@@ -10,6 +10,7 @@ import { OrderService } from '../common/order.api.service';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { ICustomerOrderInfo, IOrderRequest } from 'src/app/core/interfaces/order.interface';
 import { toastrTitle } from 'src/app/core/helpers';
+import { OrderStatus } from 'src/app/core/extension/order-status';
 
 @Component({
   selector: 'app-customer-orders',
@@ -22,7 +23,8 @@ export class CustomerOrdersComponent implements OnInit, OnDestroy {
   orders: ICustomerOrderInfo[];
   orderRequests: IOrderRequest[];
   actualOrderId: number;
-
+  orderStatus = OrderStatus;
+  orderStatusKeys: any;
 
   private destroy$ = new Subject<void>();
   constructor(private orderService: OrderService,
@@ -32,6 +34,7 @@ export class CustomerOrdersComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder,
               private authService: AuthenticationService) {
     this.authService.currentUser.subscribe(x => this.currentUser = x);
+    this.orderStatusKeys = Object.keys(this.orderStatus);
   }
 
   ngOnInit(): void {

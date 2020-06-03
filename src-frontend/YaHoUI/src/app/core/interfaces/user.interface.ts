@@ -23,6 +23,7 @@ export interface IUserInfo {
     lastName: string;
     phoneNumber: string;
     description: string;
+    telegramId: number;
 }
 
 export interface IUserPartialInfo {

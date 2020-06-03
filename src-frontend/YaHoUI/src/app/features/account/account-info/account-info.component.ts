@@ -23,6 +23,7 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
   userInfo: IUserInfo;
   currentUser: IUser;
   passwordForm: FormGroup;
+  telegramGroup: FormGroup;
 
   customerReviews: ICustomerReview[];
   deliveryReviews: IDeliveryReview[];
@@ -48,12 +49,22 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
     this.accountService.getMyInfo()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        res => this.userInfo = res,
+        res => {
+          console.log(res);
+          this.telegramGroup = this.formBuilder.group({
+            telegramId: res.telegramId
+          });
+          this.userInfo = res;
+        },
         err => {
           this.toastr.error(err.error.error, toastrTitle.Error);
           window.history.back();
         }
       );
+  }
+
+  updateTelegramId() {
+
   }
 
   getCustomerReviews(): void {
@@ -66,6 +77,17 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
           window.history.back();
         }
       );
+  }
+
+  onSubmitTelegramId(): void {
+    this.accountService.updateTelegramId(this.telegramGroup.get('telegramId').value)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
+      () => this.toastr.success(`Telegram Id updated`, toastrTitle.Success),
+      err => {
+        this.toastr.error(err.error.error, toastrTitle.Error);
+      }
+    );
   }
 
   getDeliveryReviews(): void {

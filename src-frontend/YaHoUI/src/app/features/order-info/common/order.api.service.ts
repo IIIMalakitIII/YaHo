@@ -30,7 +30,7 @@ export class OrderService {
   }
 
   approveThisRequest(requestId: number) {
-    return this.http.put(urls.PUT_APPROVE_ORDER_REQUEST(), requestId);
+    return this.http.put(urls.PUT_APPROVE_ORDER_REQUEST(), {requestId});
   }
 
   deleteOrderRequestLikeCustomer(requestId: number) {

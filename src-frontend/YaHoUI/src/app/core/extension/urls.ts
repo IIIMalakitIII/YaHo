@@ -105,7 +105,7 @@ export namespace urls {
         DELIVERY = `Delivery`,
         DELIVERY_REVIEW = `DeliveryReview`,
         MEDIA = `Media`,
-        ORDER = `Order`,
+        ORDER = `Orders`,
         ORDER_REQUEST = `OrderRequest`,
         PRODUCT = `Product`,
         USER_INFO = `UserInfo`

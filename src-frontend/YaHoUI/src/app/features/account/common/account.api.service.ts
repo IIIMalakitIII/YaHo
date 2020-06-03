@@ -32,4 +32,8 @@ export class AccountService {
   updateUserInfo(model) {
     return this.http.put(urls.PUT_UPDATE_USER(), model);
   }
+
+  updateTelegramId(model) {
+    return this.http.put(urls.PUT_USER_TELEGRAMID() + `?telegramId=${model}`, {});
+  }
 }

@@ -14,7 +14,7 @@ const routes: Routes = [
       import('./features/account/account.module').then(m => m.AccountModule)
   },
   {
-    path: 'order-info',
+    path: 'order',
     loadChildren: () =>
       import('./features/order-info/order-info.module').then(m => m.OrderInfoModule)
   },
