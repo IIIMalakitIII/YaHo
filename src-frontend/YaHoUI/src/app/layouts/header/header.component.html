@@ -1,0 +1,63 @@
+<mat-sidenav-container class="sidenav-container" fullscreen>
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false">
+      <mat-toolbar>Menu</mat-toolbar>
+      <mat-nav-list>
+        <a mat-list-item [routerLink]="['/project']" routerLinkActive="active" *ngIf="userAuthenticated()">
+            My Orders
+        </a>
+        <a mat-list-item [routerLink]="['/project']" routerLinkActive="active" *ngIf="userAuthenticated()">
+            Create Order
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <button
+                type="button"
+                aria-label="Toggle sidenav"
+                mat-icon-button
+                (click)="drawer.toggle()">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <span class="ml-3 font-weight-bold">Ya</span>
+            <span>Ho</span>
+            &nbsp;
+            <span class="example-spacer"></span>
+            <button mat-raised-button (click)="login()" *ngIf="!userAuthenticated()">
+             Sign In
+            </button>
+            &nbsp;
+            <button mat-raised-button (click)="registration()" *ngIf="!userAuthenticated()">
+                Sign Up
+            </button>
+            <div class="btn-group" *ngIf="userAuthenticated()">
+                <a [routerLink]="['/account']" class="btn btn-info">Hi {{ currentUser?.firstName }}</a>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" [routerLink]="['/account/liq-pay']">
+                      <h3 class="pt-2">
+                          Balance: <span class="badge badge-success">{{userInfo?.balance}} ₴</span>
+                      </h3>
+                      <h3 class="pt-2">
+                          Hold: <span class="badge badge-primary">{{userInfo?.hold}} ₴</span>
+                      </h3>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <button mat-raised-button class="dropdown-item bg-danger" (click)="logout()">        
+                        Logout
+                        <mat-icon>exit_to_app</mat-icon>
+                    </button>
+                </div>
+              </div>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

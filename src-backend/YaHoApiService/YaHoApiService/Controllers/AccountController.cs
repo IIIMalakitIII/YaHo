@@ -38,7 +38,7 @@ namespace YaHo.YaHoApiService.Controllers
         [HttpPut("change-password")]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            await _userService.ChangePassword(model.Id, model.CurrentPassword, model.NewPassword);
+            await _userService.ChangePassword(CurrentUser.UserId, model.CurrentPassword, model.NewPassword);
 
             return NoContent();
         }

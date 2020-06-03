@@ -1,0 +1,46 @@
+.sidenav .mat-toolbar {
+    background: inherit;
+  }
+    
+  .mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+    
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+      
+  .bottomStick{
+    position:absolute; bottom:0
+  }
+      
+  .text-deactive {
+    color: #98A7B9 !important;
+    font-family: Roboto;
+  }
+  
+  .text-white {
+    color: white !important;
+    font-family: Roboto;
+  }
+  
+  .mat-nav-list a.active {
+    background: rgb(123, 124, 131);
+    color: white;
+  }
+    
+  .bg-div {
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    background-color: #7B4FFF;
+  }
+  
+  mat-nav-list {
+    width: 150px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+  }

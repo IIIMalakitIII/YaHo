@@ -1,5 +1,6 @@
 import { IUser } from './interfaces/user.interface';
 import * as jwt_decode from 'jwt-decode';
+import { FormGroup } from '@angular/forms';
 
 export const configureToastr = (toastr) => {
     toastr.toastrConfig.maxOpened = 1;
@@ -29,3 +30,21 @@ export const getTokenValue = (): IUser => {
     }
     return tokenValue;
 };
+
+// custom validator to check that two fields match
+export function MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+        const matchingControl = formGroup.controls[matchingControlName];
+
+        if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+            return;
+        }
+
+        if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ mustMatch: true });
+        } else {
+            matchingControl.setErrors(null);
+        }
+    };
+}

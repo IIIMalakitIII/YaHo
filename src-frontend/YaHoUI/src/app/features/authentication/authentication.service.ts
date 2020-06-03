@@ -6,8 +6,6 @@ import { IUser } from 'src/app/core/interfaces/user.interface';
 import { urls } from 'src/app/core/extension/urls';
 import { getTokenValue } from 'src/app/core/helpers';
 
-
-
 @Injectable({
   providedIn: 'root'
 })

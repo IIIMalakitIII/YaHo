@@ -31,21 +31,31 @@ namespace YaHo.YaHoApiService.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<ActionResult<GetUserInfoViewModel>> UserInfo(string userId)
+        public async Task<ActionResult<GetPartialUserInfoViewModel>> UserInfo(string userId)
         {
             var userViewData = await _userService.GetUserById(userId);
 
-            var userViewModels = _mapper.Map<GetUserInfoViewModel>(userViewData);
+            var userViewModels = _mapper.Map<GetPartialUserInfoViewModel>(userViewData);
 
             return Ok(userViewModels);
         }
 
         [HttpGet("allUser")]
-        public async Task<ActionResult<IEnumerable<GetUserInfoViewModel>>> UsersInfo()
+        public async Task<ActionResult<IEnumerable<GetPartialUserInfoViewModel>>> UsersInfo()
         {
             var userViewData = await _userService.GetAllUser();
 
-            var userViewModels = _mapper.Map<IEnumerable<GetUserInfoViewModel>>(userViewData);
+            var userViewModels = _mapper.Map<IEnumerable<GetPartialUserInfoViewModel>>(userViewData);
+
+            return Ok(userViewModels);
+        }
+
+        [HttpGet("my-user-info")]
+        public async Task<ActionResult<GetUserInfoViewModel>> MyInfo()
+        {
+            var userViewData = await _userService.GetUserById(CurrentUser.UserId);
+
+            var userViewModels = _mapper.Map<GetUserInfoViewModel>(userViewData);
 
             return Ok(userViewModels);
         }

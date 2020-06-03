@@ -1,0 +1,23 @@
+<ng-container *ngIf="orders">
+    <div class="row">
+        <div class="col-md-6">
+            <div *ngFor="let order of orders">
+                <div class="card" style="width: 100%">
+                    <div class="card-header">
+                        {{ order.Title }}
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                {{ deliveryPlace }}
+                            </li>
+                        </ul>
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
