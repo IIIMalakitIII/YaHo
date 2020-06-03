@@ -1,0 +1,35 @@
+.mat-form-field {
+    width: 100%;
+}
+
+.container {
+    max-width: 100%;
+}
+
+.example-header-image {
+    background-size: cover;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.nounderline {
+    text-decoration: none !important
+}
+
+.text-medium{
+    font-size: 17px;
+    font-weight: 450;
+}
+
+.mat-button-toggle-group {
+    width: 100%;
+}
+
+.bg-text-sm {
+    font-family: Roboto;
+    font-style: normal;
+    color: #6B6974;
+}
+

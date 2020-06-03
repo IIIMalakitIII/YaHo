@@ -1,0 +1,59 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+::ng-deep .mat-icon-button .mat-button-focus-overlay {
+    display: none;
+}
+
+.mat-button.mat-success,
+.mat-stroked-button.mat-success {
+    color: rgb(89, 194, 94);
+}
+
+.mat-button.mat-success:hover,
+.mat-stroked-button.mat-success:hover {
+  background-color:  white;
+}
+
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: white;
+  background-color: rgb(89, 194, 94);
+}
+
+.mat-progress-spinner.mat-success {
+  color:rgb(89, 194, 94);
+}
+
+
+.mat-button.mat-info,
+.mat-stroked-button.mat-info {
+    color: #17A2B8;
+}
+
+.mat-button.mat-info:hover,
+.mat-stroked-button.mat-info:hover {
+  background-color:  white;
+}
+
+.mat-raised-button.mat-info,
+.mat-flat-button.mat-info,
+.mat-fab.mat-info,
+.mat-mini-fab.mat-info {
+  color: white;
+  background-color: #17A2B8;
+}
+
+.mat-progress-spinner.mat-info {
+  color:#17A2B8;
+}
+

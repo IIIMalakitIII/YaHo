@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="text-left pt-2 bg-text-sm">
+                <span>Update Info</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="text-right">
+                <button mat-icon-button matSuffix mat-dialog-close >
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="userInfo">
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+            <div class="form-group pt-3">
+                <mat-form-field appearance="outline">
+                    <mat-label> First Name*</mat-label>
+                    <input matInput formControlName="firstName"
+                    [class.is-invalid]="hasCustomError(updateForm, 'firstName')" />
+                    <mat-error>
+                        First Name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-group pt-3">
+                <mat-form-field appearance="outline">
+                    <mat-label> Last Name* </mat-label>
+                    <input matInput formControlName="lastName"
+                    [class.is-invalid]="hasCustomError(updateForm, 'lastName')" />
+                    <mat-error>
+                        Last Name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-group pt-3">
+                <mat-form-field appearance="outline">
+                    <mat-label> Phone Number* </mat-label>
+                    <input matInput formControlName="phoneNumber"
+                    [class.is-invalid]="hasCustomError(updateForm, 'phoneNumber')" />
+                    <mat-error>
+                        Phone number is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-group pt-3">
+                <label>Description</label>
+                <textarea class="form-control" rows="3" placeholder="About myself.."
+                formControlName="description"></textarea>
+            </div>
+            <div class="form-group pt-2 pb-2">
+                <mat-button-toggle-group>
+                    <button mat-raised-button color="success" class="btn-block">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                        Update
+                    </button>
+                </mat-button-toggle-group>
+            </div>
+        </form>
+    </div>
+    <div class="container pt-5" *ngIf="userInfo==null">
+        <div class="d-flex justify-content-center">
+            <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                [diameter]="100"
+                value="70">
+            </mat-progress-spinner>
+        </div>
+    </div>
+</div>

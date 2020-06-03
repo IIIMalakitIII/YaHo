@@ -1,0 +1,47 @@
+
+  .mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  .sidenav-container {
+    height: 100%;
+  }
+  
+  .sidenav {
+    width: 200px;
+  }
+  
+  .sidenav .mat-toolbar {
+    background: inherit;
+  }
+  
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+      
+  .bottomStick{
+    position:absolute; bottom:0
+  }
+      
+  .text-deactive {
+    color: #98A7B9 !important;
+    font-family: Roboto;
+  }
+  
+  .text-white {
+    color: white !important;
+    font-family: Roboto;
+  }
+  
+  .mat-nav-list a.active {
+    background: #3F51B5;
+    color: rgb(255, 255, 255);
+  }
+    
+  .bg-div {
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    background-color: #7B4FFF;
+  }

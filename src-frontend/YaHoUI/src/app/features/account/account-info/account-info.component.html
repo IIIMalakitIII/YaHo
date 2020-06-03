@@ -1,0 +1,152 @@
+<div class="container">
+    <div class="form-group text-center pt-2"> 
+        <h3 class="bg-text">
+            <em>
+                Hi <u> {{currentUser?.firstName}}</u>! This is your account with your information
+            </em>
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-6 pt-3" *ngIf="userInfo">
+            <div class="card bg-light mb-3" style="max-width:100%;">
+                <div class="card-header">
+                    <a class="btn btn-block" [routerLink]="['/account/liq-pay']">
+                        <h3 class="pt-2">
+                            Balance: <span class="badge badge-success">{{userInfo.balance}} ₴</span>
+                        </h3>
+                        <h3 class="pt-2">
+                            Hold: <span class="badge badge-primary">{{userInfo.hold}} ₴</span>
+                        </h3>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="form-group pt-3">
+                        <mat-form-field appearance="outline">
+                            <mat-label> First Name </mat-label>
+                            <input matInput [value]="userInfo.firstName" disabled/>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <mat-form-field appearance="outline">
+                            <mat-label> Last Name </mat-label>
+                            <input matInput [value]="userInfo.lastName" disabled/>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <mat-form-field appearance="outline">
+                            <mat-label> Email </mat-label>
+                            <input matInput [value]="userInfo.email" disabled/>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                        <mat-form-field appearance="outline">
+                            <mat-label> Phone Number </mat-label>
+                            <input matInput [value]="userInfo.phoneNumber" disabled/>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group pt-3">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="3" [value]="userInfo.description"
+                        disabled></textarea>
+                    </div>
+                    <div class="form-group pt-3">
+                        <button class="btn btn-success btn-block" type="button" (click)="openDialogUpdateUser()">
+                            Go To Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 pt-3" *ngIf="userInfo==null">
+            <div class="container pt-5">
+                <div class="d-flex justify-content-center">
+                    <mat-progress-spinner
+                        color="primary"
+                        mode="indeterminate"
+                        [diameter]="100"
+                        value="70">
+                    </mat-progress-spinner>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 pt-3">
+            <div class="card bg-light mb-3" style="max-width: 100%;">
+                <div class="card-header">                
+                    <div class="form-group text-center pt-2">
+                        <h4 class="text-black"> Change Password</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form (ngSubmit)="onSubmit()">
+                        <ng-container [formGroup]="passwordForm">
+                            <div class="form-group pt-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label> Current Password </mat-label>
+                                    <input matInput type="password" formControlName="currentPassword"
+                                    [class.is-invalid]="hasCustomError(passwordForm, 'currentPassword')"/>
+                                    <mat-error>
+                                        Current password is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group pt-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label> New Password </mat-label>
+                                    <input matInput type="password" 
+                                    formControlName="newPassword"
+                                    [class.is-invalid]="hasCustomError(passwordForm, 'newPassword')"/>
+                                    <mat-error *ngIf="f.newPassword.errors?.required">
+                                        Password is required
+                                    </mat-error>
+                                    <mat-error *ngIf="f.newPassword.errors?.minlength">
+                                    Min length: 6
+                                    </mat-error>
+                                    <mat-error *ngIf="f.newPassword.errors?.maxlength">
+                                        Max length: 30
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group pt-3">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Confirm Password </mat-label>
+                                    <input matInput type="password" formControlName="confirmPassword"
+                                    [class.is-invalid]="hasCustomError(passwordForm, 'confirmPassword')" />
+                                    <mat-error *ngIf="f.confirmPassword.errors?.required">
+                                        Confirm Password is required
+                                    </mat-error>
+                                    <mat-error *ngIf="f.confirmPassword.errors?.mustMatch">
+                                        Passwords must match
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+
+                        <div class="form-group pt-2 pb-2">
+                            <button mat-raised-button color="primary" type="submit" class="btn-block">
+                                Change Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card bg-light mb-3 pt-2" style="max-width: 100%;" *ngIf="userInfo">
+                <div class="card-header">                
+                    <div class="form-group text-center pt-2">
+                        <h4 class="text-black"> Change Telegram Id</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="telegramGroup" class="pt-2" (ngSubmit)="onSubmitTelegramId()">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Telegram Id</mat-label>
+                            <input matInput formControlName="telegramId" type="number">
+                        </mat-form-field>
+                        <button mat-raised-button color="primary" type="submit" class="btn-block">
+                            Change
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
