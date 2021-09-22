@@ -1,0 +1,31 @@
+<div class="col-md-6 offset-md-3 mt-5 bg-div rounded">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup" [editable]="false">
+        <form [formGroup]="firstFormGroup" class="pt-2">
+            <ng-template matStepLabel>How much money do you want to replenish?</ng-template>
+            <mat-form-field appearance="outline">
+                <mat-label>Money</mat-label>
+                <input matInput formControlName="money" type="number" min="1.00" step="0.01" required> <strong> ₴/грн. </strong>
+            </mat-form-field>
+            <div>
+                <button class="btn btn-primary" matStepperNext (click)="getLiqPayConfig()">Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [editable]="false">
+        <ng-template matStepLabel>Go to LiqPay</ng-template>
+        <div class="pt-3 pb-3" *ngIf="config">
+            <form #paytmForm="ngForm" (ngSubmit)="onSubmit(paytmForm, $event)" method="POST" accept-charset="utf-8" action="https://www.liqpay.ua/api/3/checkout">
+                <input type="hidden" name="data" value="{{config.data}}" />
+                <input type="hidden" name="signature" value="{{config.signature}}" />
+                <button class="btn-block" type="submit" style="border: none !important; display: inline-block !important; text-align: center !important; padding: 7px 20px !important; color: #fff !important; font-size: 16px !important; font-weight: 600 !important; font-family: OpenSans, sans-serif; cursor: pointer !important; border-radius: 2px !important; background: rgb(122, 183, 43) !important;" onmouseover="this.style.opacity = '0.6';" onmouseout="this.style.opacity = '1';">
+                    <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text"
+                        style="margin-right: 7px !important; vertical-align: middle !important;" />
+                    <span style="vertical-align: middle !important">Pay</span>
+                </button>
+            </form>
+        </div>
+        <button matStepperPrevious class="btn btn-primary" (click)="stepper.reset(); resetPay()">Reset</button>
+    </mat-step>
+    </mat-horizontal-stepper>
+</div>

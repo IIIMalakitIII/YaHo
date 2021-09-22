@@ -1,0 +1,107 @@
+<div class="col-md-6 offset-md-3 mt-5 bg-div rounded">
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+        <div class="form-group text-center pt-2">
+            <h4 class="text-black">SIGN UP </h4>
+        </div>
+        <div class="form-group pt-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label> First Name*</mat-label>
+                        <input matInput formControlName="firstName"
+                        [class.is-invalid]="hasCustomError(createForm, 'firstName')" />
+                        <mat-error>
+                            First Name is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label> Last Name* </mat-label>
+                        <input matInput formControlName="lastName"
+                        [class.is-invalid]="hasCustomError(createForm, 'lastName')" />
+                        <mat-error>
+                            Last Name is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="form-group pt-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label> Email* </mat-label>
+                        <input matInput formControlName="email"
+                        [class.is-invalid]="hasCustomError(createForm, 'email')" />
+                        <mat-error *ngIf="f.email.errors?.email">
+                            Invalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'.
+                        </mat-error>
+                        <mat-error *ngIf="f.email.errors?.required">
+                            Email is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label> Phone Number* </mat-label>
+                        <input matInput formControlName="phoneNumber"
+                        [class.is-invalid]="hasCustomError(createForm, 'phoneNumber')" />
+                        <mat-error>
+                            Phone number is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="form-group pt-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label> Password* </mat-label>
+                        <input matInput type="password" formControlName="password"
+                        [class.is-invalid]="hasCustomError(createForm, 'password')" />
+                        <mat-error *ngIf="f.password.errors?.required">
+                            Password is required
+                        </mat-error>
+                        <mat-error *ngIf="f.password.errors?.minlength">
+                           Min length: 6
+                        </mat-error>
+                        <mat-error *ngIf="f.password.errors?.maxlength">
+                            Max length: 30
+                         </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Confirm Password* </mat-label>
+                        <input matInput type="password" formControlName="confirmPassword"
+                        [class.is-invalid]="hasCustomError(createForm, 'confirmPassword')" />
+                        <mat-error *ngIf="f.confirmPassword.errors?.required">
+                            Confirm Password is required
+                        </mat-error>
+                        <mat-error *ngIf="f.confirmPassword.errors?.mustMatch">
+                            Passwords must match
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="form-group pt-3">
+                <label>Description</label>
+                <textarea class="form-control" rows="3" placeholder="About myself.."
+                formControlName="description"></textarea>
+        </div>
+        <div class="form-group pt-2 pb-2">
+            <mat-button-toggle-group>
+                <button mat-raised-button color="primary" class="btn-block">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                    Sign Up
+                </button>
+                <mat-button-toggle (click)="resetForm()">
+                    <mat-icon>cached</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </form>
+</div>
